@@ -13,8 +13,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.swrunevault"
-        minSdk = 26
-        targetSdk = 36
+        minSdk = 24
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -55,5 +55,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.compose.material.icons.extended)
 }
