@@ -37,6 +37,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+enum class AppScreen{HOME,SETTINGS,RUNES,HELP}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
@@ -46,8 +48,8 @@ fun MainScreen() {
 
     val scope = rememberCoroutineScope()
 
-    var selectedItem by remember {
-        mutableStateOf(R.string.menu_home)
+    var selectedScreen by remember {
+        mutableStateOf(AppScreen.HOME)
     }
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -69,20 +71,20 @@ fun MainScreen() {
                     )
                     NavigationDrawerItem(
                         label = {Text(stringResource(R.string.menu_home))},
-                        selected = selectedItem == R.string.menu_home,
+                        selected = selectedScreen  == AppScreen.HOME,
                         onClick = {
                             scope.launch {
-                                selectedItem = R.string.menu_home
+                                selectedScreen  = AppScreen.HOME
                                 drawerState.close()
                             }
                         }
                     )
                     NavigationDrawerItem(
                         label = {Text(stringResource(R.string.menu_runes))},
-                        selected = selectedItem == R.string.menu_runes,
+                        selected = selectedScreen  == AppScreen.RUNES,
                         onClick = {
                             scope.launch {
-                                selectedItem = R.string.menu_runes
+                                selectedScreen  = AppScreen.RUNES
                                 drawerState.close()
                             }
                         }
@@ -92,28 +94,28 @@ fun MainScreen() {
                     )
                     NavigationDrawerItem(
                         label = {Text(stringResource(R.string.menu_settings))},
-                        selected = selectedItem == R.string.menu_settings,
+                        selected = selectedScreen  == AppScreen.SETTINGS,
                         icon = {Icon(
                             imageVector = Icons.Outlined.Settings,
                             contentDescription = null)
                                },
                         onClick = {
                             scope.launch {
-                                selectedItem = R.string.menu_settings
+                                selectedScreen  = AppScreen.SETTINGS
                                 drawerState.close()
                             }
                         }
                     )
                     NavigationDrawerItem(
                         label = {Text(stringResource(R.string.menu_help))},
-                        selected = selectedItem == R.string.menu_help,
+                        selected = selectedScreen  == AppScreen.HELP,
                         icon = {Icon(
                                 imageVector = Icons.AutoMirrored.Outlined.Help,
                                 contentDescription = null
                             )},
                         onClick = {
                             scope.launch {
-                                selectedItem = R.string.menu_help
+                                selectedScreen  = AppScreen.HELP
                                 drawerState.close()
                             }
                         }
@@ -156,10 +158,24 @@ fun MainScreen() {
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                Text(
-                    text = "Pantalla: ${stringResource(selectedItem)}" ,
-                    modifier = Modifier.padding(16.dp)
-                )
+                when(selectedScreen) {
+
+                    AppScreen.HOME -> {
+                        HomeScreen()
+                    }
+
+                    AppScreen.SETTINGS -> {
+                        SettingsScreen()
+                    }
+
+                    AppScreen.RUNES -> {
+                        RuneScreen()
+                    }
+
+                    AppScreen.HELP -> {
+                        HelpScreen()
+                    }
+                }
             }
         }
     }
@@ -168,9 +184,134 @@ fun MainScreen() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewMainScreen() {
-
     SWRuneVaultTheme {
-
         MainScreen()
+    }
+}
+
+@Composable
+fun HomeScreen() {
+
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+
+        Text(
+            text = "Pantalla Inicio",
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text("Bienvenido a SWRuneVault")
+    }
+}
+
+@Composable
+fun RuneScreen() {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+
+        Text(
+            text = "Runas",
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+
+                Text(
+                    text = "Runa Violent",
+                    style = MaterialTheme.typography.titleLarge
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text("⭐ Grado: 6")
+
+                Text("💪 Ataque: +63")
+
+                Text("⚡ Velocidad: +12")
+
+                Text("❤️ HP: +8%")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Button(
+            onClick = {
+                // Acción futura
+            }
+        ) {
+
+            Text("Agregar runa")
+        }
+    }
+}
+
+@Composable
+fun SettingsScreen() {
+
+    var darkMode by remember {
+        mutableStateOf(false)
+    }
+
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+
+        Text(
+            text = "Configuración",
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            Text(
+                text = "Modo oscuro",
+                modifier = Modifier.weight(1f)
+            )
+
+            Switch(
+                checked = darkMode,
+                onCheckedChange = {
+                    darkMode = it
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun HelpScreen() {
+
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+
+        Text(
+            text = "Ayuda",
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text("Pantalla de ayuda")
     }
 }
