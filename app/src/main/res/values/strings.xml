@@ -4,7 +4,9 @@
     <string name="menu_options">Opciones</string>
 
     <string name="menu_home">Inicio</string>
-    <string name="menu_runes">Runas</string>
+    <string name="menu_runes">Mis runas</string>
+    <string name="menu_simulator">Simulador</string>
+
     <string name="menu_settings">Configuración</string>
     <string name="menu_help">Ayuda</string>
 
