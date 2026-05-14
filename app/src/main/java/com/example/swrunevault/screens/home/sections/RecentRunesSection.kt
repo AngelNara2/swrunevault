@@ -1,16 +1,24 @@
-package com.example.swrunevault.components
+package com.example.swrunevault.screens.home.sections
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.swrunevault.components.RuneItem
-import androidx.compose.ui.graphics.Color
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.Alignment
 
 @Composable
 fun RecentRunesSection() {
@@ -48,27 +56,29 @@ fun RecentRunesSection() {
                     )
                 }
             }
-            //Spacer(modifier = Modifier.height(16.dp))
             RuneItem(
                 runeName = "Violent",
-                runeStats = "6★ +12 ATQ %",
-                runeTime = "Agregada hace 2 min"
+                runeStars = 6,
+                runePrincipalStat = "+12 ATQ %",
+                runeSlot = 4
             )
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 1.dp)
             )
             RuneItem(
                 runeName = "Swift",
-                runeStats = "6★ +15 HP %",
-                runeTime = "Agregada hace 15 min"
+                runeStars = 6,
+                runePrincipalStat = "+15 HP %",
+                runeSlot = 6
             )
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 1.dp)
             )
             RuneItem(
                 runeName = "Rage",
-                runeStats = "6★ +9 VEL",
-                runeTime = "Agregada hace 32 min"
+                runeStars = 6,
+                runePrincipalStat = "+9 VEL",
+                runeSlot = 1
             )
         }
     }

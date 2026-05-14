@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.swrunevault.R
+import com.example.swrunevault.screens.home.HomeScreen
 import kotlinx.coroutines.launch
 
 enum class AppScreen{HOME,SETTINGS,RUNES,HELP,SIMULATOR}

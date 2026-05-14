@@ -17,17 +17,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.example.swrunevault.R
-
+import com.example.swrunevault.utils.*
 @Composable
-fun RuneItem(
-    runeName: String,
-    runeStats: String,
-    runeTime: String
-) {
+fun RuneItem(runeName: String, runeStars: Int, runePrincipalStat: String, runeSlot:Int = 0) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -40,11 +34,8 @@ fun RuneItem(
         ) {
             Image(
                 painter = painterResource(R.drawable.rune_violent),
-
                 contentDescription = "Runa Violent",
-
                 modifier = Modifier.fillMaxSize().padding(10.dp),
-
                 contentScale = ContentScale.Fit
             )
         }
@@ -53,22 +44,24 @@ fun RuneItem(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = "★★★★★",
+                text = getStars(runeStars),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodySmall
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "$runeName $runeStats",
+                text = "$runeName $runePrincipalStat",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = runeTime,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            if(runeSlot != 0){
+                Text(
+                    text = "Slot $runeSlot",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
         // Badge
         Surface(
