@@ -131,8 +131,7 @@ fun NewActionCard(@DrawableRes imageRes: Int, title: String, subtitle: String, b
         backgroundColor = backgroundColor,
         primaryColor = primaryColor,
         imageRes = imageRes,
-        onClick = {
-        },
+        onClick = onClick,
         modifier = modifier
     )
 }
