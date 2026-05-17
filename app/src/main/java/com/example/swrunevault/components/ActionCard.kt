@@ -37,7 +37,7 @@ fun ActionCard(
             .clickable {
                 onClick()
             },
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(5.dp),
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor
         )
@@ -49,7 +49,7 @@ fun ActionCard(
         ) {
             Card(
                 modifier = Modifier.size(imageSize.dp),
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(10.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = imagebackground
                 )

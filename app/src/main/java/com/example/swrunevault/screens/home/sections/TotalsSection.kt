@@ -30,7 +30,7 @@ import com.example.swrunevault.components.ActionCard
 fun TotalsSection(){
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(5.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),

@@ -24,7 +24,7 @@ import com.example.swrunevault.components.RuneItem
 fun RecentRunesSection() {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(5.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),
