@@ -15,19 +15,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+
 @Composable
 fun ActionCard(
+    modifier: Modifier = Modifier,
     cardSize: Int = 110,
     @DrawableRes imageRes: Int,
     imageSize: Int = 60,
+    imagebackground: Color = Color.Transparent,
     title: String,
     titleBold: Boolean = true,
     subtitle: String,
     subtitleBold: Boolean = false,
     primaryColor: Color,
-    backgroundColor: Color,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    backgroundColor: Color = Color.Transparent,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = modifier
@@ -45,24 +47,24 @@ fun ActionCard(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Imagen
             Card(
                 modifier = Modifier.size(imageSize.dp),
+                shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.Transparent
+                    containerColor = imagebackground
                 )
             ) {
                 Image(
                     painter = painterResource(imageRes),
                     contentDescription = title,
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .padding(10.dp),
                     colorFilter = ColorFilter.tint(primaryColor),
                     contentScale = ContentScale.Fit
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))
-            // Textos
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally

@@ -1,6 +1,5 @@
 package com.example.swrunevault.screens.home.sections
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +30,7 @@ import com.example.swrunevault.components.ActionCard
 fun TotalsSection(){
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),
@@ -74,64 +73,67 @@ fun TotalsSection(){
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ){
-                NewActionCard(
-                    title = "Total Runas",
-                    subtitle = "245",
+                ActionCard(
+                    modifier = Modifier.weight(1f),
+                    cardSize = 100,
                     imageRes = R.drawable.rune_rage,
-                    backgroundColor = Color(0xFFF3EFFD),
+                    imageSize = 55,
+                    imagebackground = Color(0xFFF3EFFD),
+                    title = "Total Runas",
+                    titleBold = false,
+                    subtitle = "245",
+                    subtitleBold = true,
+
                     primaryColor = Color(0xFF542FA2),
                     onClick = {
-                    },
-                    modifier = Modifier.weight(1f)
+                    }
                 )
-                NewActionCard(
-                    title = "Legendarias",
-                    subtitle = "35",
+                ActionCard(
+                    modifier = Modifier.weight(1f),
+                    cardSize = 100,
                     imageRes = R.drawable.action_scan,
-                    backgroundColor = Color(0xFFFDECD8),
+                    imageSize = 55,
+                    imagebackground = Color(0xFFFDECD8),
+                    title = "Legendarias",
+                    titleBold = false,
+                    subtitle = "35",
+                    subtitleBold = true,
+
                     primaryColor = Color(0xFFFC9104),
                     onClick = {
-                    },
-                    modifier = Modifier.weight(1f)
+                    }
                 )
-                NewActionCard(
-                    title = "Hero",
-                    subtitle = "35",
+                ActionCard(
+                    modifier = Modifier.weight(1f),
+                    cardSize = 100,
                     imageRes = R.drawable.action_inventory,
-                    backgroundColor = Color(0xFFEBF3FE),
+                    imageSize = 55,
+                    imagebackground = Color(0xFFEBF3FE),
+                    title = "Hero",
+                    titleBold = false,
+                    subtitle = "35",
+                    subtitleBold = true,
+
                     primaryColor = Color(0xFF1D57AF),
                     onClick = {
-                    },
-                    modifier = Modifier.weight(1f)
+                    }
                 )
-                NewActionCard(
-                    title = "En uso",
-                    subtitle = "85%",
+                ActionCard(
+                    modifier = Modifier.weight(1f),
+                    cardSize = 100,
                     imageRes = R.drawable.action_scan,
-                    backgroundColor = Color(0xFFE3F4E4),
+                    imageSize = 55,
+                    imagebackground = Color(0xFFE3F4E4),
+                    title = "En uso",
+                    titleBold = false,
+                    subtitle = "85%",
+                    subtitleBold = true,
+
                     primaryColor = Color(0xFF219044),
                     onClick = {
-                    },
-                    modifier = Modifier.weight(1f)
+                    }
                 )
             }
         }
     }
-}
-
-@Composable
-fun NewActionCard(@DrawableRes imageRes: Int, title: String, subtitle: String, backgroundColor: Color, primaryColor: Color, onClick: () -> Unit,modifier: Modifier){
-    ActionCard(
-        cardSize = 100,
-        title = title,
-        imageSize = 35,
-        titleBold = false,
-        subtitle = subtitle,
-        subtitleBold = true,
-        backgroundColor = backgroundColor,
-        primaryColor = primaryColor,
-        imageRes = imageRes,
-        onClick = onClick,
-        modifier = modifier
-    )
 }

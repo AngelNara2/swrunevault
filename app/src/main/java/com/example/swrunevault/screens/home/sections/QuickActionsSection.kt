@@ -17,24 +17,24 @@ fun QuickActionsSection() {
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         ActionCard(
+            modifier = Modifier.weight(1f),
+            imageRes = R.drawable.action_scan,
             title = "Escanear",
             subtitle = "Escanea tus runas",
-            backgroundColor = Color(0xFFF3EFFD),
             primaryColor = Color(0xFF542FA2),
-            imageRes = R.drawable.action_scan,
+            backgroundColor = Color(0xFFF3EFFD),
             onClick = {
-            },
-            modifier = Modifier.weight(1f)
+            }
         )
         ActionCard(
+            modifier = Modifier.weight(1f),
+            imageRes = R.drawable.action_inventory,
             title = "Inventario",
             subtitle = "Ver todas tus runas",
-            backgroundColor = Color(0xFFEBF3FE),
             primaryColor = Color(0xFF1D57AF),
-            imageRes = R.drawable.action_inventory,
+            backgroundColor = Color(0xFFEBF3FE),
             onClick = {
-            },
-            modifier = Modifier.weight(1f)
+            }
         )
     }
 }
