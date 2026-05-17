@@ -13,4 +13,18 @@
     <string name="main_content">Contenido principal</string>
 
     <string name="open_menu">Abrir menú</string>
+
+    <string name="latest_runes_added">Últimas runas agregadas</string>
+    <string name="see_all">Ver todas</string>
+
+    <string name="scan">Escanear</string>
+    <string name="scan_your_runes">Escanea tus runas</string>
+    <string name="inventory">Inventario</string>
+    <string name="view_all_your_runes">Ver todas tus runas</string>
+
+    <string name="totals">Totales</string>
+    <string name="total_runes">Total runas</string>
+    <string name="legendary">Legendarias</string>
+    <string name="sets">Sets</string>
+    <string name="in_use">En uso</string>
 </resources>

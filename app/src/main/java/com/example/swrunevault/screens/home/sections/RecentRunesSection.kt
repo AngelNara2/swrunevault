@@ -16,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.swrunevault.R
 import com.example.swrunevault.components.RuneItem
 
 @Composable
@@ -41,7 +43,7 @@ fun RecentRunesSection() {
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Últimas runas agregadas",
+                    text = stringResource(R.string.latest_runes_added),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
@@ -50,7 +52,7 @@ fun RecentRunesSection() {
                     color = Color.Transparent
                 ) {
                     Text(
-                        text = "Ver todas",
+                        text = stringResource(R.string.see_all),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.primary
                     )

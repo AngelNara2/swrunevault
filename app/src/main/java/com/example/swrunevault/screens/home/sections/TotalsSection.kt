@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.swrunevault.R
@@ -54,7 +55,7 @@ fun TotalsSection(){
                 ) {
                     Image(
                         painter = painterResource(R.drawable.action_scan),
-                        contentDescription = "Totales",
+                        contentDescription = stringResource(R.string.totals),
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(1.dp),
@@ -63,7 +64,7 @@ fun TotalsSection(){
                     )
                 }
                 Text(
-                    text = "Totales",
+                    text = stringResource(R.string.totals),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
@@ -79,7 +80,7 @@ fun TotalsSection(){
                     imageRes = R.drawable.rune_rage,
                     imageSize = 55,
                     imagebackground = Color(0xFFF3EFFD),
-                    title = "Total Runas",
+                    title = stringResource(R.string.total_runes),
                     titleBold = false,
                     subtitle = "245",
                     subtitleBold = true,
@@ -94,7 +95,7 @@ fun TotalsSection(){
                     imageRes = R.drawable.action_scan,
                     imageSize = 55,
                     imagebackground = Color(0xFFFDECD8),
-                    title = "Legendarias",
+                    title = stringResource(R.string.legendary),
                     titleBold = false,
                     subtitle = "35",
                     subtitleBold = true,
@@ -109,11 +110,10 @@ fun TotalsSection(){
                     imageRes = R.drawable.action_inventory,
                     imageSize = 55,
                     imagebackground = Color(0xFFEBF3FE),
-                    title = "Hero",
+                    title = stringResource(R.string.sets),
                     titleBold = false,
                     subtitle = "35",
                     subtitleBold = true,
-
                     primaryColor = Color(0xFF1D57AF),
                     onClick = {
                     }
@@ -124,11 +124,10 @@ fun TotalsSection(){
                     imageRes = R.drawable.action_scan,
                     imageSize = 55,
                     imagebackground = Color(0xFFE3F4E4),
-                    title = "En uso",
+                    title = stringResource(R.string.in_use),
                     titleBold = false,
                     subtitle = "85%",
                     subtitleBold = true,
-
                     primaryColor = Color(0xFF219044),
                     onClick = {
                     }
