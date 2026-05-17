@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import com.example.swrunevault.R
 import com.example.swrunevault.utils.*
 @Composable
-fun RuneItem(runeName: String, runeStars: Int, runePrincipalStat: String, runeSlot:Int = 0) {
+fun RuneItem(runeName: String, runeStars: Int, runePrincipalStat: String, runeTime:Int = 0) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -55,9 +55,9 @@ fun RuneItem(runeName: String, runeStars: Int, runePrincipalStat: String, runeSl
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
-            if(runeSlot != 0){
+            if(runeTime != 0){
                 Text(
-                    text = "Slot $runeSlot",
+                    text = "Agregada hace 30 min",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

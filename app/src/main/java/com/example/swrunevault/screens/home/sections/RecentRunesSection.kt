@@ -62,7 +62,7 @@ fun RecentRunesSection() {
                 runeName = "Violent",
                 runeStars = 6,
                 runePrincipalStat = "+12 ATQ %",
-                runeSlot = 4
+                runeTime = 4
             )
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 1.dp)
@@ -71,7 +71,7 @@ fun RecentRunesSection() {
                 runeName = "Swift",
                 runeStars = 6,
                 runePrincipalStat = "+15 HP %",
-                runeSlot = 6
+                runeTime = 6
             )
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 1.dp)
@@ -80,7 +80,7 @@ fun RecentRunesSection() {
                 runeName = "Rage",
                 runeStars = 6,
                 runePrincipalStat = "+9 VEL",
-                runeSlot = 1
+                runeTime = 1
             )
         }
     }
