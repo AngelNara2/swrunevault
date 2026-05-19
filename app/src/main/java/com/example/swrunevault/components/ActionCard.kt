@@ -69,6 +69,9 @@ fun ActionCard(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                if(imagebackground != Color.Transparent){
+                    Spacer(modifier = Modifier.height(6.dp))
+                }
                 Text(
                     text = title,
                     style = if(titleBold) MaterialTheme.typography.bodyMedium else MaterialTheme.typography.labelSmall,
