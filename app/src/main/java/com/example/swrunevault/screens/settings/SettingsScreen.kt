@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.swrunevault.screens.settings.sections.AppearanceSection
+import com.example.swrunevault.screens.settings.sections.InformationSection
 
 @Preview(showBackground = true)
 @Composable
@@ -23,5 +24,7 @@ fun SettingsScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         AppearanceSection()
+
+        InformationSection()
     }
 }
