@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,27 +33,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.swrunevault.R
+import com.example.swrunevault.data.SettingsManager
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
 fun AppearanceSection(){
-    var darkMode by remember {
-        mutableStateOf(false)
+    val context = LocalContext.current
+
+    val settingsManager = remember {
+        SettingsManager(context)
     }
+
+    val scope = rememberCoroutineScope()
+
+    val systemDarkMode by settingsManager
+        .isSystemDarkMode
+        .collectAsState(initial = false)
+
+    val darkMode by settingsManager
+        .isDarkMode
+        .collectAsState(initial = false)
 
     var expanded by remember {
         mutableStateOf(false)
     }
 
-    var selectedLanguage by remember {
-        mutableStateOf("Español")
-    }
+    val selectedLanguage by settingsManager
+        .selectedLanguage
+        .collectAsState(
+            initial = LocalConfiguration.current.locales[0].language
+        )
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(5.dp),
@@ -119,6 +140,49 @@ fun AppearanceSection(){
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
+                        text = stringResource(R.string.system_theme),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = stringResource(R.string.use_system_theme),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Switch(
+                    checked = systemDarkMode,
+                    onCheckedChange = {
+                        scope.launch {
+                            settingsManager.setSystemDarkMode(it)
+                        }
+                    }
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Icono de runa
+                Card(
+                    modifier = Modifier.size(35.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.Red
+                    )
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.rune_violent),
+                        contentDescription = "Runa Violent",
+                        modifier = Modifier.fillMaxSize().padding(5.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                }
+                // Información principal
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
                         text = stringResource(R.string.dark_mode),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold
@@ -132,7 +196,9 @@ fun AppearanceSection(){
                 Switch(
                     checked = darkMode,
                     onCheckedChange = {
-                        darkMode = it
+                        scope.launch {
+                            settingsManager.setDarkMode(it)
+                        }
                     }
                 )
             }
@@ -197,7 +263,9 @@ fun AppearanceSection(){
                                     Text("Español")
                                 },
                                 onClick = {
-                                    selectedLanguage = "Español"
+                                    scope.launch {
+                                        settingsManager.setLanguage("es")
+                                    }
                                     expanded = false
                                 }
                             )
@@ -206,7 +274,9 @@ fun AppearanceSection(){
                                     Text("English")
                                 },
                                 onClick = {
-                                    selectedLanguage = "English"
+                                    scope.launch {
+                                        settingsManager.setLanguage("en")
+                                    }
                                     expanded = false
                                 }
                             )

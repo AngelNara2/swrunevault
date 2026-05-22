@@ -115,8 +115,11 @@ fun InformationSection(){
                 Card(
                     modifier = Modifier.size(35.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = Color.Red
-                    )
+                        containerColor = Color.Transparent
+                    ),
+                    onClick = {
+                        println("Version app")
+                    }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.rune_violent),
@@ -163,8 +166,11 @@ fun InformationSection(){
                 Card(
                     modifier = Modifier.size(35.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = Color.Red
-                    )
+                        containerColor = Color.Transparent
+                    ),
+                    onClick = {
+                        println("Acerca de")
+                    }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.rune_violent),

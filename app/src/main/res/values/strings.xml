@@ -29,6 +29,8 @@
     <string name="in_use">En uso</string>
 
     <string name="appearance">Apariencia</string>
+    <string name="system_theme">Tema del sistema</string>
+    <string name="use_system_theme">Usa el tema del sistema</string>
     <string name="dark_mode">Modo oscuro</string>
     <string name="activate_dark_mode">Activa el modo oscuro</string>
     <string name="language">Idioma</string>
