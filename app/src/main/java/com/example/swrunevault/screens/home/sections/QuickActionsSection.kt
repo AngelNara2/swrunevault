@@ -10,9 +10,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.swrunevault.R
 import com.example.swrunevault.components.ActionCard
+import android.content.Intent
+import android.provider.Settings
+import androidx.compose.ui.platform.LocalContext
+import com.example.swrunevault.services.OverlayService
+import androidx.core.content.ContextCompat
+import com.example.swrunevault.utils.findActivity
 
 @Composable
 fun QuickActionsSection() {
+    val context = LocalContext.current
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -25,6 +33,23 @@ fun QuickActionsSection() {
             primaryColor = Color(0xFF542FA2),
             backgroundColor = Color(0xFFF3EFFD),
             onClick = {
+                if (!Settings.canDrawOverlays(context)) {
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION
+                    )
+                    context.startActivity(intent)
+                }
+                else {
+                    val intent = Intent(
+                        context,
+                        OverlayService::class.java
+                    )
+                    ContextCompat.startForegroundService(
+                        context,
+                        intent
+                    )
+                    context.findActivity()?.moveTaskToBack(true)
+                }
             }
         )
         ActionCard(
