@@ -203,7 +203,7 @@ class OverlayService : Service() {
         screenshotView = FrameLayout(this)
 
         screenshotView.setBackgroundColor(
-            android.graphics.Color.BLACK
+            android.graphics.Color.TRANSPARENT
         )
 
         val closeButton = TextView(this)
