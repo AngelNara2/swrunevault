@@ -29,13 +29,13 @@ fun ActionCard(
     subtitleBold: Boolean = false,
     primaryColor: Color,
     backgroundColor: Color = Color.Transparent,
-    onClick: () -> Unit
+    onScanClick: () -> Unit
 ) {
     Card(
         modifier = modifier
             .height(cardSize.dp)
             .clickable {
-                onClick()
+                onScanClick()
             },
         shape = RoundedCornerShape(5.dp),
         colors = CardDefaults.cardColors(

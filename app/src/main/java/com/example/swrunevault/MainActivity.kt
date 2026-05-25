@@ -1,26 +1,95 @@
 package com.example.swrunevault
 
+import android.app.Activity
+import android.content.Intent
+import android.media.projection.MediaProjectionManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+import com.example.swrunevault.screens.MainScreen
+import com.example.swrunevault.services.OverlayService
 import com.example.swrunevault.ui.theme.SWRuneVaultTheme
-import com.example.swrunevault.screens.*
+import com.example.swrunevault.utils.findActivity
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var mediaProjectionManager:
+            MediaProjectionManager
+
+    private var mediaProjectionResultCode = 0
+
+    private var mediaProjectionData: Intent? = null
+
+    private val screenCaptureLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                mediaProjectionResultCode =
+                    result.resultCode
+
+                mediaProjectionData =
+                    result.data
+
+                val intent = Intent(
+                    this,
+                    OverlayService::class.java
+                )
+
+                intent.putExtra(
+                    "resultCode",
+                    mediaProjectionResultCode
+                )
+
+                intent.putExtra(
+                    "data",
+                    mediaProjectionData
+                )
+
+                ContextCompat.startForegroundService(
+                    this,
+                    intent
+                )
+
+                moveTaskToBack(true)
+            }
+        }
+
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
+
+        mediaProjectionManager =
+            getSystemService(
+                MEDIA_PROJECTION_SERVICE
+            ) as MediaProjectionManager
+
         setContent {
             SWRuneVaultTheme {
                 MainScreen()
             }
         }
     }
-}
 
+    fun requestScreenCapture() {
+        println("REQUEST SCREEN CAPTURE")
+
+        val captureIntent =
+            mediaProjectionManager
+                .createScreenCaptureIntent()
+
+        screenCaptureLauncher.launch(
+            captureIntent
+        )
+    }
+}
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewMainScreen() {
@@ -28,3 +97,4 @@ fun PreviewMainScreen() {
         MainScreen()
     }
 }
+*/

@@ -16,6 +16,8 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.swrunevault.services.OverlayService
 import androidx.core.content.ContextCompat
 import com.example.swrunevault.utils.findActivity
+import com.example.swrunevault.MainActivity
+import com.example.swrunevault.extensions.CustumfindActivity
 
 @Composable
 fun QuickActionsSection() {
@@ -32,7 +34,7 @@ fun QuickActionsSection() {
             subtitle = stringResource(R.string.scan_your_runes),
             primaryColor = Color(0xFF542FA2),
             backgroundColor = Color(0xFFF3EFFD),
-            onClick = {
+            onScanClick = {
                 if (!Settings.canDrawOverlays(context)) {
                     val intent = Intent(
                         Settings.ACTION_MANAGE_OVERLAY_PERMISSION
@@ -40,15 +42,12 @@ fun QuickActionsSection() {
                     context.startActivity(intent)
                 }
                 else {
-                    val intent = Intent(
-                        context,
-                        OverlayService::class.java
-                    )
-                    ContextCompat.startForegroundService(
-                        context,
-                        intent
-                    )
-                    context.findActivity()?.moveTaskToBack(true)
+                    val activity =
+                        context.CustumfindActivity()
+
+                    println(activity)
+
+                    (activity as? MainActivity)?.requestScreenCapture()
                 }
             }
         )
@@ -59,7 +58,7 @@ fun QuickActionsSection() {
             subtitle = stringResource(R.string.view_all_your_runes),
             primaryColor = Color(0xFF1D57AF),
             backgroundColor = Color(0xFFEBF3FE),
-            onClick = {
+            onScanClick = {
             }
         )
     }

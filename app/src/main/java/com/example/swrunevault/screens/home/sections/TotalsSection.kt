@@ -88,7 +88,7 @@ fun TotalsSection(){
                     subtitleBold = true,
 
                     primaryColor = Color(0xFF542FA2),
-                    onClick = {
+                    onScanClick = {
                     }
                 )
                 ActionCard(
@@ -103,7 +103,7 @@ fun TotalsSection(){
                     subtitleBold = true,
 
                     primaryColor = Color(0xFFFC9104),
-                    onClick = {
+                    onScanClick = {
                     }
                 )
                 ActionCard(
@@ -117,7 +117,7 @@ fun TotalsSection(){
                     subtitle = "35",
                     subtitleBold = true,
                     primaryColor = Color(0xFF1D57AF),
-                    onClick = {
+                    onScanClick = {
                     }
                 )
                 ActionCard(
@@ -131,7 +131,7 @@ fun TotalsSection(){
                     subtitle = "85%",
                     subtitleBold = true,
                     primaryColor = Color(0xFF219044),
-                    onClick = {
+                    onScanClick = {
                     }
                 )
             }
