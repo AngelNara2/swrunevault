@@ -10,8 +10,6 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
 import android.view.Gravity
-import android.view.MotionEvent
-import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -19,8 +17,10 @@ import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import com.example.swrunevault.MainActivity
 import com.example.swrunevault.R
+import com.example.swrunevault.views.DraggableOverlayView
 
 class OverlayService : Service() {
+
     companion object {
         const val ACTION_STOP =
             "ACTION_STOP"
@@ -28,7 +28,7 @@ class OverlayService : Service() {
 
     private lateinit var windowManager: WindowManager
 
-    private lateinit var floatingView: ImageView
+    private lateinit var floatingView: DraggableOverlayView
 
     private lateinit var screenshotView: FrameLayout
 
@@ -38,9 +38,7 @@ class OverlayService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-
         createNotification()
-
         createOverlay()
     }
 
@@ -48,11 +46,11 @@ class OverlayService : Service() {
         intent: Intent?,
         flags: Int,
         startId: Int
-
     ): Int {
         if (intent?.action == ACTION_STOP) {
             stopSelf()
         }
+
         return START_STICKY
     }
 
@@ -103,9 +101,7 @@ class OverlayService : Service() {
         )
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle("SWRuneVault")
-            .setContentText(
-                "Overlay activo"
-            )
+            .setContentText("Overlay activo")
             .setContentIntent(pendingIntent)
             .addAction(
                 0,
@@ -125,16 +121,21 @@ class OverlayService : Service() {
             WINDOW_SERVICE
         ) as WindowManager
 
-        floatingView = ImageView(this)
+        floatingView = DraggableOverlayView(this)
 
-        floatingView.setImageResource(
+        val imageView = ImageView(this)
+
+        imageView.setImageResource(
             R.drawable.rune_violent
         )
 
-        floatingView.setOnClickListener {
-            floatingView.alpha = 0f
-            showScreenshotWindow()
-        }
+        imageView.layoutParams =
+            FrameLayout.LayoutParams(
+                150,
+                150
+            )
+
+        floatingView.addView(imageView)
 
         val params = WindowManager.LayoutParams(
             150,
@@ -149,42 +150,15 @@ class OverlayService : Service() {
         params.x = 100
         params.y = 300
 
-        floatingView.setOnTouchListener(
-            object : View.OnTouchListener {
-                private var initialX = 0
-                private var initialY = 0
-                private var initialTouchX = 0f
-                private var initialTouchY = 0f
+        floatingView.windowManager = windowManager
 
-                override fun onTouch(
-                    v: View?,
-                    event: MotionEvent
-                ): Boolean {
-                    when (event.action) {
-                        MotionEvent.ACTION_DOWN -> {
-                            v?.performClick()
-                            initialX = params.x
-                            initialY = params.y
-                            initialTouchX = event.rawX
-                            initialTouchY = event.rawY
-                            return true
-                        }
-                        MotionEvent.ACTION_MOVE -> {
-                            params.x =
-                                initialX + (event.rawX - initialTouchX).toInt()
-                            params.y =
-                                initialY + (event.rawY - initialTouchY).toInt()
-                            windowManager.updateViewLayout(
-                                floatingView,
-                                params
-                            )
-                            return true
-                        }
-                    }
-                    return false
-                }
-            }
-        )
+        floatingView.layoutParams = params
+
+        floatingView.onClickAction = {
+            floatingView.alpha = 0f
+            showScreenshotWindow()
+        }
+
         if (floatingView.parent == null) {
             windowManager.addView(
                 floatingView,
@@ -193,17 +167,11 @@ class OverlayService : Service() {
         }
     }
 
-    override fun onTaskRemoved(rootIntent: Intent?) {
-        super.onTaskRemoved(rootIntent)
-
-        stopSelf()
-    }
-
     private fun showScreenshotWindow() {
         screenshotView = FrameLayout(this)
 
         screenshotView.setBackgroundColor(
-            android.graphics.Color.TRANSPARENT
+            Color.parseColor("#CC000000")
         )
 
         val closeButton = TextView(this)
@@ -212,7 +180,9 @@ class OverlayService : Service() {
 
         closeButton.textSize = 30f
 
-        closeButton.setTextColor(Color.WHITE)
+        closeButton.setTextColor(
+            Color.WHITE
+        )
 
         closeButton.setPadding(
             50,
@@ -227,10 +197,13 @@ class OverlayService : Service() {
                     screenshotView
                 )
             }
+
             floatingView.alpha = 1f
         }
 
-        screenshotView.addView(closeButton)
+        screenshotView.addView(
+            closeButton
+        )
 
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -246,11 +219,28 @@ class OverlayService : Service() {
         )
     }
 
+    override fun onTaskRemoved(
+        rootIntent: Intent?
+    ) {
+        super.onTaskRemoved(
+            rootIntent
+        )
+
+        stopSelf()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+
         if (::floatingView.isInitialized) {
             windowManager.removeView(
                 floatingView
+            )
+        }
+
+        if (::screenshotView.isInitialized) {
+            windowManager.removeView(
+                screenshotView
             )
         }
     }
