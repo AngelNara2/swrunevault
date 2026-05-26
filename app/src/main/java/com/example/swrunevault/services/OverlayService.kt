@@ -196,7 +196,6 @@ class OverlayService : Service() {
 
         floatingView.onClickAction = {
             floatingView.alpha = 0f
-            //showScreenshotWindow()
             createScreenCapture()
         }
 
@@ -246,6 +245,7 @@ class OverlayService : Service() {
                 imageReader.acquireLatestImage()
             if (image != null) {
                 val planes = image.planes
+
                 val buffer = planes[0].buffer
 
                 val pixelStride = planes[0].pixelStride
@@ -265,6 +265,19 @@ class OverlayService : Service() {
                 )
 
                 image.close()
+
+                // =========================
+                // DETENER LOOP
+                // =========================
+
+                imageReader.setOnImageAvailableListener(
+                    null,
+                    null
+                )
+
+                virtualDisplay?.release()
+
+                virtualDisplay = null
 
                 Handler(mainLooper).post {
                     showCapturedBitmap(bitmap)
