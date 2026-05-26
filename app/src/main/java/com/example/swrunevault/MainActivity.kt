@@ -8,12 +8,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.example.swrunevault.screens.MainScreen
 import com.example.swrunevault.services.OverlayService
 import com.example.swrunevault.ui.theme.SWRuneVaultTheme
-import com.example.swrunevault.utils.findActivity
 
 class MainActivity : ComponentActivity() {
     private lateinit var mediaProjectionManager:
@@ -78,7 +76,6 @@ class MainActivity : ComponentActivity() {
     }
 
     fun requestScreenCapture() {
-        println("REQUEST SCREEN CAPTURE")
 
         val captureIntent =
             mediaProjectionManager
@@ -89,12 +86,3 @@ class MainActivity : ComponentActivity() {
         )
     }
 }
-/*
-@Preview(showBackground = true)
-@Composable
-fun PreviewMainScreen() {
-    SWRuneVaultTheme {
-        MainScreen()
-    }
-}
-*/

@@ -5,10 +5,19 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PixelFormat
+import android.hardware.display.DisplayManager
+import android.hardware.display.VirtualDisplay
+import android.media.Image
+import android.media.ImageReader
+import android.media.projection.MediaProjection
+import android.media.projection.MediaProjectionManager
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -18,15 +27,6 @@ import androidx.core.app.NotificationCompat
 import com.example.swrunevault.MainActivity
 import com.example.swrunevault.R
 import com.example.swrunevault.views.DraggableOverlayView
-import android.hardware.display.DisplayManager
-import android.hardware.display.VirtualDisplay
-import android.media.ImageReader
-import android.media.projection.MediaProjection
-import android.media.projection.MediaProjectionManager
-import android.graphics.Bitmap
-import android.media.Image
-import android.util.DisplayMetrics
-import android.os.Handler
 
 class OverlayService : Service() {
 

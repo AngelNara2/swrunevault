@@ -7,8 +7,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.map
 import java.util.Locale
-import android.os.Build
-import androidx.compose.ui.platform.LocalConfiguration
 
 private val Context.dataStore by preferencesDataStore(
     name = "settings"
