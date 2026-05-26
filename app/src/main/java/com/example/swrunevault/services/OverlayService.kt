@@ -14,7 +14,6 @@ import android.media.Image
 import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
-import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.util.DisplayMetrics
@@ -54,7 +53,6 @@ class OverlayService : Service() {
     override fun onCreate() {
         super.onCreate()
         createNotification()
-        //createOverlay()
     }
 
     override fun onStartCommand(
@@ -71,6 +69,7 @@ class OverlayService : Service() {
             0
         )
 
+        @Suppress("DEPRECATION")
         val data = intent?.getParcelableExtra<Intent>(
             "data"
         )
@@ -98,19 +97,17 @@ class OverlayService : Service() {
     }
 
     private fun createNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "overlay_channel",
-                "Overlay Service",
-                NotificationManager.IMPORTANCE_LOW
-            )
+        val channel = NotificationChannel(
+            "overlay_channel",
+            "Overlay Service",
+            NotificationManager.IMPORTANCE_LOW
+        )
 
-            val manager = getSystemService(
-                NotificationManager::class.java
-            )
+        val manager = getSystemService(
+            NotificationManager::class.java
+        )
 
-            manager.createNotificationChannel(channel)
-        }
+        manager.createNotificationChannel(channel)
 
         val openAppIntent = Intent(
             this,
@@ -160,8 +157,6 @@ class OverlayService : Service() {
     }
 
     private fun createOverlay() {
-        println("CREATE OVERLAY")
-
         windowManager = getSystemService(
             WINDOW_SERVICE
         ) as WindowManager
@@ -213,61 +208,10 @@ class OverlayService : Service() {
         }
     }
 
-    /*private fun showScreenshotWindow() {
-        screenshotView = FrameLayout(this)
-
-        screenshotView.setBackgroundColor(
-            Color.parseColor("#CC000000")
-        )
-
-        val closeButton = TextView(this)
-
-        closeButton.text = "✕"
-
-        closeButton.textSize = 30f
-
-        closeButton.setTextColor(
-            Color.WHITE
-        )
-
-        closeButton.setPadding(
-            50,
-            50,
-            50,
-            50
-        )
-
-        closeButton.setOnClickListener {
-            if (::screenshotView.isInitialized) {
-                windowManager.removeView(
-                    screenshotView
-                )
-            }
-
-            floatingView.alpha = 1f
-        }
-
-        screenshotView.addView(
-            closeButton
-        )
-
-        val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT
-        )
-
-        windowManager.addView(
-            screenshotView,
-            params
-        )
-    }*/
-
     private fun createScreenCapture() {
         val metrics = DisplayMetrics()
 
+        @Suppress("DEPRECATION")
         windowManager.defaultDisplay.getMetrics(
             metrics
         )

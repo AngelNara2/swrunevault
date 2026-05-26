@@ -1,6 +1,5 @@
 package com.example.swrunevault
 
-import android.app.Activity
 import android.content.Intent
 import android.media.projection.MediaProjectionManager
 import android.os.Bundle
@@ -25,7 +24,7 @@ class MainActivity : ComponentActivity() {
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 mediaProjectionResultCode =
                     result.resultCode
 
