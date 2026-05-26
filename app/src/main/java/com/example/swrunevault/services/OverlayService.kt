@@ -1,5 +1,6 @@
 package com.example.swrunevault.services
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -28,7 +29,6 @@ import com.example.swrunevault.R
 import com.example.swrunevault.views.DraggableOverlayView
 
 class OverlayService : Service() {
-
     companion object {
         const val ACTION_STOP =
             "ACTION_STOP"
@@ -195,7 +195,9 @@ class OverlayService : Service() {
         floatingView.layoutParams = params
 
         floatingView.onClickAction = {
-            floatingView.alpha = 0f
+            println("FLOATING VIEW CLICKED")
+
+            windowManager.removeView(floatingView)
             createScreenCapture()
         }
 
@@ -207,6 +209,7 @@ class OverlayService : Service() {
         }
     }
 
+    @SuppressLint("UseKtx")
     private fun createScreenCapture() {
         val metrics = DisplayMetrics()
 
@@ -296,6 +299,11 @@ class OverlayService : Service() {
             Color.BLACK
         )
 
+        screenshotView.setOnClickListener {
+
+            println("SCREENSHOT VIEW CLICKED")
+        }
+
         val imageView = ImageView(this)
 
         imageView.setImageBitmap(bitmap)
@@ -323,12 +331,42 @@ class OverlayService : Service() {
         )
 
         closeButton.setOnClickListener {
+            println("CLOSE BUTTON CLICKED")
+
             windowManager.removeView(
                 screenshotView
             )
 
-            floatingView.alpha = 1f
+            if (floatingView.parent == null) {
+
+                windowManager.addView(
+                    floatingView,
+                    floatingView.layoutParams
+                )
+            }
         }
+
+        val closeParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        closeParams.gravity =
+            Gravity.TOP or Gravity.START
+
+        closeButton.layoutParams =
+            closeParams
+
+        closeButton.setBackgroundColor(
+            Color.parseColor("#66000000")
+        )
+
+        closeButton.setPadding(
+            30,
+            20,
+            30,
+            20
+        )
 
         screenshotView.addView(closeButton)
 
@@ -336,7 +374,7 @@ class OverlayService : Service() {
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            0,
             PixelFormat.TRANSLUCENT
         )
 
