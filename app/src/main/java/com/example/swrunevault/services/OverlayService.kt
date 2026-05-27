@@ -2,6 +2,7 @@ package com.example.swrunevault.services
 
 import android.app.Service
 import android.content.Intent
+import android.os.Handler
 import android.os.IBinder
 import com.example.swrunevault.managers.NotificationOverlayManager
 import com.example.swrunevault.managers.OverlayManager
@@ -93,16 +94,18 @@ class OverlayService : Service() {
                 .createOverlay {
                     // Ocultamos el overlay para evitar que aparezca dentro de la captura.
                     overlayManager .hideOverlay()
-                    // Realizamos captura de pantalla.
-                    screenCaptureManager
-                        .capture { bitmap ->
-                            // Mostramos la captura fullscreen.
-                            screenshotOverlayManager
-                                .show(bitmap) {
-                                    // Al cerrar la captura, volvemos a mostrar el overlay flotante.
-                                    overlayManager .showOverlay()
-                                }
+                    Handler(mainLooper).postDelayed({
+                        // Realizamos captura de pantalla.
+                        screenCaptureManager
+                            .capture { bitmap ->
+                                // Mostramos la captura fullscreen.
+                                screenshotOverlayManager
+                                    .show(bitmap) {
+                                        // Al cerrar la captura, volvemos a mostrar el overlay flotante.
+                                    overlayManager.showOverlay()
+                            }
                         }
+                    }, 150)
                 }
         }
 

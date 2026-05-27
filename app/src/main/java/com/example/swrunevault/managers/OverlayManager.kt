@@ -29,7 +29,6 @@ class OverlayManager(
     fun createOverlay(
         onClickAction: () -> Unit
     ) {
-
         // Evita crear múltiples overlays si ya existe uno activo.
         if (floatingView != null) {
             return
