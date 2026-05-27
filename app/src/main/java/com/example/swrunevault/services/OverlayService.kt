@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
+import com.example.swrunevault.managers.BitmapCropManager
 import com.example.swrunevault.managers.NotificationOverlayManager
 import com.example.swrunevault.managers.OverlayManager
 import com.example.swrunevault.managers.ScreenCaptureManager
@@ -27,6 +28,8 @@ class OverlayService : Service() {
     // Manager encargado de mostrar la captura fullscreen.
     private lateinit var screenshotOverlayManager: ScreenshotOverlayManager
 
+    private lateinit var bitmapCropManager: BitmapCropManager
+
     // Este servicio no utiliza binding, por lo tanto retornamos null.
     override fun onBind(
         intent: Intent?
@@ -47,6 +50,7 @@ class OverlayService : Service() {
 
         screenshotOverlayManager = ScreenshotOverlayManager(this)
 
+        bitmapCropManager = BitmapCropManager()
         // Iniciamos la notificación foreground.
         // Android requiere esto para permitir el uso de MediaProjection.
         notificationManager .createNotification()
@@ -96,12 +100,13 @@ class OverlayService : Service() {
                     overlayManager .hideOverlay()
                     Handler(mainLooper).postDelayed({
                         // Realizamos captura de pantalla.
-                        screenCaptureManager
-                            .capture { bitmap ->
+                        screenCaptureManager.capture { bitmap ->
+                                // Recortamos esquina superior derecha.
+                                val croppedBitmap = bitmapCropManager.cropTopRight(bitmap)
+
                                 // Mostramos la captura fullscreen.
-                                screenshotOverlayManager
-                                    .show(bitmap) {
-                                        // Al cerrar la captura, volvemos a mostrar el overlay flotante.
+                                screenshotOverlayManager.show(croppedBitmap) {
+                                    // Al cerrar la captura, volvemos a mostrar el overlay flotante.
                                     overlayManager.showOverlay()
                             }
                         }
