@@ -13,8 +13,7 @@ import com.example.swrunevault.services.OverlayService
 import com.example.swrunevault.ui.theme.SWRuneVaultTheme
 
 class MainActivity : ComponentActivity() {
-    private lateinit var mediaProjectionManager:
-            MediaProjectionManager
+    private lateinit var mediaProjectionManager: MediaProjectionManager
 
     private var mediaProjectionResultCode = 0
 
@@ -25,11 +24,9 @@ class MainActivity : ComponentActivity() {
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
-                mediaProjectionResultCode =
-                    result.resultCode
+                mediaProjectionResultCode = result.resultCode
 
-                mediaProjectionData =
-                    result.data
+                mediaProjectionData = result.data
 
                 val intent = Intent(
                     this,
@@ -52,6 +49,21 @@ class MainActivity : ComponentActivity() {
                 )
 
                 moveTaskToBack(true)
+
+                // Lanzar Summoners War.
+                val gameIntent =
+                    packageManager
+                        .getLaunchIntentForPackage(
+                            "com.com2us.smon.normal.freefull.google.kr.android.common"
+                        )
+
+                if (gameIntent != null) {
+                    gameIntent.addFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK
+                    )
+
+                    startActivity(gameIntent)
+                }
             }
         }
 
@@ -75,10 +87,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun requestScreenCapture() {
-
-        val captureIntent =
-            mediaProjectionManager
-                .createScreenCaptureIntent()
+        val captureIntent = mediaProjectionManager.createScreenCaptureIntent()
 
         screenCaptureLauncher.launch(
             captureIntent

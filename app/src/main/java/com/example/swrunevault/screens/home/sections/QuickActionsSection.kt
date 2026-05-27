@@ -39,10 +39,7 @@ fun QuickActionsSection() {
                     context.startActivity(intent)
                 }
                 else {
-                    val activity =
-                        context.CustumfindActivity()
-
-                    println(activity)
+                    val activity = context.CustumfindActivity()
 
                     (activity as? MainActivity)?.requestScreenCapture()
                 }
