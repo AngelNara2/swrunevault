@@ -59,6 +59,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.material.icons.extended)
     debugImplementation(libs.androidx.ui.tooling)
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("com.google.mlkit:text-recognition:16.0.1")
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.text.recognition)
 }
