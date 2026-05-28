@@ -9,6 +9,7 @@ import com.example.swrunevault.managers.NotificationOverlayManager
 import com.example.swrunevault.managers.OverlayManager
 import com.example.swrunevault.managers.ScreenCaptureManager
 import com.example.swrunevault.managers.ScreenshotOverlayManager
+import com.example.swrunevault.managers.TextRecognitionManager
 
 class OverlayService : Service() {
     companion object {
@@ -28,7 +29,11 @@ class OverlayService : Service() {
     // Manager encargado de mostrar la captura fullscreen.
     private lateinit var screenshotOverlayManager: ScreenshotOverlayManager
 
+    // Manager encargado de recortar la captura de pantalla obtenida de MediaProjection.
     private lateinit var bitmapCropManager: BitmapCropManager
+
+    // Manager encargado de reconocer el texto usando Google ML Kit Text Recognition
+    private lateinit var textRecognitionManager: TextRecognitionManager
 
     // Este servicio no utiliza binding, por lo tanto retornamos null.
     override fun onBind(
@@ -51,6 +56,9 @@ class OverlayService : Service() {
         screenshotOverlayManager = ScreenshotOverlayManager(this)
 
         bitmapCropManager = BitmapCropManager()
+
+        textRecognitionManager = TextRecognitionManager()
+
         // Iniciamos la notificación foreground.
         // Android requiere esto para permitir el uso de MediaProjection.
         notificationManager .createNotification()
@@ -101,13 +109,16 @@ class OverlayService : Service() {
                     Handler(mainLooper).postDelayed({
                         // Realizamos captura de pantalla.
                         screenCaptureManager.capture { bitmap ->
-                                // Recortamos esquina superior derecha.
-                                val croppedBitmap = bitmapCropManager.cropTopRight(bitmap)
+                            // Recortamos esquina superior derecha.
+                            val croppedBitmap = bitmapCropManager.cropTopRight(bitmap)
 
-                                // Mostramos la captura fullscreen.
-                                screenshotOverlayManager.show(croppedBitmap) {
-                                    // Al cerrar la captura, volvemos a mostrar el overlay flotante.
-                                    overlayManager.showOverlay()
+                            // Reconocemos el texto dentro del bitmap
+                            textRecognitionManager.recognizeText(croppedBitmap)
+
+                            // Mostramos la captura fullscreen.
+                            screenshotOverlayManager.show(croppedBitmap) {
+                                // Al cerrar la captura, volvemos a mostrar el overlay flotante.
+                                overlayManager.showOverlay()
                             }
                         }
                     }, 150)
