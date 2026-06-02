@@ -2,11 +2,9 @@ package com.example.swrunevault.managers
 
 import android.graphics.Bitmap
 import android.util.Log
-
+import com.example.swrunevault.models.Rune
 import com.google.mlkit.vision.common.InputImage
-
 import com.google.mlkit.vision.text.TextRecognition
-
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
 class TextRecognitionManager {
@@ -95,6 +93,8 @@ class TextRecognitionManager {
                     }
                 }
 
+                val rune: Rune
+
                 // Mostrar resultado final.
                 for (group in groupedLines) {
 
@@ -123,6 +123,8 @@ class TextRecognitionManager {
                             "OCR",
                             "Texto: $text | X:$x Y:$y"
                         )
+
+
                     }
                 }
             }
