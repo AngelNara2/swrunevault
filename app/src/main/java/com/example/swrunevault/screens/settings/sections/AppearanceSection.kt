@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.swrunevault.R
 import com.example.swrunevault.data.SettingsManager
+import com.example.swrunevault.models.Language
 import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
@@ -71,6 +72,8 @@ fun AppearanceSection(){
         .collectAsState(
             initial = LocalConfiguration.current.locales[0].language
         )
+
+    val language = Language.fromCode(selectedLanguage) ?: Language.ENGLISH
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -246,7 +249,7 @@ fun AppearanceSection(){
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(selectedLanguage)
+                                Text(language.displayName)
                                 Text("▼")
                             }
                         }
@@ -256,28 +259,21 @@ fun AppearanceSection(){
                                 expanded = false
                             }
                         ) {
-                            DropdownMenuItem(
-                                text = {
-                                    Text("Español")
-                                },
-                                onClick = {
-                                    scope.launch {
-                                        settingsManager.setLanguage("es")
+                            Language.entries.forEach { language ->
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            language.displayName
+                                        )
+                                    },
+                                    onClick = {
+                                        scope.launch {
+                                            settingsManager.setLanguage(language.code)
+                                        }
+                                        expanded = false
                                     }
-                                    expanded = false
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = {
-                                    Text("English")
-                                },
-                                onClick = {
-                                    scope.launch {
-                                        settingsManager.setLanguage("en")
-                                    }
-                                    expanded = false
-                                }
-                            )
+                                )
+                            }
                         }
                     }
                 }
