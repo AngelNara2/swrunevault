@@ -1,0 +1,88 @@
+Listado de runas dentro del juego
+
+Runa          |Conjuntos| Efecto
+Energy        |    2    | +15% HP
+Fatal         |    4    | +35% Ataque
+Blade         |    2    | +12% Tasa crítica
+Swift         |    4    | +25% Velocidad
+Focus         |    2    | +20% Precisión
+Guard         |    2    | +15% Defensa
+Endure        |    2    | +20% Resistencia
+Shield        |    2    | Escudo a aliados por 3 turnos (15% del HP)
+Revenge       |    2    | +15% Probabilidad de contraatacar
+Will          |    2    | +1 turno de inmunidad
+Nemesis       |    2    | +4% de barra de ataque por cada 7% de HP perdido
+Vampire       |    4    | +35% Chupasangre
+Destroy       |    2    | 30% del daño infligido puede destruir hasta 4% del HP MÁX. del enemigo
+Despair       |    4    | +25% Probabilidad de aturdir
+Violent       |    4    | +22% Probabilidad de obtener un turno extra
+Rage          |    4    | +40% Daño crítico
+Fight         |    2    | +7% Ataque de los aliados
+Determination |    2    | +7% Defensa de los aliados
+Enhance       |    2    | +7% HP de los aliados
+Accuracy      |    2    | +10% Precisión de los aliados
+Tolerance     |    2    | +10% Resistencia de los aliados
+
+Propiedad principal.
+
+Esta los 3 valores que cuentan, dependen de la cantidad de estrellas que tenga que es de 1 a 6 estrellas
+Los valores estan dividis en Valor inicial/Valor que sube por nivel/Valor final
+Propiedad      |   1 star  |   2 star   |    3 star   |    4 star   |    5 star    |    6 star 
+HP             | 40/45/804 | 70/60/1092 | 100/75/1380 | 160/90/1704 | 270/105/2088 | 360/120/2448
+HP %           |   1/1/18  |   2/1/19   |   4/2/38    |  5/2,15/43  |  8/2,45/51   |   11/3/63
+ATK            |   3/3/54  |   5/4/73   |   7/5/92    |   10/6/112  |  15/7/135    |   22/8/160
+ATK %          |   1/1/18  |   2/1/19   |   4/2/38    |  5/2,15/43  |  8/2,45/51   |   11/3/63
+DEF            |   3/3/54  |   5/4/73   |   7/5/92    |   10/6/112  |  15/7/135    |   22/8/160
+DEF %          |   1/1/18  |   2/1/19   |   4/2/38    |  5/2,15/43  |  8/2,45/51   |   11/3/63
+Velocidad      |   1/1/18  |   2/1/19   |  3/1,33/25  |  4/1,5/30   |   5/2/39     |    7/2/42
+Tasa crítica % |   1/1/18  |   2/1/19   |   3/2/37    |  4/2,15/42  |  5/2,45/47   |    7/3/58
+Daño crítico % |   2/1/19  |   3/2/37   |  4/2,25/43  |   6/3/57    |  8/3,33/65   |   11/4/80
+Resistencia %  |   1/1/18  |   2/1/19   |   4/2/38    |  6/2,15/44  |  9/2,45/51   |   12/3/64
+Precisión %    |   1/1/18  |   2/1/19   |   4/2/38    |  6/2,15/44  |  9/2,45/51   |   12/3/64
+
+Propiedad prefija o innate
+
+Propiedad      |Título    | Rango de valores
+HP             |Strong    |  52-355
+HP %           |Tenacious |  1-8%
+Ataque         |Ferocious |  2-16
+Ataque %       |Powerful  |  1-8%
+Defensa        |Sturdy    |  2-17
+Defensa %      |Durable   |  1-8%
+Velocidad      |Quick     |  1-6
+Tasa crítica % |Mortal    |  1-6%
+Daño crítico % |Cruel     |  1-7%
+Resistencia %  |Resistant |  1-8%
+Precisión %    |Intricate |  1-8%
+
+Propiedad secundaria
+Depende si es de 1 a 6 estrellas, es el valor base minimo y maximo de cada propiedad
+Subestado      | 1 star| 2 star | 3 star | 4 star | 5 star | 6 star
+HP             | 15-60 | 30-105 | 45-165 | 60-225 | 90-300 | 135-375
+HP %           |  1-2  |   1-3  |   2-5  |   3-6  |   4-7  |   5-8
+ATK            |  1-4  |   2-5  |   3-8  |   4-10 |   8-15 |  10-20
+ATK %          |  1-2  |   1-3  |   2-5  |   3-6  |   4-7  |   5-8
+DEF            |  1-4  |   2-5  |   3-8  |   4-10 |   8-15 |  10-20
+DEF %          |  1-2  |   1-3  |   2-5  |   3-6  |   4-7  |   5-8
+Velocidad      |  1-1  |   1-2  |   1-3  |   2-4  |   3-5  |   4-6
+Tasa crítica % |  1-2  |   1-3  |   1-3  |   2-4  |   3-5  |   4-6
+Daño crítico % |  1-2  |   1-3  |   2-4  |   2-5  |   3-5  |   4-7
+Resistencia %  |  1-2  |   1-3  |   2-4  |   2-5  |   3-7  |   4-8
+Precisión %    |  1-2  |   1-3  |   2-4  |   2-5  |   3-7  |   4-8
+
+Aumento máximo de subestadísticas por nivel
+Depende si es de 1 a 6 estrellas
+Cuando sube una runa por cada rol +3, +6, +9, +12, que es cada 3 niveles.
+Puede subir un valor entre el rango minimo o maximo de forma aleatoria.
+Subestado      |   1  |   2    |    3   |    4   |    5   |   6
+HP             | 15-60| 30-105 | 45-165 | 60-225 | 90-300 | 135-375
+HP %           |  1-2 |  1-3   |  2-5   |  3-6   |  4-7   |  5-8
+ATK            |  1-4 |  2-5   |  3-8   |  4-10  |  8-15  |  10-20
+ATK  %         |  1-2 |  1-3   |  2-5   |  3-6   |  4-7   |  5-8
+DEF            |  1-4 |  2-5   |  3-8   |  4-10  |  8-15  |  10-20
+DEF %          |  1-2 |  1-3   |  2-5   |  3-6   |  4-7   |  5-8
+Velocidad      |  1-1 |  1-2   |  1-3   |  2-4   |  3-5   |  4-6
+Tasa crítica % |  1-2 |  1-3   |  1-3   |  2-4   |  3-5   |  4-6
+Daño crítico % |  1-2 |  1-3   |  2-4   |  2-5   |  3-5   |  4-7
+Resistencia %  |  1-2 |  1-3   |  2-4   |  2-5   |  3-7   |  4-8
+Precisión %    |  1-2 |  1-3   |  2-4   |  2-5   |  3-7   |  4-8

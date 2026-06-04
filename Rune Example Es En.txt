@@ -1,0 +1,59 @@
+Español
+
+OCR process succeeded via visionkit pipeline.
+====================
+Texto: A | X:227 Y:79
+Texto: +12 Runa Cruel Rage (6) | X:425 Y:77
+====================
+Texto: Propiedad Princip | X:15 Y:144
+Texto: HP +47% | X:440 Y:155
+Texto: Legend | X:842 Y:152
+====================
+Texto: +12 | X:353 Y:222
+Texto: Daño CRÍ +5% | X:440 Y:203
+Texto: 74 | X:890 Y:202
+====================
+Texto: Sub Propiedad | X:14 Y:277
+Texto: ATQ +24 | X:294 Y:272
+Texto: Grabar | X:832 Y:268
+====================
+Texto: DEF +62 | X:285 Y:313
+Texto: Tempo. | X:827 Y:301
+====================
+Texto: Precisión +4% | X:285 Y:351
+Texto: Potenciar | X:806 Y:369
+====================
+Texto: VEL +6 | X:283 Y:391
+====================
+Texto: Set-4: Daño CRÍ +40% | X:284 Y:470
+Texto: Vender | X:825 Y:455
+
+Ingles
+
+OCR process succeeded via visionkit pipeline.
+====================
+Texto: +12 Cruel Rage Rune (6) | X:427 Y:81
+Texto: X | X:943 Y:72
+====================
+Texto: Main Property | X:14 Y:142
+Texto: HP +47% | X:440 Y:155
+Texto: Legend | X:842 Y:152
+====================
+Texto: +12 | X:353 Y:222
+Texto: CRI Dmg +5% | X:450 Y:205
+Texto: 74 | X:890 Y:202
+====================
+Texto: Sub Property | X:14 Y:277
+Texto: ATK +24 | X:283 Y:275
+Texto: Engrave | X:825 Y:267
+====================
+Texto: DEF +62 | X:285 Y:313
+Texto: Temporarily | X:789 Y:299
+====================
+Texto: Accuracy +4% | X:283 Y:349
+Texto: Power-up | X:806 Y:368
+====================
+Texto: SPD +6 | X:284 Y:391
+====================
+Texto: 4 Set:CRI Dmg +40% | X:300 Y:473
+Texto: Sell | X:854 Y:455
