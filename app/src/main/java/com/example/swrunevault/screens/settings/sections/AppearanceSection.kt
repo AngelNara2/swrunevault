@@ -73,7 +73,7 @@ fun AppearanceSection(){
             initial = LocalConfiguration.current.locales[0].language
         )
 
-    val language = Language.fromCode(selectedLanguage) ?: Language.ENGLISH
+    val language = Language.fromCode(selectedLanguage) ?: Language.SPANISH
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -232,7 +232,7 @@ fun AppearanceSection(){
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = stringResource(R.string.select_a_language),
+                        text = stringResource(R.string.select_language),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -240,7 +240,7 @@ fun AppearanceSection(){
                 Column {
                     Box {
                         OutlinedButton(
-                            modifier = Modifier.width(100.dp),
+                            modifier = Modifier.width(125.dp),
                             onClick = {
                                 expanded = true
                             }

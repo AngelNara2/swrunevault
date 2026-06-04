@@ -4,12 +4,19 @@ import android.app.Service
 import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
+import android.util.Log
+import com.example.swrunevault.data.SettingsManager
 import com.example.swrunevault.managers.BitmapCropManager
 import com.example.swrunevault.managers.NotificationOverlayManager
 import com.example.swrunevault.managers.OverlayManager
+import com.example.swrunevault.managers.RegexManager
+import com.example.swrunevault.managers.RuneRegexManager
 import com.example.swrunevault.managers.ScreenCaptureManager
 import com.example.swrunevault.managers.ScreenshotOverlayManager
 import com.example.swrunevault.managers.TextRecognitionManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class OverlayService : Service() {
     companion object {
@@ -35,6 +42,10 @@ class OverlayService : Service() {
     // Manager encargado de reconocer el texto usando Google ML Kit Text Recognition
     private lateinit var textRecognitionManager: TextRecognitionManager
 
+    private lateinit var settingsManager: SettingsManager
+
+    private lateinit var runeRegexManager: RuneRegexManager
+
     // Este servicio no utiliza binding, por lo tanto retornamos null.
     override fun onBind(
         intent: Intent?
@@ -58,6 +69,26 @@ class OverlayService : Service() {
         bitmapCropManager = BitmapCropManager()
 
         textRecognitionManager = TextRecognitionManager()
+
+        settingsManager = SettingsManager(this)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val language =
+                settingsManager.getLanguage()
+
+            Log.d(
+                "SETTINDS MANAGER LANGUAGE",
+                "Lenguaje: ${language?.code} - ${language?.displayName}"
+            )
+
+            val regexManager =
+                RegexManager(language)
+
+            runeRegexManager =
+                RuneRegexManager(
+                    regexManager.getProvider()
+                )
+        }
 
         // Iniciamos la notificación foreground.
         // Android requiere esto para permitir el uso de MediaProjection.
@@ -113,7 +144,12 @@ class OverlayService : Service() {
                             val croppedBitmap = bitmapCropManager.cropTopRight(bitmap)
 
                             // Reconocemos el texto dentro del bitmap
-                            textRecognitionManager.recognizeText(croppedBitmap)
+                            textRecognitionManager.recognizeText(croppedBitmap) { groupedLines ->
+                                //Aplicamos regex para analizar el texto
+                                runeRegexManager.analyze(
+                                    groupedLines
+                                )
+                            }
 
                             // Mostramos la captura fullscreen.
                             screenshotOverlayManager.show(croppedBitmap) {

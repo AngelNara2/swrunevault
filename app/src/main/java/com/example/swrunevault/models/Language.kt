@@ -20,7 +20,7 @@ enum class Language(
     companion object {
         // Obtiene el idioma a partir de su código.
         fun fromCode(
-            code: String
+            code: String?
         ): Language? {
             return entries.firstOrNull {
                 it.code.equals(

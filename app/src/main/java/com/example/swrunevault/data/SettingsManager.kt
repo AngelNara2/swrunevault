@@ -5,6 +5,8 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.swrunevault.models.Language
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.util.Locale
 
@@ -56,5 +58,11 @@ class SettingsManager(
                 settings ->
             settings[OPEN_SW] = enabled
         }
+    }
+
+    suspend fun getLanguage(): Language? {
+        return Language.fromCode(
+            selectedLanguage.first()
+        )
     }
 }

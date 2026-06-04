@@ -2,7 +2,6 @@ package com.example.swrunevault.managers
 
 import android.graphics.Bitmap
 import android.util.Log
-import com.example.swrunevault.models.Rune
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
@@ -16,8 +15,13 @@ class TextRecognitionManager {
 
     //Analiza bitmap y devuelve texto reconocido.
     fun recognizeText(
-        bitmap: Bitmap
-    ) {
+        bitmap: Bitmap,
+        onResult: (
+            MutableList<
+                    MutableList<com.google.mlkit.vision.text.Text.Line>
+                    >
+        ) -> Unit
+    ){
         // Mostrar tamaño bitmap.
         Log.d(
             "OCR",
@@ -93,10 +97,8 @@ class TextRecognitionManager {
                     }
                 }
 
-                val rune: Rune
-
                 // Mostrar resultado final.
-                for (group in groupedLines) {
+                /*for (group in groupedLines) {
 
                     // Ordenar fila de izquierda a derecha.
                     val sortedRow =
@@ -123,10 +125,12 @@ class TextRecognitionManager {
                             "OCR",
                             "Texto: $text | X:$x Y:$y"
                         )
-
-
                     }
-                }
+                }*/
+
+                onResult(
+                    groupedLines
+                )
             }
             // Error OCR.
             .addOnFailureListener {
