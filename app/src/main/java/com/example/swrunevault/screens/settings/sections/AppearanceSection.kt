@@ -75,6 +75,10 @@ fun AppearanceSection(){
 
     val language = Language.fromCode(selectedLanguage) ?: Language.SPANISH
 
+    val opensw by settingsManager
+        .isOpenSw
+        .collectAsState(initial = true)
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(5.dp),
@@ -102,7 +106,7 @@ fun AppearanceSection(){
                 ) {
                     Image(
                         painter = painterResource(R.drawable.action_scan),
-                        contentDescription = stringResource(R.string.appearance),
+                        contentDescription = stringResource(R.string.behavior),
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(1.dp),
@@ -111,7 +115,7 @@ fun AppearanceSection(){
                     )
                 }
                 Text(
-                    text = stringResource(R.string.appearance),
+                    text = stringResource(R.string.behavior),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
@@ -277,6 +281,49 @@ fun AppearanceSection(){
                         }
                     }
                 }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Icono de runa
+                Card(
+                    modifier = Modifier.size(35.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.Red
+                    )
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.rune_violent),
+                        contentDescription = "Runa Violent",
+                        modifier = Modifier.fillMaxSize().padding(5.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                }
+                // Información principal
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = stringResource(R.string.open_sw),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = stringResource(R.string.open_sw_scan),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Switch(
+                    checked = opensw,
+                    onCheckedChange = {
+                        scope.launch {
+                            settingsManager.setOpenSw(it)
+                        }
+                    }
+                )
             }
         }
     }

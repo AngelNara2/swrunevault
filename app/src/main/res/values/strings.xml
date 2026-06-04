@@ -28,13 +28,15 @@
     <string name="sets">Sets</string>
     <string name="in_use">En uso</string>
 
-    <string name="appearance">Apariencia</string>
+    <string name="behavior">Comportamiento</string>
     <string name="system_theme">Tema del sistema</string>
     <string name="use_system_theme">Usa el tema del sistema</string>
     <string name="dark_mode">Modo oscuro</string>
     <string name="activate_dark_mode">Activa el modo oscuro</string>
     <string name="language">Idioma</string>
     <string name="select_language">Lenguaje de la app</string>
+    <string name="open_sw">Abrir SW</string>
+    <string name="open_sw_scan">Abre el juego al iniciar el scaner</string>
 
     <string name="information">Información</string>
     <string name="app_version">Versión de la app</string>

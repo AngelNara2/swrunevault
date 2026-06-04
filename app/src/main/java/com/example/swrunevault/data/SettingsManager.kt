@@ -24,7 +24,7 @@ class SettingsManager(
         val OPEN_SW = booleanPreferencesKey("open_sw")
     }
 
-    val isSystemDarkMode = context.dataStore.data.map {preferences -> preferences[SYSTEM_DARK_MODE] ?: false }
+    val isSystemDarkMode = context.dataStore.data.map {preferences -> preferences[SYSTEM_DARK_MODE] ?: true }
 
     suspend fun setSystemDarkMode(enabled: Boolean) {
         context.dataStore.edit {
@@ -51,6 +51,12 @@ class SettingsManager(
         }
     }
 
+    suspend fun getLanguage(): Language? {
+        return Language.fromCode(
+            selectedLanguage.first()
+        )
+    }
+
     val isOpenSw = context.dataStore.data.map {preferences -> preferences[OPEN_SW] ?: false }
 
     suspend fun setOpenSw(enabled: Boolean) {
@@ -58,11 +64,5 @@ class SettingsManager(
                 settings ->
             settings[OPEN_SW] = enabled
         }
-    }
-
-    suspend fun getLanguage(): Language? {
-        return Language.fromCode(
-            selectedLanguage.first()
-        )
     }
 }
