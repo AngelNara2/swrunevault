@@ -8,6 +8,7 @@ enum class RuneSet(
     // Descripción del efecto.
     val effect: String
 ) {
+    UNKNOWN(0,""),
     ENERGY(2,"+15% HP"),
     FATAL(4,"+35% Ataque"),
     BLADE(2,"+12% Tasa crítica"),

@@ -3,23 +3,23 @@ package com.example.swrunevault.models
 // Runa encontrada en el juego.
 data class Rune(
     // Conjunto de la runa.
-    val runeSet: RuneSet,
+    var runeSet: RuneSet = RuneSet.UNKNOWN,
 
     // Slot de la runa.
-    val slot: Int,
+    var slot: Int = 0,
 
     // Cantidad de estrellas.
-    val stars: Int,
+    var stars: Int = 0,
 
     // Nivel de la runa.
-    val level: Int,
+    var level: Int = 0,
 
     // Propiedad principal.
-    val mainStat: RuneStat,
+    var mainStat: RuneStat? = null,
 
     // Propiedad innata.
-    val innateStat: RuneStat?,
+    var innateStat: RuneInnateStat? = null,
 
     // Propiedades secundarias.
-    val subStats: List<RuneStat>
+    var subStats: MutableList<RuneStat> = mutableListOf()
 )

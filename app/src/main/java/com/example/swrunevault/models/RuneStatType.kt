@@ -8,6 +8,7 @@ enum class RuneStatType(
     // Indica si el stat és porcentual.
     val isPercentage: Boolean
 ) {
+    UNKNOWN("UNKNOWN",false),
     HP("HP",false),
     HP_PERCENT("HP %",true),
     ATK("ATK",false),

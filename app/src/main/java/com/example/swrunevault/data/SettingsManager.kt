@@ -57,7 +57,7 @@ class SettingsManager(
         )
     }
 
-    val isOpenSw = context.dataStore.data.map {preferences -> preferences[OPEN_SW] ?: false }
+    val isOpenSw = context.dataStore.data.map {preferences -> preferences[OPEN_SW] ?: true }
 
     suspend fun setOpenSw(enabled: Boolean) {
         context.dataStore.edit {

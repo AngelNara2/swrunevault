@@ -57,3 +57,15 @@ Texto: SPD +6 | X:284 Y:391
 ====================
 Texto: 4 Set:CRI Dmg +40% | X:300 Y:473
 Texto: Sell | X:854 Y:455
+
+Diccionario de palabras
+
+Ingles     | Español
+ATK        | ATQ
+DEF        | DEF
+HP         | HP
+Accuracy   | Precisión
+SPD        | VEL
+CRI Dmg    | Daño CRÍ
+Resistance | RES
+CRI Rate   | Tasa CRÍ

@@ -8,9 +8,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.swrunevault.data.SettingsManager
 import com.example.swrunevault.screens.MainScreen
 import com.example.swrunevault.services.OverlayService
 import com.example.swrunevault.ui.theme.SWRuneVaultTheme
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private lateinit var mediaProjectionManager: MediaProjectionManager
@@ -18,6 +22,29 @@ class MainActivity : ComponentActivity() {
     private var mediaProjectionResultCode = 0
 
     private var mediaProjectionData: Intent? = null
+
+    private lateinit var settingsManager: SettingsManager
+
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+
+        mediaProjectionManager =
+            getSystemService(
+                MEDIA_PROJECTION_SERVICE
+            ) as MediaProjectionManager
+
+        settingsManager = SettingsManager(this)
+
+        setContent {
+            SWRuneVaultTheme {
+                MainScreen()
+            }
+        }
+    }
 
     private val screenCaptureLauncher =
         registerForActivityResult(
@@ -51,40 +78,27 @@ class MainActivity : ComponentActivity() {
                 moveTaskToBack(true)
 
                 // Lanzar Summoners War.
-                val gameIntent =
-                    packageManager
-                        .getLaunchIntentForPackage(
-                            "com.com2us.smon.normal.freefull.google.kr.android.common"
-                        )
+                lifecycleScope.launch {
+                    val openSw = settingsManager.isOpenSw.first()
 
-                if (gameIntent != null) {
-                    gameIntent.addFlags(
-                        Intent.FLAG_ACTIVITY_NEW_TASK
-                    )
+                    if (openSw) {
+                        val gameIntent =
+                            packageManager
+                                .getLaunchIntentForPackage(
+                                    "com.com2us.smon.normal.freefull.google.kr.android.common"
+                                )
 
-                    startActivity(gameIntent)
+                        if (gameIntent != null) {
+                            gameIntent.addFlags(
+                                Intent.FLAG_ACTIVITY_NEW_TASK
+                            )
+
+                            startActivity(gameIntent)
+                        }
+                    }
                 }
             }
         }
-
-    override fun onCreate(
-        savedInstanceState: Bundle?
-    ) {
-        super.onCreate(savedInstanceState)
-
-        enableEdgeToEdge()
-
-        mediaProjectionManager =
-            getSystemService(
-                MEDIA_PROJECTION_SERVICE
-            ) as MediaProjectionManager
-
-        setContent {
-            SWRuneVaultTheme {
-                MainScreen()
-            }
-        }
-    }
 
     fun requestScreenCapture() {
         val captureIntent = mediaProjectionManager.createScreenCaptureIntent()
