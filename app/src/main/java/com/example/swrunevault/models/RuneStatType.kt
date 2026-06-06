@@ -6,32 +6,40 @@ enum class RuneStatType(
     val displayName: String,
 
     // Indica si el stat és porcentual.
-    val isPercentage: Boolean
+    val isPercentage: Boolean,
+
+    var displayText: String = ""
 ) {
+    // Nombre mostrado de la propiedad en En | Es
     UNKNOWN("UNKNOWN",false),
     HP("HP",false),
-    HP_PERCENT("HP %",true),
-    ATK("ATK",false),
-    ATK_PERCENT("ATK %",true),
+    HP_PERCENT("HP",true),
+    ATK("ATK|ATQ",false),
+    ATK_PERCENT("ATK|ATQ",true),
     DEF("DEF",false),
-    DEF_PERCENT("DEF %",true),
-    SPD("VEL",false),
-    CRIT_RATE("Tasa CRI %",true),
-    CRIT_DAMAGE("CRI Dmg %",true),
-    ACCURACY("Precisión %",true),
-    RESISTANCE("Resistencia %",true);
+    DEF_PERCENT("DEF",true),
+    SPD("SPD|VEL",false),
+    CRIT_RATE("CRI Rate|Tasa CRÍ",true),
+    CRIT_DAMAGE("CRI Dmg|Daño CRÍ",true),
+    ACCURACY("Accuracy|Precisión",true),
+    RESISTANCE("RES|Resistencia",true);
 
     companion object {
         // Buscar stat usando OCR.
         fun fromText(
-            text: String
+            text: String,
+            ispercentage: Boolean
         ): RuneStatType? {
-            return entries.firstOrNull {
-                it.displayName.equals(
+            val runeStatType = entries.firstOrNull {
+                it.displayName.contains(
                     text.trim(),
                     ignoreCase = true
-                )
+                ) && it.isPercentage == ispercentage
             }
+
+            runeStatType?.displayText = text
+
+            return runeStatType
         }
     }
 }

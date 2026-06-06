@@ -15,7 +15,7 @@ enum class RuneInnateStat(
     val maxValue: Int,
 
     // Valor actual de la propiedad
-    var value: Int = 0
+    var runeStat: RuneStat? = null
 ) {
     UNKNOWN(RuneStatType.UNKNOWN,"Unknown",0,0),
     STRONG(RuneStatType.HP,"Strong",52,355),
