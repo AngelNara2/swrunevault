@@ -7,4 +7,10 @@ data class RuneStat(
 
     // Valor actual.
     val value: Int
-)
+){
+    fun secondaryStat(): String{
+        return "${statType?.displayText} " +
+                "+${value}" +
+                if (statType?.isPercentage== true) "%" else ""
+    }
+}

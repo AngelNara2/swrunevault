@@ -3,6 +3,7 @@ package com.example.swrunevault.managers
 import android.util.Log
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.models.RuneInnateStat
+import com.example.swrunevault.models.RuneRarity
 import com.example.swrunevault.models.RuneSet
 import com.example.swrunevault.models.RuneStat
 import com.example.swrunevault.models.RuneStatType
@@ -21,10 +22,13 @@ class RuneRegexManager(
     ) {
         val headerRegex = regexProvider.runeHeader()
         val statRegex = regexProvider.runeStat()
+        val rarityregex = regexProvider.runeRarity()
 
         rune = Rune()
 
         var matchHeader: MatchResult? = null
+
+        var matchRarity: MatchResult? = null
 
         val stats = mutableListOf<RuneStat>()
 
@@ -50,27 +54,31 @@ class RuneRegexManager(
 
                 // Nivel - Propiedad Innate - Set - Slot
                 if (matchHeader != null) {
-                    /*
-                    Log.d("RUNE_REGEX","Nivel: ${matchHeader.groupValues[1]}")
+                    /*Log.d("RUNE_REGEX","Nivel: ${matchHeader.groupValues[1]}")
                     Log.d("RUNE_REGEX","Innate: ${matchHeader.groupValues[2]}")
                     Log.d("RUNE_REGEX","Set: ${matchHeader.groupValues[3]}")
-                    Log.d("RUNE_REGEX","Slot: ${matchHeader.groupValues[4]}")
-                    */
+                    Log.d("RUNE_REGEX","Slot: ${matchHeader.groupValues[4]}")*/
+
                     rune.level = matchHeader.groupValues[1].toInt()
                     rune.innateStat = RuneInnateStat.fromText(matchHeader.groupValues[2]) ?: RuneInnateStat.UNKNOWN
                     rune.runeSet = RuneSet.fromText(matchHeader.groupValues[3]) ?: RuneSet.UNKNOWN
                     rune.slot = matchHeader.groupValues[4].toInt()
                 }
 
+                matchRarity = rarityregex.find(text)
+
+                if (matchRarity != null){
+                    //Log.d("RUNE_REGEX","Rareza: ${matchRarity.groupValues[1]}")
+                    rune.rarity = RuneRarity.fromText(matchRarity.groupValues[1]) ?: RuneRarity.UNKNOWN
+                }
+
                 val matchStat = statRegex.find(text)
 
                 if (matchStat != null)
                 {
-                    /*
-                    Log.d("RUNE_REGEX","Tipo: ${matchStat.groupValues[1]}")
+                    /*Log.d("RUNE_REGEX","Tipo: ${matchStat.groupValues[1]}")
                     Log.d("RUNE_REGEX","Valor: ${matchStat.groupValues[2]}")
-                    Log.d("RUNE_REGEX","Porcentual: ${matchStat.groupValues[3] == "%"}")
-                    */
+                    Log.d("RUNE_REGEX","Porcentual: ${matchStat.groupValues[3] == "%"}")*/
 
                     stats.add(
                         RuneStat(
@@ -104,32 +112,15 @@ class RuneRegexManager(
 
         Log.d("RUNE_CREATE","====================")
 
-        Log.d("RUNE_CREATE","Nivel: ${rune.level}")
-        Log.d("RUNE_CREATE","Set: ${rune.runeSet}")
-
-        Log.d("RUNE_CREATE","Slot: ${rune.slot}")
-
-        Log.d("RUNE_CREATE","====================")
-
-        Log.d("RUNE_CREATE","Estadistica principal")
-        Log.d("RUnE_CREATE","Tipo: ${rune.mainStat?.statType?.displayText}")
-        Log.d("RUnE_CREATE","Valor: ${rune.mainStat?.value}")
-        Log.d("RUNE_CREATE","Porcentual: ${rune.mainStat?.statType?.isPercentage}")
-
-        Log.d("RUNE_CREATE","====================")
+        Log.d("RUNE_CREATE",rune.titleName())
+        Log.d("RUNE_CREATE",rune.primaryStat())
 
         if(rune.innateStat != RuneInnateStat.UNKNOWN){
-            Log.d("RUNE_CREATE","Innate Titulo: ${rune.innateStat?.title}")
-            Log.d("RUNE_CREATE","Innate Tipo: ${rune.innateStat?.runeStat?.statType?.displayText}")
-            Log.d("RUNE_CREATE","Innate valor: ${rune.innateStat?.runeStat?.value}")
-            Log.d("RUNE_CREATE","====================")
+            Log.d("RUNE_CREATE",rune.innateStat())
         }
 
         for (stat in rune.subStats){
-            Log.d("RUNE_CREATE","Tipo: ${stat.statType?.displayText}")
-            Log.d("RUNE_CREATE","Valor: ${stat.value}")
-            Log.d("RUNE_CREATE","Porcentual: ${stat.statType?.isPercentage}")
-            Log.d("RUNE_CREATE","====================")
+            Log.d("RUNE_CREATE",stat.secondaryStat())
         }
     }
 }

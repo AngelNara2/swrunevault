@@ -19,8 +19,8 @@ enum class RuneStatType(
     DEF("DEF",false),
     DEF_PERCENT("DEF",true),
     SPD("SPD|VEL",false),
-    CRIT_RATE("CRI Rate|Tasa CRÍ",true),
-    CRIT_DAMAGE("CRI Dmg|Daño CRÍ",true),
+    CRIT_RATE("CRI Rate|Tasa CRİ|Tasa CRÍ",true),
+    CRIT_DAMAGE("CRI Dmg|Daño CRİ|Daño CRÍ",true),
     ACCURACY("Accuracy|Precisión",true),
     RESISTANCE("RES|Resistencia",true);
 

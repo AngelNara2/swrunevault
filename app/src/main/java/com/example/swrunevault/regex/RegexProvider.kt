@@ -4,4 +4,6 @@ interface RegexProvider {
     fun runeHeader(): Regex
 
     fun runeStat(): Regex
+
+    fun runeRarity(): Regex
 }
