@@ -9,7 +9,6 @@ object RuneMainStats {
         increment: Double,
         max: Double
     ): MainStatValue {
-
         return MainStatValue(
             initial,
             increment,
@@ -35,6 +34,21 @@ object RuneMainStats {
             RuneGrade.SIX to six
         )
     }
+
+    val UNKNOWN =
+        RuneMainStatDefinition(
+            statType =
+                RuneStatType.UNKNOWN,
+            values =
+                createValues(
+                    v(0.0, 0.0, 0.0),
+                    v(0.0, 0.0, 0.0),
+                    v(0.0, 0.0, 0.0),
+                    v(0.0, 0.0, 0.0),
+                    v(0.0, 0.0, 0.0),
+                    v(0.0, 0.0, 0.0)
+                )
+        )
 
     val HP_PERCENT =
         RuneMainStatDefinition(
@@ -200,4 +214,27 @@ object RuneMainStats {
                     v(12.0, 3.0, 64.0)
                 )
         )
+
+    private val allStats = listOf(
+        UNKNOWN,
+        HP_PERCENT,
+        HP,
+        ATK_PERCENT,
+        ATK,
+        DEF_PERCENT,
+        DEF,
+        SPD,
+        CRIT_RATE,
+        CRIT_DAMAGE,
+        RESISTANCE,
+        ACCURACY
+    )
+
+    fun getByStatType(
+        statType: RuneStatType?
+    ): RuneMainStatDefinition? {
+        return allStats.firstOrNull {
+            it.statType == statType
+        }
+    }
 }

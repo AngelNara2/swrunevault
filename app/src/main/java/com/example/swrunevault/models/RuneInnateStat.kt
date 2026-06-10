@@ -28,7 +28,7 @@ enum class RuneInnateStat(
     MORTAL(RuneStatType.CRIT_RATE,"Mortal",1,6),
     CRUEL(RuneStatType.CRIT_DAMAGE,"Cruel",1,7),
     RESISTANT(RuneStatType.RESISTANCE,"Resistant",1,8),
-    INTRINCATE(RuneStatType.ACCURACY,"Intricate",1,8);
+    INTRICATE(RuneStatType.ACCURACY,"Intricate",1,8);
 
     companion object {
         // Buscar innate por stat.
@@ -45,7 +45,7 @@ enum class RuneInnateStat(
             text: String
         ): RuneInnateStat? {
             return RuneInnateStat.entries.firstOrNull {
-                it.name.equals(
+                it.title.equals(
                     text.trim(),
                     ignoreCase = true
                 )

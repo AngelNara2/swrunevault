@@ -5,7 +5,7 @@ class SpanishRegexProvider :
 
     override fun runeHeader(): Regex {
         return Regex(
-            """\+(\d+)\s+Runa\s+(?:(\w+)\s+)?(\w+)\s+\((\d)\)"""
+            """(?:\+(?<level>\d+)\s+)?Runa\s+(?:(?<innate>\w+)\s+)?(?<set>\w+)\s+\((?<slot>\d)\)"""
         )
     }
 

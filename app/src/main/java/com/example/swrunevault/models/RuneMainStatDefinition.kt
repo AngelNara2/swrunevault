@@ -7,4 +7,10 @@ data class RuneMainStatDefinition(
 
     // Valores según cantidad de estrellas.
     val values: Map<RuneGrade, MainStatValue>
-)
+){
+    fun getMaxValue(
+        grade: RuneGrade
+    ): Double? {
+        return values[grade]?.maxValue
+    }
+}

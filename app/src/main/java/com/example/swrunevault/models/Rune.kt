@@ -9,7 +9,7 @@ data class Rune(
     var slot: Int = 0,
 
     // Cantidad de estrellas.
-    var stars: Int = 0,
+    var stars: RuneGrade = RuneGrade.SIX,
 
     var rarity: RuneRarity = RuneRarity.UNKNOWN,
 
@@ -26,9 +26,9 @@ data class Rune(
     var subStats: MutableList<RuneStat> = mutableListOf()
 ){
     fun titleName(): String{
-        return "+${level} " +
+        return (if(level == 0) "" else "+ $level ") +
                 "${innateStat?.title} " +
-                "${if(runeSet == RuneSet.UNKNOWN) "" else runeSet} " +
+                (if(runeSet == RuneSet.UNKNOWN) "" else "$runeSet ") +
                 "(${slot})"
     }
 
@@ -38,6 +38,17 @@ data class Rune(
                 if(mainStat?.statType?.isPercentage==true) "%" else ""
     }
 
+    fun primaryStatMaxValue(): Double? {
+        val maxValue = RuneMainStats
+            .getByStatType(
+                mainStat?.statType
+            )?.getMaxValue(
+                stars
+            )
+
+        return maxValue
+    }
+
     fun innateStat(): String{
         if(innateStat != RuneInnateStat.UNKNOWN){
             return "${innateStat?.runeStat?.statType?.displayText} " +
@@ -45,5 +56,39 @@ data class Rune(
                     if (innateStat?.statType?.isPercentage == true) "%" else ""
         }
         return ""
+    }
+
+    fun innateStatMaxValue(): Int{
+        return innateStat?.maxValue ?: 0
+    }
+
+    fun subStatContributionTotal(): Double{
+        var totalContribution: Double = 0.0
+
+        for (stat in subStats){
+            totalContribution += stat.subStatContribution(stat.subStatMaxValue(stars).toDouble())
+        }
+
+        if(innateStat?.statType != RuneStatType.UNKNOWN){
+            val innateContribution = (innateStat?.runeStat?.value?:0) / (innateStat?.maxValue?:0)
+
+            totalContribution += innateContribution
+        }
+
+        return "%.3f".format(totalContribution).toDouble()
+    }
+
+    fun currentEfficiency(): Double {
+        var efficiency = 0.0
+
+        var theoreticalMaximum = 2.8
+
+        if(innateStat?.statType != RuneStatType.UNKNOWN){
+            theoreticalMaximum = 3.0
+        }
+
+        efficiency = (subStatContributionTotal() / theoreticalMaximum) * 100
+
+        return "%.3f".format(efficiency).toDouble()
     }
 }

@@ -15,4 +15,10 @@ data class RuneSubStatDefinition(
 
     // Rangos por cantidad de estrellas.
     val ranges: Map<RuneGrade, SubStatRange>
-)
+){
+    fun getMaxValue(
+        grade: RuneGrade
+    ): Int? {
+        return ranges[grade]?.maxValue
+    }
+}

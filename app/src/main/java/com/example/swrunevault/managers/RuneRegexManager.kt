@@ -59,10 +59,10 @@ class RuneRegexManager(
                     Log.d("RUNE_REGEX","Set: ${matchHeader.groupValues[3]}")
                     Log.d("RUNE_REGEX","Slot: ${matchHeader.groupValues[4]}")*/
 
-                    rune.level = matchHeader.groupValues[1].toInt()
-                    rune.innateStat = RuneInnateStat.fromText(matchHeader.groupValues[2]) ?: RuneInnateStat.UNKNOWN
-                    rune.runeSet = RuneSet.fromText(matchHeader.groupValues[3]) ?: RuneSet.UNKNOWN
-                    rune.slot = matchHeader.groupValues[4].toInt()
+                    rune.level = matchHeader.groups["level"]?.value?.toIntOrNull() ?: 0
+                    rune.innateStat = RuneInnateStat.fromText(matchHeader.groups["innate"]?.value?: "") ?: RuneInnateStat.UNKNOWN
+                    rune.runeSet = RuneSet.fromText(matchHeader.groups["set"]?.value?: "")  ?: RuneSet.UNKNOWN
+                    rune.slot =  matchHeader.groups["slot"]?.value?.toIntOrNull() ?: 0
                 }
 
                 matchRarity = rarityregex.find(text)
@@ -114,13 +114,20 @@ class RuneRegexManager(
 
         Log.d("RUNE_CREATE",rune.titleName())
         Log.d("RUNE_CREATE",rune.primaryStat())
+        Log.d("RUNE_CREATE","Valor maximo: ${rune.primaryStatMaxValue()}")
 
         if(rune.innateStat != RuneInnateStat.UNKNOWN){
             Log.d("RUNE_CREATE",rune.innateStat())
+            Log.d("RUNE_CREATE","Valor maximo del innate ${rune.innateStatMaxValue()}")
         }
 
         for (stat in rune.subStats){
             Log.d("RUNE_CREATE",stat.secondaryStat())
+            Log.d("RUNE_CREATE","Valor maximo del subStat ${stat.subStatMaxValue(rune.stars)}")
+            Log.d("RUNE_CREATE","Contribution subStat ${stat.subStatContribution(stat.subStatMaxValue(rune.stars).toDouble())}")
         }
+
+        Log.d("RUNE_CREATE","Contribucion total de los subStats ${rune.subStatContributionTotal()}")
+        Log.d("RUNE_CREATE","Eficiencia actual ${rune.currentEfficiency()}")
     }
 }
