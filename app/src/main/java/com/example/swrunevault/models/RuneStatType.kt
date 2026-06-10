@@ -8,21 +8,23 @@ enum class RuneStatType(
     // Indica si el stat és porcentual.
     val isPercentage: Boolean,
 
-    var displayText: String = ""
+    var displayText: String = "",
+
+    val increment: Int,
 ) {
     // Nombre mostrado de la propiedad en En | Es
-    UNKNOWN("UNKNOWN",false),
-    HP("HP",false),
-    HP_PERCENT("HP",true),
-    ATK("ATK|ATQ",false),
-    ATK_PERCENT("ATK|ATQ",true),
-    DEF("DEF",false),
-    DEF_PERCENT("DEF",true),
-    SPD("SPD|VEL",false),
-    CRIT_RATE("CRI Rate|Tasa CRİ|Tasa CRÍ",true),
-    CRIT_DAMAGE("CRI Dmg|Daño CRİ|Daño CRÍ",true),
-    ACCURACY("Accuracy|Precisión",true),
-    RESISTANCE("RES|Resistencia",true);
+    UNKNOWN("UNKNOWN",false, increment = 0),
+    HP("HP",false, increment = 550),
+    HP_PERCENT("HP",true, increment = 10),
+    ATK("ATK|ATQ",false, increment = 30),
+    ATK_PERCENT("ATK|ATQ",true, increment = 10),
+    DEF("DEF",false, increment = 30),
+    DEF_PERCENT("DEF",true, increment = 10),
+    SPD("SPD|VEL",false, increment = 5),
+    CRIT_RATE("CRI Rate|Tasa CRİ|Tasa CRÍ",true, increment = 0),
+    CRIT_DAMAGE("CRI Dmg|Daño CRİ|Daño CRÍ",true, increment = 0),
+    ACCURACY("Accuracy|Precisión",true, increment = 0),
+    RESISTANCE("RES|Resistencia",true, increment = 0);
 
     companion object {
         // Buscar stat usando OCR.

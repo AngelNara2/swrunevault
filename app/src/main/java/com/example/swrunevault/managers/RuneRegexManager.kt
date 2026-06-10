@@ -129,11 +129,13 @@ class RuneRegexManager(
             Log.d("RUNE_CREATE","====================")
             Log.d("RUNE_CREATE",stat.secondaryStat())
             Log.d("RUNE_CREATE","Valor maximo del subStat ${stat.subStatMaxValue(rune.stars)}")
-            Log.d("RUNE_CREATE","Contribution subStat ${stat.subStatContribution(stat.subStatMaxValue(rune.stars).toDouble())}")
+            Log.d("RUNE_CREATE","Contribution actual subStat ${stat.subStatCurrentContribution(stat.subStatMaxValue(rune.stars).toDouble())}")
+            Log.d("RUNE_CREATE","Contribution maxima subStat ${stat.subStatMaxContribution(stat.subStatMaxIncrementValue(rune.stars).toDouble())}")
         }
 
         Log.d("RUNE_CREATE","====================")
-        Log.d("RUNE_CREATE","Contribucion total de los subStats ${rune.subStatContributionTotal()}")
+        Log.d("RUNE_CREATE","Contribucion total de los subStats ${rune.subStatCurrentContributionTotal()}")
         Log.d("RUNE_CREATE","Eficiencia actual ${rune.currentEfficiency()}")
+        Log.d("RUNE_CREATE","Eficiencia maxima ${rune.maxEfficiency()}")
     }
 }
