@@ -62,6 +62,15 @@ data class Rune(
         return innateStat?.maxValue ?: 0
     }
 
+    fun innateContribution(): Double{
+        val innateStatValue = innateStat?.runeStat?.value
+        val innateStatValueMax = innateStat?.maxValue
+
+        val contribution: Double = (innateStatValue?.toDouble() ?: 0.0) / (innateStatValueMax?.toDouble() ?: 0.0)
+
+        return "%.3f".format(contribution).toDouble()
+    }
+
     fun subStatContributionTotal(): Double{
         var totalContribution: Double = 0.0
 
@@ -70,7 +79,10 @@ data class Rune(
         }
 
         if(innateStat?.statType != RuneStatType.UNKNOWN){
-            val innateContribution = (innateStat?.runeStat?.value?:0) / (innateStat?.maxValue?:0)
+            val innateStatValue = innateStat?.runeStat?.value
+            val innateStatValueMax = innateStat?.maxValue
+
+            val innateContribution: Double = (innateStatValue?.toDouble() ?: 0.0) / (innateStatValueMax?.toDouble() ?: 0.0)
 
             totalContribution += innateContribution
         }
@@ -89,6 +101,6 @@ data class Rune(
 
         efficiency = (subStatContributionTotal() / theoreticalMaximum) * 100
 
-        return "%.3f".format(efficiency).toDouble()
+        return "%.2f".format(efficiency).toDouble()
     }
 }
