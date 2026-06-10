@@ -11,14 +11,14 @@ class EnglishRegexProvider :
 
     override fun runeStat(): Regex {
         return Regex(
-            """^(ATK|DEF|HP|SPD|CRI Rate|CRI Dmg|Resistance|Accuracy)\s*\+(\d+)(%)?.*$""",
+            """^(?<stat>ATK|DEF|HP|SPD|CRI Rate|CRI Dmg|Resistance|Accuracy)\s*\+(?<value>\d+)(?<percentage>%)?.*$""",
             RegexOption.IGNORE_CASE
         )
     }
 
     override fun runeRarity(): Regex {
         return Regex(
-            """\b(Legend|Hero|Magic|Rare|Normal)\b""",
+            """\b(?<rarity>Legend|Hero|Magic|Rare|Normal)\b""",
             RegexOption.IGNORE_CASE
         )
     }

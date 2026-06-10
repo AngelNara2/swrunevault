@@ -69,7 +69,7 @@ class RuneRegexManager(
 
                 if (matchRarity != null){
                     //Log.d("RUNE_REGEX","Rareza: ${matchRarity.groupValues[1]}")
-                    rune.rarity = RuneRarity.fromText(matchRarity.groupValues[1]) ?: RuneRarity.UNKNOWN
+                    rune.rarity = RuneRarity.fromText(matchRarity.groups["rarity"]?.value ?: "") ?: RuneRarity.UNKNOWN
                 }
 
                 val matchStat = statRegex.find(text)
@@ -83,9 +83,10 @@ class RuneRegexManager(
                     stats.add(
                         RuneStat(
                             RuneStatType.fromText(
-                                matchStat.groupValues[1],
-                                matchStat.groupValues[3] == "%"),
-                            matchStat.groupValues[2].toInt()
+                                matchStat.groups["stat"]?.value?:"",
+                                (matchStat.groups["percentage"]?.value ?: "") == "%"
+                            ),
+                            matchStat.groups["value"]?.value?.toIntOrNull() ?: 0
                         )
                     )
                 }
