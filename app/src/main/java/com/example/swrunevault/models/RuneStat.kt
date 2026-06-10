@@ -6,12 +6,28 @@ data class RuneStat(
     val statType: RuneStatType? = RuneStatType.UNKNOWN,
 
     // Valor actual.
-    val value: Int
+    val value: Int,
+
+    // Valor incrementado
+    val increment: Int
 ){
     fun secondaryStat(): String{
         return "${statType?.displayText} " +
                 "+${value}" +
-                if (statType?.isPercentage== true) "%" else ""
+                (
+                        if (statType?.isPercentage== true)
+                            "%"
+                        else
+                            ""
+                        ) +
+                if(increment != 0)
+                    "+${increment}" + (
+                            if (statType?.isPercentage== true)
+                                "%"
+                            else
+                                ""
+                            )
+                else ""
     }
 
     fun subStatMaxValue(stars: RuneGrade): Int{

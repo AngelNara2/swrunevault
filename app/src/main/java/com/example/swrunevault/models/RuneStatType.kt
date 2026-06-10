@@ -37,7 +37,7 @@ enum class RuneStatType(
                 ) && it.isPercentage == ispercentage
             }
 
-            runeStatType?.displayText = text
+            runeStatType?.displayText = text.trim()
 
             return runeStatType
         }

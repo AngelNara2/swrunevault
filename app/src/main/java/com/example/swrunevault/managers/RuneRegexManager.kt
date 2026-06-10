@@ -78,6 +78,7 @@ class RuneRegexManager(
                     Log.d("RUNE_REGEX","Tipo: ${matchStat.groupValues[1]}")
                     Log.d("RUNE_REGEX","Valor: ${matchStat.groupValues[2]}")
                     Log.d("RUNE_REGEX","Porcentual: ${matchStat.groupValues[3] == "%"}")
+                    Log.d("RUNE_REGEX","Incremento: ${matchStat.groupValues[4]?:0}")
 
                     stats.add(
                         RuneStat(
@@ -85,7 +86,8 @@ class RuneRegexManager(
                                 matchStat.groups["stat"]?.value?:"",
                                 (matchStat.groups["percentage"]?.value ?: "") == "%"
                             ),
-                            matchStat.groups["value"]?.value?.toIntOrNull() ?: 0
+                            matchStat.groups["value"]?.value?.toIntOrNull() ?: 0,
+                            matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0
                         )
                     )
                 }
