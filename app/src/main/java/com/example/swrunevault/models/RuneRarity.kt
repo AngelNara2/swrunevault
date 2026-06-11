@@ -1,44 +1,46 @@
 package com.example.swrunevault.models
 
+import androidx.compose.ui.graphics.Color
+
 enum class RuneRarity(
     val displayName: String,
-    val color: Long,
-    val colorText: Long
+    val color: Color,
+    val colorText: Color
 ) {
     NORMAL(
         displayName = "Normal",
-        color = 0xFF564D49,
-        colorText = 0xFFFFF9F5
+        color = Color(0xFF564D49),
+        colorText = Color(0xFFFFF9F5)
     ),
 
     MAGIC(
         displayName = "Magic",
-        color = 0xFF1F3F06,
-        colorText = 0xFFAFC969
+        color = Color(0xFF1b3a07),
+        colorText = Color(0xFFb4cd6f)
     ),
 
     RARE(
         displayName = "Rare",
-        color = 0xFF1B4154,
-        colorText = 0xFFAEF5FB
+        color = Color(0xFF1a3c4b),
+        colorText = Color(0xFFa3cedb)
     ),
 
     HERO(
         displayName = "Hero",
-        color = 0xFF661E42,
-        colorText = 0xFFAAF1F9
+        color = Color(0xFF5e1c3d),
+        colorText = Color(0xFFe2acca)
     ),
 
     LEGENDARY(
         displayName = "Legend",
-        color = 0xFF743214,
-        colorText = 0xFFFFD0EC
+        color = Color(0xFF743214),
+        colorText = Color(0xFFe4a97a)
     ),
 
     UNKNOWN(
         displayName = "Unknown",
-        color = 0xFF000000,
-        colorText = 0xFFFFFFFF
+        color = Color(0xFF000000),
+        colorText = Color(0xFFFFFFFF)
     );
 
     companion object {
