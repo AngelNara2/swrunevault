@@ -61,7 +61,7 @@ data class RuneStat(
     fun subStatMaxContribution(maxValue: Double): Double{
         val value = value
         val increment = statType?.increment ?: 0
-        val contribution: Double =  (value + increment).toDouble() / maxValue
+        val contribution: Double =  (value + increment).toDouble() / (maxValue + increment)
         return "%.3f".format(contribution).toDouble()
     }
 }

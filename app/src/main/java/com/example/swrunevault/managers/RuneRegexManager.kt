@@ -1,6 +1,5 @@
 package com.example.swrunevault.managers
 
-import android.util.Log
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.models.RuneInnateStat
 import com.example.swrunevault.models.RuneRarity
@@ -46,16 +45,16 @@ class RuneRegexManager(
                 val x = box?.left ?: 0
                 val y = box?.top ?: 0
 
-                Log.d("OCR","Texto: $text | X:$x Y:$y")
+                //Log.d("OCR","Texto: $text | X:$x Y:$y")
 
                 matchHeader = headerRegex.find(text)
 
                 // Nivel - Propiedad Innate - Set - Slot
                 if (matchHeader != null) {
-                    Log.d("RUNE_REGEX","Nivel: ${matchHeader.groupValues[1]}")
+                    /*Log.d("RUNE_REGEX","Nivel: ${matchHeader.groupValues[1]}")
                     Log.d("RUNE_REGEX","Innate: ${matchHeader.groupValues[2]}")
                     Log.d("RUNE_REGEX","Set: ${matchHeader.groupValues[3]}")
-                    Log.d("RUNE_REGEX","Slot: ${matchHeader.groupValues[4]}")
+                    Log.d("RUNE_REGEX","Slot: ${matchHeader.groupValues[4]}")*/
 
                     rune.level = matchHeader.groups["level"]?.value?.toIntOrNull() ?: 0
                     rune.innateStat = RuneInnateStat.fromText(matchHeader.groups["innate"]?.value?: "") ?: RuneInnateStat.UNKNOWN
@@ -66,7 +65,7 @@ class RuneRegexManager(
                 matchRarity = rarityregex.find(text)
 
                 if (matchRarity != null){
-                    Log.d("RUNE_REGEX","Rareza: ${matchRarity.groupValues[1]}")
+                    //Log.d("RUNE_REGEX","Rareza: ${matchRarity.groupValues[1]}")
 
                     rune.rarity = RuneRarity.fromText(matchRarity.groups["rarity"]?.value ?: "") ?: RuneRarity.UNKNOWN
                 }
@@ -75,10 +74,10 @@ class RuneRegexManager(
 
                 if (matchStat != null)
                 {
-                    Log.d("RUNE_REGEX","Tipo: ${matchStat.groupValues[1]}")
-                    Log.d("RUNE_REGEX","Valor: ${matchStat.groupValues[2]}")
+                    /*Log.d("RUNE_REGEX","Tipo: ${matchStat.groupValues[1]}")
+                    Log.d("RUNE_REGEX","Valor: ${matchStat.groupValues[2].replace(" ","")}")
                     Log.d("RUNE_REGEX","Porcentual: ${matchStat.groupValues[3] == "%"}")
-                    Log.d("RUNE_REGEX","Incremento: ${matchStat.groupValues[4]?:0}")
+                    Log.d("RUNE_REGEX","Incremento: ${matchStat.groupValues[4]?:0}")*/
 
                     stats.add(
                         RuneStat(
@@ -86,7 +85,7 @@ class RuneRegexManager(
                                 matchStat.groups["stat"]?.value?:"",
                                 (matchStat.groups["percentage"]?.value ?: "") == "%"
                             ),
-                            matchStat.groups["value"]?.value?.toIntOrNull() ?: 0,
+                            matchStat.groups["value"]?.value?.replace(" ","")?.toIntOrNull() ?: 0,
                             matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0
                         )
                     )
@@ -112,7 +111,7 @@ class RuneRegexManager(
             rune.subStats.add(stats[5])
         }
 
-        Log.d("RUNE_CREATE","====================")
+        /*Log.d("RUNE_CREATE","====================")
 
         Log.d("RUNE_CREATE",rune.titleName())
         Log.d("RUNE_CREATE",rune.primaryStat())
@@ -128,14 +127,18 @@ class RuneRegexManager(
         for (stat in rune.subStats){
             Log.d("RUNE_CREATE","====================")
             Log.d("RUNE_CREATE",stat.secondaryStat())
-            Log.d("RUNE_CREATE","Valor maximo del subStat ${stat.subStatMaxValue(rune.stars)}")
+            Log.d("RUNE_CREATE","Valor actual maximo del subStat ${stat.subStatMaxValue(rune.stars)}")
             Log.d("RUNE_CREATE","Contribution actual subStat ${stat.subStatCurrentContribution(stat.subStatMaxValue(rune.stars).toDouble())}")
+            Log.d("RUNE_CREATE","Valor maximo maximo del subStat ${stat.subStatMaxIncrementValue(rune.stars)}")
             Log.d("RUNE_CREATE","Contribution maxima subStat ${stat.subStatMaxContribution(stat.subStatMaxIncrementValue(rune.stars).toDouble())}")
         }
 
         Log.d("RUNE_CREATE","====================")
-        Log.d("RUNE_CREATE","Contribucion total de los subStats ${rune.subStatCurrentContributionTotal()}")
+        Log.d("RUNE_CREATE","Contribucion total actual ${rune.subStatCurrentContributionTotal()}")
+        Log.d("RUNE_CREATE","Contribucion total maxima ${rune.subStatMaxContributionTotal()}")
+
+        Log.d("RUNE_CREATE","====================")
         Log.d("RUNE_CREATE","Eficiencia actual ${rune.currentEfficiency()}")
-        Log.d("RUNE_CREATE","Eficiencia maxima ${rune.maxEfficiency()}")
+        Log.d("RUNE_CREATE","Eficiencia maxima ${rune.maxEfficiency()}")*/
     }
 }
