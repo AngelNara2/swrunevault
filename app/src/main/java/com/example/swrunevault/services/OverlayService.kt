@@ -1,16 +1,16 @@
 package com.example.swrunevault.services
 
-import android.app.Service
 import android.content.Intent
 import android.os.Handler
-import android.os.IBinder
 import android.util.Log
+import androidx.lifecycle.LifecycleService
 import com.example.swrunevault.data.SettingsManager
 import com.example.swrunevault.managers.BitmapCropManager
 import com.example.swrunevault.managers.NotificationOverlayManager
 import com.example.swrunevault.managers.OverlayManager
 import com.example.swrunevault.managers.RegexManager
 import com.example.swrunevault.managers.RuneRegexManager
+import com.example.swrunevault.managers.ScanOverlayManager
 import com.example.swrunevault.managers.ScreenCaptureManager
 import com.example.swrunevault.managers.ScreenshotOverlayManager
 import com.example.swrunevault.managers.TextRecognitionManager
@@ -18,7 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class OverlayService : Service() {
+class OverlayService : LifecycleService() {
     companion object {
         // Acción utilizada para detener el servicio desde la notificación.
         const val ACTION_STOP = "ACTION_STOP"
@@ -46,12 +46,14 @@ class OverlayService : Service() {
 
     private lateinit var runeRegexManager: RuneRegexManager
 
+    private lateinit var scanOverlayManager: ScanOverlayManager
+
     // Este servicio no utiliza binding, por lo tanto retornamos null.
-    override fun onBind(
+    /*override fun onBind(
         intent: Intent?
     ): IBinder? {
         return null
-    }
+    }*/
 
     // Se ejecuta una sola vez al iniciar el servicio.
     override fun onCreate() {
@@ -71,6 +73,8 @@ class OverlayService : Service() {
         textRecognitionManager = TextRecognitionManager()
 
         settingsManager = SettingsManager(this)
+
+        scanOverlayManager = ScanOverlayManager(this)
 
         CoroutineScope(Dispatchers.Main).launch {
             val language =
@@ -146,16 +150,21 @@ class OverlayService : Service() {
                             // Reconocemos el texto dentro del bitmap
                             textRecognitionManager.recognizeText(croppedBitmap) { groupedLines ->
                                 //Aplicamos regex para analizar el texto
-                                runeRegexManager.analyze(
-                                    groupedLines
-                                )
+                                runeRegexManager.analyze(groupedLines){ rune ->
+                                    scanOverlayManager.show(
+                                        rune,
+                                        onClose = {
+                                            overlayManager.showOverlay()
+                                        }
+                                    )
+                                }
                             }
 
                             // Mostramos la captura fullscreen.
-                            screenshotOverlayManager.show(croppedBitmap) {
+                            /*screenshotOverlayManager.show(croppedBitmap) {
                                 // Al cerrar la captura, volvemos a mostrar el overlay flotante.
                                 overlayManager.showOverlay()
-                            }
+                            }*/
                         }
                     }, 150)
                 }

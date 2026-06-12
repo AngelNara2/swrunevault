@@ -24,16 +24,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.swrunevault.models.RuneRarity
+import com.example.swrunevault.models.Rune
 import com.example.swrunevault.utils.getStars
 
 @Composable
 fun RuneHeader(
-    idRuneResource: Int,
-    start: Int,
-    runeTitle: String,
-    rarity: RuneRarity,
-    slot: Int,
+    rune: Rune,
     scanTime: String,
     location: String,
 ){
@@ -44,12 +40,12 @@ fun RuneHeader(
         Card(
             modifier = Modifier.size(125.dp).padding(horizontal = 10.dp).padding(top= 10.dp),
             colors = CardDefaults.cardColors(
-                containerColor = rarity.color
+                containerColor = rune.rarity.color
             )
         ) {
             Image(
-                painter = painterResource(idRuneResource),
-                contentDescription = runeTitle,
+                painter = painterResource(rune.runeSet.idRuneResource),
+                contentDescription = rune.runeSet.name,
                 modifier = Modifier.fillMaxSize().padding(10.dp),
                 contentScale = ContentScale.Fit
             )
@@ -58,26 +54,26 @@ fun RuneHeader(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = getStars(start),
+                text = getStars(rune.stars.stars),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodySmall
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = runeTitle,
+                text = "${rune.level} ${rune.runeSet.name}",
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF542FA2)
             )
             Spacer(modifier = Modifier.height(4.dp))
             Surface(
-                color = rarity.color,
+                color = rune.rarity.color,
                 shape = RoundedCornerShape(10)
             ) {
                 Text(
-                    text = rarity.displayName,
+                    text = rune.rarity.displayName,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = rarity.colorText,
+                    color = rune.rarity.colorText,
                     modifier = Modifier.padding(
                         horizontal = 10.dp,
                         vertical = 4.dp
@@ -86,7 +82,7 @@ fun RuneHeader(
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Slot $slot",
+                text = "Slot ${rune.slot}",
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold
             )

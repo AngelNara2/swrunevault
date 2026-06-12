@@ -16,20 +16,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.swrunevault.R
 import com.example.swrunevault.components.RuneHeader
 import com.example.swrunevault.components.RuneProperties
 import com.example.swrunevault.components.StarBadge
-import com.example.swrunevault.models.RuneRarity
+import com.example.swrunevault.models.Rune
 
-@Preview(
-    showBackground = true,
-    device = "spec:width=411dp,height=891dp,orientation=landscape,dpi=420"
-)
 @Composable
-fun ScanResultScreen(){
+fun ScanResultScreen(
+    rune: Rune,
+    onClose: () -> Unit
+){
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -49,11 +46,7 @@ fun ScanResultScreen(){
             )
         ) {
             RuneHeader(
-                R.drawable.rune_rage,
-                start = 6,
-                runeTitle = "+15 Rage",
-                rarity = RuneRarity.LEGENDARY,
-                slot = 1,
+                rune = rune,
                 scanTime = "22/11/2024 14:35",
                 location = "Inventario"
             )

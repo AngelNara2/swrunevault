@@ -17,7 +17,10 @@ class RuneRegexManager(
         groupedLines:
         MutableList<
                 MutableList<com.google.mlkit.vision.text.Text.Line>
-                >
+                >,
+        onResult: (
+            Rune
+                ) -> Unit
     ) {
         val headerRegex = regexProvider.runeHeader()
         val statRegex = regexProvider.runeStat()
@@ -140,5 +143,7 @@ class RuneRegexManager(
         Log.d("RUNE_CREATE","====================")
         Log.d("RUNE_CREATE","Eficiencia actual ${rune.currentEfficiency()}")
         Log.d("RUNE_CREATE","Eficiencia maxima ${rune.maxEfficiency()}")*/
+
+        onResult(rune)
     }
 }
