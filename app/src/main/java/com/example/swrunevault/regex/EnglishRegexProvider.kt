@@ -11,7 +11,7 @@ class EnglishRegexProvider :
 
     override fun runeStat(): Regex {
         return Regex(
-            """^(?<stat>ATK|DEF|HP|SPD|CRI Rate|CRI Dmg|Resistance|Accuracy)\s*\+(?<value>\d+)(?<percentage>%)?(?:\+(?<increment>\d+))?.*$""",
+            """^.*(?<stat>ATK|DEF|HP|SPD|CRI Rate|CRI Dmg|Resistance|Accuracy)\s*\+(?<value>\d+)(?<percentage>%)?(?:\+(?<increment>\d+))?.*$""",
             RegexOption.IGNORE_CASE
         )
     }

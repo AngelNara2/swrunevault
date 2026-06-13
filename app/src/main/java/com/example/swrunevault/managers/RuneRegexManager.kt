@@ -78,41 +78,38 @@ class RuneRegexManager(
 
                 if (matchStat != null)
                 {
-                    Log.d("RUNE_REGEX","Tipo: ${matchStat.groupValues[1]}")
-                    Log.d("RUNE_REGEX","Valor: ${matchStat.groupValues[2].replace(" ","")}")
-                    Log.d("RUNE_REGEX","Porcentual: ${matchStat.groupValues[3] == "%"}")
-                    Log.d("RUNE_REGEX","Incremento: ${matchStat.groupValues[4]?:0}")
+                    if((matchStat.groups["anycharacter"]?.value?:"") == ""){
+                        Log.d("RUNE_REGEX","Tipo: ${matchStat.groups["stat"]?.value?:""}")
+                        Log.d("RUNE_REGEX","Valor: ${matchStat.groups["value"]?.value?.replace(" ","")?.toIntOrNull() ?: 0}")
+                        Log.d("RUNE_REGEX","Porcentual: ${(matchStat.groups["percentage"]?.value ?: "") == "%"}")
+                        Log.d("RUNE_REGEX","Incremento: ${matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0}")
 
-                    stats.add(
-                        RuneStat(
-                            RuneStatType.fromText(
-                                matchStat.groups["stat"]?.value?:"",
-                                (matchStat.groups["percentage"]?.value ?: "") == "%"
-                            ),
-                            matchStat.groups["value"]?.value?.replace(" ","")?.toIntOrNull() ?: 0,
-                            matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0
+                        stats.add(
+                            RuneStat(
+                                RuneStatType.fromText(
+                                    matchStat.groups["stat"]?.value?:"",
+                                    (matchStat.groups["percentage"]?.value ?: "") == "%"
+                                ),
+                                matchStat.groups["value"]?.value?.replace(" ","")?.toIntOrNull() ?: 0,
+                                matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
 
         rune.mainStat = stats[0]
-
+        stats.remove(stats[0])
         if(rune.innateStat == RuneInnateStat.UNKNOWN){
             rune.subStats.add(stats[1])
-            rune.subStats.add(stats[2])
-            rune.subStats.add(stats[3])
-            rune.subStats.add(stats[4])
-        }
-        else
-        {
-            rune.innateStat?.runeStat = stats[1]
 
-            rune.subStats.add(stats[2])
-            rune.subStats.add(stats[3])
-            rune.subStats.add(stats[4])
-            rune.subStats.add(stats[5])
+            stats.remove(stats[1])
+        }
+
+        for (stat in stats)
+        {
+            rune.subStats.add(stat)
         }
 
         Log.d("RUNE_CREATE","====================")
