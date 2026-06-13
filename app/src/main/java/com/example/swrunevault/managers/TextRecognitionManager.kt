@@ -98,7 +98,7 @@ class TextRecognitionManager {
                 }
 
                 // Mostrar resultado final.
-                /*for (group in groupedLines) {
+                for (group in groupedLines) {
 
                     // Ordenar fila de izquierda a derecha.
                     val sortedRow =
@@ -126,7 +126,7 @@ class TextRecognitionManager {
                             "Texto: $text | X:$x Y:$y"
                         )
                     }
-                }*/
+                }
 
                 onResult(
                     groupedLines

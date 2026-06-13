@@ -5,12 +5,11 @@ import android.graphics.Color
 import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.FrameLayout
-import androidx.compose.ui.platform.ComposeView
-import com.example.swrunevault.compose.OverlayComposeOwner
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.example.swrunevault.models.Rune
-import com.example.swrunevault.screens.scan.ScanResultOverlay
-import com.example.swrunevault.ui.theme.SWRuneVaultTheme
 
 class ScanOverlayManager(
     private val context: Context
@@ -23,7 +22,6 @@ class ScanOverlayManager(
 
     private var overlayView: FrameLayout? = null
 
-    private var composeOwner: OverlayComposeOwner? = null
     fun show(
         rune: Rune,
         onClose: () -> Unit
@@ -31,60 +29,126 @@ class ScanOverlayManager(
 
         remove()
 
-        composeOwner = OverlayComposeOwner()
-
+        // Fondo fullscreen
         overlayView =
             FrameLayout(context).apply {
 
                 setBackgroundColor(
-                    Color.parseColor("#CC000000")
-                )
-
-                val composeView =
-                    ComposeView(context).apply {
-
-                        setContent {
-
-                            SWRuneVaultTheme {
-                                ScanResultOverlay(
-                                     rune = rune,
-                                     onClose = {
-                                        remove()
-                                         onClose()
-                                     }
-                                 )
-
-                            }
-                        }
-                    }
-
-                /*val textView = TextView(context).apply {
-
-                    text = "Overlay funcionando"
-
-                    textSize = 24f
-
-                    setTextColor(Color.WHITE)
-
-                    gravity = Gravity.CENTER
-                }*/
-
-                addView(
-                    composeView,
-                    FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.MATCH_PARENT
-                    )
+                    Color.parseColor("#AA000000")
                 )
             }
 
-        composeOwner = OverlayComposeOwner()
+        // Panel principal
+        val panel =
+            LinearLayout(context).apply {
 
-        val owner = composeOwner!!
+                orientation =
+                    LinearLayout.VERTICAL
 
-        ViewTreeLifecycleOwner.set(this, owner)
-        ViewTreeSavedStateRegistryOwner.set(this, owner)
-        ViewTreeViewModelStoreOwner.set(this, owner)
+                setBackgroundColor(
+                    Color.WHITE
+                )
+
+                setPadding(
+                    40,
+                    40,
+                    40,
+                    40
+                )
+            }
+
+        // Título
+        val title =
+            TextView(context).apply {
+
+                text = "Runa detectada"
+
+                textSize = 22f
+
+                setTextColor(
+                    Color.BLACK
+                )
+            }
+
+        panel.addView(title)
+
+        // Set
+        val setText =
+            TextView(context).apply {
+
+                text =
+                    "Set: ${rune.runeSet}"
+
+                textSize = 18f
+            }
+
+        panel.addView(setText)
+
+        // Slot
+        val slotText =
+            TextView(context).apply {
+
+                text =
+                    "Slot: ${rune.slot}"
+
+                textSize = 18f
+            }
+
+        panel.addView(slotText)
+
+        // Nivel
+        val levelText =
+            TextView(context).apply {
+
+                text =
+                    "Nivel: +${rune.level}"
+
+                textSize = 18f
+            }
+
+        panel.addView(levelText)
+
+        // Estrellas
+        val starsText =
+            TextView(context).apply {
+
+                text =
+                    "Estrellas: ${rune.stars}"
+
+                textSize = 18f
+            }
+
+        panel.addView(starsText)
+
+        // Botón cerrar
+        val closeButton =
+            Button(context).apply {
+
+                text = "Cerrar"
+
+                setOnClickListener {
+
+                    remove()
+
+                    onClose()
+                }
+            }
+
+        panel.addView(closeButton)
+
+        val panelParams =
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            )
+
+        panelParams.gravity =
+            Gravity.CENTER
+
+        overlayView?.addView(
+            panel,
+            panelParams
+        )
 
         val params =
             WindowManager.LayoutParams(
@@ -93,9 +157,7 @@ class ScanOverlayManager(
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
                 PixelFormat.TRANSLUCENT
-            ).apply {
-                gravity = Gravity.CENTER
-            }
+            )
 
         windowManager.addView(
             overlayView,
@@ -108,12 +170,10 @@ class ScanOverlayManager(
         overlayView?.let {
 
             if (it.parent != null) {
+
                 windowManager.removeView(it)
             }
         }
-
-        composeOwner?.destroy()
-        composeOwner = null
 
         overlayView = null
     }

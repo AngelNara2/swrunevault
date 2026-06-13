@@ -3,7 +3,6 @@ package com.example.swrunevault.services
 import android.content.Intent
 import android.os.Handler
 import android.util.Log
-import androidx.lifecycle.LifecycleService
 import com.example.swrunevault.data.SettingsManager
 import com.example.swrunevault.managers.BitmapCropManager
 import com.example.swrunevault.managers.NotificationOverlayManager
@@ -17,8 +16,10 @@ import com.example.swrunevault.managers.TextRecognitionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.app.Service
+import android.os.IBinder
 
-class OverlayService : LifecycleService() {
+class OverlayService : Service() {
     companion object {
         // Acción utilizada para detener el servicio desde la notificación.
         const val ACTION_STOP = "ACTION_STOP"
@@ -49,11 +50,11 @@ class OverlayService : LifecycleService() {
     private lateinit var scanOverlayManager: ScanOverlayManager
 
     // Este servicio no utiliza binding, por lo tanto retornamos null.
-    /*override fun onBind(
+    override fun onBind(
         intent: Intent?
     ): IBinder? {
         return null
-    }*/
+    }
 
     // Se ejecuta una sola vez al iniciar el servicio.
     override fun onCreate() {
@@ -151,6 +152,9 @@ class OverlayService : LifecycleService() {
                             textRecognitionManager.recognizeText(croppedBitmap) { groupedLines ->
                                 //Aplicamos regex para analizar el texto
                                 runeRegexManager.analyze(groupedLines){ rune ->
+
+                                    Log.d("OCR_FLOW", "Rune creada: $rune")
+
                                     scanOverlayManager.show(
                                         rune,
                                         onClose = {

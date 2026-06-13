@@ -61,6 +61,4 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.text.recognition)
-    implementation("androidx.lifecycle:lifecycle-service:2.8.7")
-    implementation("androidx.savedstate:savedstate-ktx:1.2.1")
 }
