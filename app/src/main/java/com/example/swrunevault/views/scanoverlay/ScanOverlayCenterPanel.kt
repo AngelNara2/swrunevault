@@ -1,19 +1,26 @@
 package com.example.swrunevault.views.scanoverlay
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import com.example.swrunevault.models.Rune
 
+@SuppressLint("SetTextI18n")
 fun createScanOverlayCenterPanel(
     context: Context,
     rune: Rune
 ): FrameLayout {
+    // FUNCIÓN AUXILIAR: Convierte valores DP a Píxeles reales según la pantalla del dispositivo
+    val density = context.resources.displayMetrics.density
+    fun dp(value: Int): Int = (value * density).toInt()
 
     // 1. Panel Principal (Contenedor base)
     val panel = FrameLayout(context).apply {
@@ -23,16 +30,30 @@ fun createScanOverlayCenterPanel(
             LinearLayout.LayoutParams.MATCH_PARENT,
             1f
         )
+        setPadding(4, 8, 4, 8)
     }
 
     // Contenedor vertical que almacena todo el contenido del panel central
     val mainContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setPadding(32, 32, 32, 32)
+        setPadding(dp(8), dp(8), dp(8), dp(8))
         layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT
         )
+        // 1. Crear el fondo con esquinas y borde
+        background = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+
+            // Configurar el color de fondo del contenedor (ej. Blanco)
+            setColor(Color.WHITE)
+
+            // Configurar las esquinas redondeadas (en píxeles)
+            cornerRadius = 24f
+
+            // Configurar el borde: (grosor en px, color del borde)
+            setStroke(4, Color.LTGRAY)
+        }
     }
 
     // ==========================================
@@ -46,7 +67,7 @@ fun createScanOverlayCenterPanel(
     // Icono del título de propiedades
     val imgPropiedadesIcon = ImageView(context).apply {
         // setImageResource(R.drawable.ic_propiedades) // Tu icono aquí
-        setBackgroundColor(Color.parseColor("#5E24B3")) // Placeholder visual temporal
+        setBackgroundColor("#5E24B3".toColorInt()) // Placeholder visual temporal
         layoutParams = LinearLayout.LayoutParams(40, 40)
     }
     titleContainer.addView(imgPropiedadesIcon)
@@ -56,7 +77,7 @@ fun createScanOverlayCenterPanel(
         setTextColor(Color.BLACK)
         textSize = 16f
         typeface = Typeface.DEFAULT_BOLD
-        setPadding(16, 0, 0, 0)
+        //setPadding(16, 0, 0, 0)
     }
     titleContainer.addView(tvSectionTitle)
     mainContainer.addView(titleContainer)
@@ -66,7 +87,7 @@ fun createScanOverlayCenterPanel(
         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2).apply {
             setMargins(0, 16, 0, 16)
         }
-        setBackgroundColor(Color.parseColor("#E8E8E8"))
+        setBackgroundColor("#E8E8E8".toColorInt())
     }
     mainContainer.addView(topDivisor)
 
@@ -98,22 +119,22 @@ fun createScanOverlayCenterPanel(
     val mainPropData = LinearLayout(context).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
-        setPadding(0, 12, 0, 12)
+        //setPadding(0, 12, 0, 12)
     }
     // Icono (Espada/ATQ) con fondo morado muy claro
     val imgMainIcon = ImageView(context).apply {
-        setBackgroundColor(Color.parseColor("#F3E8FF")) // Fondo lila claro
+        setBackgroundColor("#F3E8FF".toColorInt()) // Fondo lila claro
         // setImageResource(R.drawable.ic_atq)
         layoutParams = LinearLayout.LayoutParams(70, 70)
     }
     mainPropData.addView(imgMainIcon)
 
     mainPropData.addView(TextView(context).apply {
-        text = " ATQ +160" // Reemplazar dinámicamente con rune.mainStat
-        setTextColor(Color.parseColor("#1A237E")) // Azul oscuro/negro
+        text = rune.primaryStat()
+        setTextColor("#1A237E".toColorInt())
         textSize = 20f
         typeface = Typeface.DEFAULT_BOLD
-        setPadding(16, 0, 0, 0)
+        //setPadding(16, 0, 0, 0)
     })
     mainPropLayout.addView(mainPropData)
     propertiesRow.addView(mainPropLayout)
@@ -145,22 +166,22 @@ fun createScanOverlayCenterPanel(
     val innatePropData = LinearLayout(context).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
-        setPadding(0, 12, 0, 12)
+        //setPadding(0, 12, 0, 12)
     }
     // Icono (Escudo/HP) con fondo naranja muy claro
     val imgInnateIcon = ImageView(context).apply {
-        setBackgroundColor(Color.parseColor("#FFF3E0")) // Fondo naranja claro
+        setBackgroundColor("#FFF3E0".toColorInt()) // Fondo naranja claro
         // setImageResource(R.drawable.ic_hp)
         layoutParams = LinearLayout.LayoutParams(70, 70)
     }
     innatePropData.addView(imgInnateIcon)
 
     innatePropData.addView(TextView(context).apply {
-        text = " HP +265" // Reemplazar dinámicamente con rune.innateStat
-        setTextColor(Color.parseColor("#1A237E"))
+        text = rune.innateStat() // Reemplazar dinámicamente con rune.innateStat
+        setTextColor("#1A237E".toColorInt())
         textSize = 20f
         typeface = Typeface.DEFAULT_BOLD
-        setPadding(16, 0, 0, 0)
+        //setPadding(16, 0, 0, 0)
     })
     innatePropLayout.addView(innatePropData)
     propertiesRow.addView(innatePropLayout)
@@ -172,7 +193,7 @@ fun createScanOverlayCenterPanel(
         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2).apply {
             setMargins(0, 16, 0, 24)
         }
-        setBackgroundColor(Color.parseColor("#E8E8E8"))
+        setBackgroundColor("#E8E8E8".toColorInt())
     }
     mainContainer.addView(middleDivisor)
 
@@ -184,14 +205,14 @@ fun createScanOverlayCenterPanel(
         setTextColor(Color.DKGRAY)
         textSize = 15f
         typeface = Typeface.DEFAULT_BOLD
-        setPadding(0, 0, 0, 16)
+        //setPadding(0, 0, 0, 16)
     })
 
     // Contenedor gris/lila muy claro para encerrar la lista de sub-propiedades
     val subPropertiesCard = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setBackgroundColor(Color.parseColor("#F8F9FA")) // Fondo sutil para la "tarjeta"
-        setPadding(24, 16, 24, 16)
+        setBackgroundColor("#F8F9FA".toColorInt()) // Fondo sutil para la "tarjeta"
+        //setPadding(24, 16, 24, 16)
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -206,11 +227,11 @@ fun createScanOverlayCenterPanel(
         Triple("HP", "+7%", "1 roll")
     )
 
-    subsData.forEachIndexed { index, sub ->
+    rune.subStats.forEachIndexed { index, subStat ->
         val row = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(0, 16, 0, 16)
+            //setPadding(0, 16, 0, 16)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -231,18 +252,18 @@ fun createScanOverlayCenterPanel(
         leftLayout.addView(subIcon)
 
         val tvSubName = TextView(context).apply {
-            text = sub.first
+            text = subStat.statType?.displayName
             setTextColor(Color.BLACK)
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(16, 0, 0, 0)
+            //setPadding(16, 0, 0, 0)
         }
         leftLayout.addView(tvSubName)
         row.addView(leftLayout)
 
         // 2. Valor numérico central (Morado/Azul eléctrico en tu imagen)
         val tvSubValue = TextView(context).apply {
-            text = sub.second
-            setTextColor(Color.parseColor("#4A148C")) // Color morado vivo para los números procesados
+            text = "${subStat.value} ${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            setTextColor("#4A148C".toColorInt()) // Color morado vivo para los números procesados
             textSize = 16f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.CENTER
@@ -254,13 +275,13 @@ fun createScanOverlayCenterPanel(
         row.addView(tvSubValue)
 
         // 3. Cantidad de Rolls (Columna Derecha)
-        val tvSubRolls = TextView(context).apply {
-            text = sub.third
+        /*val tvSubRolls = TextView(context).apply {
+            text = "rolls"
             setTextColor(Color.GRAY)
             textSize = 13f
             gravity = Gravity.END
         }
-        row.addView(tvSubRolls)
+        row.addView(tvSubRolls)*/
 
         subPropertiesCard.addView(row)
 
@@ -268,7 +289,7 @@ fun createScanOverlayCenterPanel(
         if (index < subsData.size - 1) {
             val innerDivisor = android.view.View(context).apply {
                 layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1)
-                setBackgroundColor(Color.parseColor("#EAEAEA"))
+                setBackgroundColor("#EAEAEA".toColorInt())
             }
             subPropertiesCard.addView(innerDivisor)
         }
@@ -276,7 +297,7 @@ fun createScanOverlayCenterPanel(
 
     mainContainer.addView(subPropertiesCard)
 
-    // Finalmente inyectamos el contenedor completo al FrameLayout raíz
+    // Finalmente, inyectamos el contenedor completo al FrameLayout raíz
     panel.addView(mainContainer)
 
     return panel

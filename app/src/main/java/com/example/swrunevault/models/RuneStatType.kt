@@ -3,7 +3,7 @@ package com.example.swrunevault.models
 // Tipos posibles de stats.
 enum class RuneStatType(
     // Nombre mostrado.
-    val displayName: String,
+    var displayName: String,
 
     // Indica si el stat és porcentual.
     val isPercentage: Boolean,
@@ -32,7 +32,7 @@ enum class RuneStatType(
             text: String,
             ispercentage: Boolean
         ): RuneStatType? {
-            val runeStatType = entries.firstOrNull {
+            var runeStatType = entries.firstOrNull {
                 it.displayName.contains(
                     text.trim(),
                     ignoreCase = true

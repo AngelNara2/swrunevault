@@ -61,6 +61,10 @@ class RuneRegexManager(
                     Log.d("RUNE_REGEX","Slot: ${matchHeader.groupValues[4]}")
 
                     rune.level = matchHeader.groups["level"]?.value?.toIntOrNull() ?: 0
+
+                    val innateStat = RuneInnateStat.fromText(matchHeader.groups["innate"]?.value?: "")
+                    Log.d("RUNE_REGEX_INNATE","Innate ${innateStat}")
+
                     rune.innateStat = RuneInnateStat.fromText(matchHeader.groups["innate"]?.value?: "") ?: RuneInnateStat.UNKNOWN
                     rune.runeSet = RuneSet.fromText(matchHeader.groups["set"]?.value?: "")  ?: RuneSet.UNKNOWN
                     rune.slot =  matchHeader.groups["slot"]?.value?.toIntOrNull() ?: 0
@@ -84,12 +88,16 @@ class RuneRegexManager(
                         Log.d("RUNE_REGEX","Porcentual: ${(matchStat.groups["percentage"]?.value ?: "") == "%"}")
                         Log.d("RUNE_REGEX","Incremento: ${matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0}")
 
+                        val runeStatType = RuneStatType.fromText(
+                            matchStat.groups["stat"]?.value?:"",
+                            (matchStat.groups["percentage"]?.value ?: "") == "%"
+                        )
+
+                        runeStatType?.displayName = matchStat.groups["stat"]?.value?:""
+
                         stats.add(
                             RuneStat(
-                                RuneStatType.fromText(
-                                    matchStat.groups["stat"]?.value?:"",
-                                    (matchStat.groups["percentage"]?.value ?: "") == "%"
-                                ),
+                                runeStatType,
                                 matchStat.groups["value"]?.value?.replace(" ","")?.toIntOrNull() ?: 0,
                                 matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0
                             )
@@ -99,48 +107,53 @@ class RuneRegexManager(
             }
         }
 
+        Log.d("RUNE_CREATE_PRICIPAL","Estadistica principal: ${stats[0]}")
+
         rune.mainStat = stats[0]
         stats.remove(stats[0])
-        if(rune.innateStat == RuneInnateStat.UNKNOWN){
-            rune.subStats.add(stats[1])
 
-            stats.remove(stats[1])
+        if(rune.innateStat != RuneInnateStat.UNKNOWN){
+            Log.d("RUNE_CREATE_INNATE","Estadistica innate: ${stats[0]}")
+            rune.innateStat?.runeStat = stats[0]
+
+            stats.remove(stats[0])
         }
 
         for (stat in stats)
         {
+            Log.d("RUNE_CREATE_SUBSTAT","Estadistica secundaria: ${stat}")
             rune.subStats.add(stat)
         }
 
-        Log.d("RUNE_CREATE","====================")
+        Log.d("RUNE_OBJECT","====================")
 
-        Log.d("RUNE_CREATE",rune.titleName())
-        Log.d("RUNE_CREATE",rune.primaryStat())
-        Log.d("RUNE_CREATE","Valor maximo: ${rune.primaryStatMaxValue()}")
+        Log.d("RUNE_OBJECT_PRINCIPAL",rune.titleName())
+        Log.d("RUNE_OBJECT_PRINCIPAL",rune.primaryStat())
+        Log.d("RUNE_OBJECT_PRINCIPAL","Valor maximo: ${rune.primaryStatMaxValue()}")
 
         if(rune.innateStat != RuneInnateStat.UNKNOWN){
-            Log.d("RUNE_CREATE","====================")
-            Log.d("RUNE_CREATE",rune.innateStat())
-            Log.d("RUNE_CREATE","Valor maximo del innate ${rune.innateStatMaxValue()}")
-            Log.d("RUNE_CREATE","Contribution innate ${rune.innateContribution()}")
+            Log.d("RUNE_OBJECT_INNATE","====================")
+            Log.d("RUNE_OBJECT_INNATE",rune.innateStat())
+            Log.d("RUNE_OBJECT_INNATE","Valor maximo del innate ${rune.innateStatMaxValue()}")
+            Log.d("RUNE_OBJECT_INNATE","Contribution innate ${rune.innateContribution()}")
         }
 
-        for (stat in rune.subStats){
-            Log.d("RUNE_CREATE","====================")
-            Log.d("RUNE_CREATE",stat.secondaryStat())
-            Log.d("RUNE_CREATE","Valor actual maximo del subStat ${stat.subStatMaxValue(rune.stars)}")
-            Log.d("RUNE_CREATE","Contribution actual subStat ${stat.subStatCurrentContribution(stat.subStatMaxValue(rune.stars).toDouble())}")
-            Log.d("RUNE_CREATE","Valor maximo maximo del subStat ${stat.subStatMaxIncrementValue(rune.stars)}")
-            Log.d("RUNE_CREATE","Contribution maxima subStat ${stat.subStatMaxContribution(stat.subStatMaxIncrementValue(rune.stars).toDouble())}")
+        for (substat in rune.subStats){
+            Log.d("RUNE_OBJECT_SUBSTAT","====================")
+            Log.d("RUNE_OBJECT_SUBSTAT",substat.secondaryStat())
+            Log.d("RUNE_OBJECT_SUBSTAT","Valor actual maximo del subStat ${substat.subStatMaxValue(rune.stars)}")
+            Log.d("RUNE_OBJECT_SUBSTAT","Contribution actual subStat ${substat.subStatCurrentContribution(substat.subStatMaxValue(rune.stars).toDouble())}")
+            Log.d("RUNE_OBJECT_SUBSTAT","Valor maximo maximo del subStat ${substat.subStatMaxIncrementValue(rune.stars)}")
+            Log.d("RUNE_OBJECT_SUBSTAT","Contribution maxima subStat ${substat.subStatMaxContribution(substat.subStatMaxIncrementValue(rune.stars).toDouble())}")
         }
 
-        Log.d("RUNE_CREATE","====================")
-        Log.d("RUNE_CREATE","Contribucion total actual ${rune.subStatCurrentContributionTotal()}")
-        Log.d("RUNE_CREATE","Contribucion total maxima ${rune.subStatMaxContributionTotal()}")
+        Log.d("RUNE_OBJECT","====================")
+        Log.d("RUNE_OBJECT","Contribucion total actual ${rune.subStatCurrentContributionTotal()}")
+        Log.d("RUNE_OBJECT","Contribucion total maxima ${rune.subStatMaxContributionTotal()}")
 
-        Log.d("RUNE_CREATE","====================")
-        Log.d("RUNE_CREATE","Eficiencia actual ${rune.currentEfficiency()}")
-        Log.d("RUNE_CREATE","Eficiencia maxima ${rune.maxEfficiency()}")
+        Log.d("RUNE_OBJECT","====================")
+        Log.d("RUNE_OBJECT","Eficiencia actual ${rune.currentEfficiency()}")
+        Log.d("RUNE_OBJECT","Eficiencia maxima ${rune.maxEfficiency()}")
 
         onResult(rune)
     }

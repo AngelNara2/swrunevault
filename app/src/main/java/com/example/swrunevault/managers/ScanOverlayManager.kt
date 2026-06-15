@@ -3,11 +3,8 @@ package com.example.swrunevault.managers
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PixelFormat
-import android.view.Gravity
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.views.scanoverlay.createScanOverlayCenterPanel
 import com.example.swrunevault.views.scanoverlay.createScanOverlayContainer

@@ -11,47 +11,46 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.utils.getStars
-import androidx.core.graphics.toColorInt
 
 @SuppressLint("SetTextI18n")
 fun createScanOverlayLeftPanel(
     context: Context,
-    rune: Rune // Aquí puedes extraer datos reales de tu modelo en lugar de los strings hardcodeados
+    rune: Rune
 ): FrameLayout {
+    // FUNCIÓN AUXILIAR: Convierte valores DP a Píxeles reales según la pantalla del dispositivo
+    val density = context.resources.displayMetrics.density
+    fun dp(value: Int): Int = (value * density).toInt()
 
-    // 1. Panel Principal (El contenedor que regresas)
+    // Panel principal para contener todos los elementos
     val panel = FrameLayout(context).apply {
-        setBackgroundColor(Color.WHITE) // Cambiado de RED a WHITE para el fondo del panel
+        setBackgroundColor(Color.WHITE)
         layoutParams = LinearLayout.LayoutParams(
             0,
             LinearLayout.LayoutParams.MATCH_PARENT,
             1f
         )
-        setPadding(8, 8, 8, 8)
+        setPadding(8, 8, 4, 8)
     }
 
     // Contenedor Vertical principal para estructurar las secciones de arriba a abajo
     val mainContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setPadding(10, 10, 10, 10)
+        setPadding(dp(8), dp(8), dp(8), dp(8))
         layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT
         )
-        // 1. Crear el fondo con esquinas y borde
+        // Fondo con esquinas y borde
         background = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
-
-            // Configurar el color de fondo del contenedor (ej. Blanco)
+            // Configurar el color de fondo del contenedor
             setColor(Color.WHITE)
-
-            // Configurar las esquinas redondeadas (en píxeles)
+            // Configurar las esquinas redondeadas en píxeles
             cornerRadius = 24f
-
-            // Configurar el borde: (grosor en px, color del borde)
+            // Borde: grosor en px, color del borde
             setStroke(4, Color.LTGRAY)
         }
     }
@@ -66,61 +65,76 @@ fun createScanOverlayLeftPanel(
 
     // FRAME LAYOUT para la Imagen de la Runa (permite encimar elementos)
     val imageContainer = FrameLayout(context).apply {
-        layoutParams = LinearLayout.LayoutParams(150, 150) // Ajusta el tamaño según tu escala
-
+        layoutParams = LinearLayout.LayoutParams(180, 180)
+        // Fondo con esquinas y borde
+        background = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            // Configurar el color de fondo del contenedor
+            setColor(Color.LTGRAY)
+            // Configurar las esquinas redondeadas en píxeles
+            cornerRadius = 16f
+        }
     }
 
     // Imagen Base de la Runa
     val imgObjeto = ImageView(context).apply {
-        layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+        layoutParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT)
         scaleType = ImageView.ScaleType.FIT_CENTER
-        setBackgroundColor(Color.LTGRAY) // Placeholder
+        //setBackgroundColor(Color.LTGRAY) // Placeholder
         setImageResource(rune.runeSet.idRuneResource) // Cuando tengas tus recursos
-        setPadding(10, 10, 10, 10)
+        setPadding(dp(10), dp(10), dp(10), dp(10))
     }
     imageContainer.addView(imgObjeto)
 
     headerContainer.addView(imageContainer)
 
-    // Contenedor derecho de la cabecera (Estrellas, Título, etc.)
+    // Cabecera de la runa
     val infoContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
         setPadding(8, 0, 0, 0)
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayout.LayoutParams.MATCH_PARENT
         )
     }
-
-    // Contenedor dinámico para las estrellas superiores
-    /*val containerStarsUpper = LinearLayout(context).apply {
-        orientation = LinearLayout.HORIZONTAL
-    }
-    infoContainer.addView(containerStarsUpper)*/
 
     val tvStarts = TextView(context).apply {
         text = ""
         setTextColor("#5E24B3".toColorInt())
-        setPadding(0, 0, 0, 0)
         typeface = Typeface.DEFAULT_BOLD
     }
     infoContainer.addView(tvStarts)
 
-    // Título (Rage)
+    // Título
     val tvTitle = TextView(context).apply {
-        text = rune.runeSet.name // rune.name
+        text = rune.runeSet.name
         setTextColor("#5E24B3".toColorInt())
+        textSize = 16f
         typeface = Typeface.DEFAULT_BOLD
     }
     infoContainer.addView(tvTitle)
 
-    // Etiqueta (Hero)
+    // Etiqueta
     val tvTag = TextView(context).apply {
         text = rune.rarity.name
         setTextColor(rune.rarity.colorTextString.toColorInt())
         setBackgroundColor(rune.rarity.colorString.toColorInt())
-        setPadding(16, 8, 16, 8)
+        setPadding(10, 4, 10, 4)
+        textSize = 10f
         typeface = Typeface.DEFAULT_BOLD
+        background = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            // Configurar el color de fondo del contenedor
+            setColor(rune.rarity.colorString.toColorInt())
+            // Configurar las esquinas redondeadas en píxeles
+            cornerRadius = 10f
+        }
+        layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
     }
     infoContainer.addView(tvTag)
 
@@ -128,8 +142,8 @@ fun createScanOverlayLeftPanel(
     val tvSlot = TextView(context).apply {
         text = "Slot ${rune.slot}"
         setTextColor(Color.BLACK)
-        typeface = Typeface.DEFAULT_BOLD
-        setPadding(0, 12, 0, 0)
+        //setPadding(0, 12, 0, 0)
+        textSize = 10f
     }
     infoContainer.addView(tvSlot)
 
@@ -174,7 +188,7 @@ fun createScanOverlayLeftPanel(
     val selectorContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
         setBackgroundColor("#F6F2FF".toColorInt())
-        setPadding(24, 24, 24, 24)
+        //setPadding(24, 24, 24, 24)
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
