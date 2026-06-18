@@ -1,10 +1,10 @@
 package com.example.swrunevault.managers
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PixelFormat
 import android.view.WindowManager
 import android.widget.FrameLayout
+import androidx.core.graphics.toColorInt
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.views.scanoverlay.createScanOverlayCenterPanel
 import com.example.swrunevault.views.scanoverlay.createScanOverlayContainer
@@ -32,9 +32,8 @@ class ScanOverlayManager(
         // Fondo fullscreen
         overlayView =
             FrameLayout(context).apply {
-
                 setBackgroundColor(
-                    Color.parseColor("#AA000000")
+                    "#F0F0F0".toColorInt()
                 )
             }
 

@@ -29,9 +29,9 @@ class RuneRegexManager(
 
         rune = Rune()
 
-        var matchHeader: MatchResult? = null
+        var matchHeader: MatchResult?
 
-        var matchRarity: MatchResult? = null
+        var matchRarity: MatchResult?
 
         val stats = mutableListOf<RuneStat>()
 

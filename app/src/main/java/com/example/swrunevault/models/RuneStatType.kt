@@ -21,7 +21,7 @@ enum class RuneStatType(
     DEF("DEF",false, increment = 30),
     DEF_PERCENT("DEF",true, increment = 10),
     SPD("SPD|VEL",false, increment = 5),
-    CRIT_RATE("CRI Rate|Tasa CRİ|Tasa CRÍ",true, increment = 0),
+    CRIT_RATE(displayName = "CRI Rate|Tasa CRİ|Tasa CRÍ", isPercentage = true, increment = 0),
     CRIT_DAMAGE("CRI Dmg|Daño CRİ|Daño CRÍ",true, increment = 0),
     ACCURACY("Accuracy|Precisión",true, increment = 0),
     RESISTANCE("RES|Resistencia",true, increment = 0);
@@ -30,13 +30,14 @@ enum class RuneStatType(
         // Buscar stat usando OCR.
         fun fromText(
             text: String,
-            ispercentage: Boolean
+            percentage: Boolean
         ): RuneStatType? {
             var runeStatType = entries.firstOrNull {
                 it.displayName.contains(
+                    //text.trim().split(" ")[0],
                     text.trim(),
                     ignoreCase = true
-                ) && it.isPercentage == ispercentage
+                ) && it.isPercentage == percentage
             }
 
             runeStatType?.displayText = text.trim()

@@ -26,9 +26,9 @@ fun createScanOverlayRightPanel(
     val density = context.resources.displayMetrics.density
     fun dp(value: Int): Int = (value * density).toInt()
 
-    // 1. Panel Principal (Contenedor base)
+    // Panel principal para contener todos los elementos
     val panel = FrameLayout(context).apply {
-        setBackgroundColor(Color.WHITE)
+        setBackgroundColor("#F0F0F0".toColorInt())
         layoutParams = LinearLayout.LayoutParams(
             0,
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -37,27 +37,21 @@ fun createScanOverlayRightPanel(
         setPadding(4, 8, 8, 8)
     }
 
-    // Contenedor vertical principal
+    // Contenedor Vertical principal para estructurar las secciones de arriba a abajo
     val mainContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
         // Usamos la función dp() para los paddings
-        setPadding(dp(8), dp(8), dp(8), dp(8))
+        setPadding(dp(8),dp(8),dp(8),dp(8))
         layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT
         )
-        // 1. Crear el fondo con esquinas y borde
+        // Fondo con esquinas y borde
         background = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
-
-            // Configurar el color de fondo del contenedor (ej. Blanco)
-            setColor(Color.WHITE)
-
-            // Configurar las esquinas redondeadas (en píxeles)
-            cornerRadius = 24f
-
-            // Configurar el borde: (grosor en px, color del borde)
-            setStroke(4, Color.LTGRAY)
+            setColor("#F0F0F0".toColorInt())
+            cornerRadius = 24f // Esquinas redondeadas en píxeles
+            setStroke(4, Color.LTGRAY) // Borde: grosor en px, color del borde
         }
     }
 
@@ -106,7 +100,6 @@ fun createScanOverlayRightPanel(
 
     val actualHeader = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
     actualHeader.addView(TextView(context).apply { text = "Eficiencia Actua.  "; setTextColor(Color.BLACK); textSize = 14f; typeface = Typeface.DEFAULT_BOLD })
-    actualHeader.addView(TextView(context).apply { text = "(?)"; setTextColor(Color.LTGRAY); textSize = 12f })
     actualCard.addView(actualHeader)
 
     val tvActualValue = TextView(context).apply {
@@ -265,6 +258,7 @@ fun createScanOverlayRightPanel(
 
     mainContainer.addView(btnEliminarRuna)
 
+    // Agregamos el contenedor al panel
     panel.addView(mainContainer)
 
     return panel
