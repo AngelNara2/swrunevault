@@ -1,5 +1,7 @@
 package com.example.swrunevault.models
 
+import com.example.swrunevault.exceptions.RuneNotFoundException
+
 // Estadística de una runa.
 data class RuneStat(
     // Tipo de estadística.
@@ -9,8 +11,15 @@ data class RuneStat(
     val value: Int,
 
     // Valor incrementado
-    val increment: Int
+    val increment: Int,
+
+    // Grado de la runa para los calculos
+    private var stars: RuneGrade = RuneGrade.ZERO
 ){
+    fun runeGrade(runeGrade: RuneGrade){
+        stars = runeGrade
+    }
+
     fun secondaryStat(): String{
         return "${statType?.displayText} " +
                 "+${value}" +
@@ -30,7 +39,9 @@ data class RuneStat(
                 else ""
     }
 
-    fun subStatMaxValue(stars: RuneGrade): Int{
+    fun subStatMaxValue(): Int{
+        if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
+
         val maxValue = RuneSubStats
             .getByStatType(
                 statType
@@ -41,7 +52,13 @@ data class RuneStat(
         return maxValue?.times(5)?:0
     }
 
-    fun subStatMaxIncrementValue(stars: RuneGrade): Int{
+    fun subStatGrindStoneValue(): Int{
+        return value + increment
+    }
+
+    fun subStatMaxIncrementValue(): Int{
+        if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
+
         val maxValue = RuneSubStats
             .getByStatType(
                 statType
@@ -52,16 +69,27 @@ data class RuneStat(
         return (maxValue?.times(5)?:0) + (statType?.increment ?: 0)
     }
 
-    fun subStatCurrentContribution(maxValue: Double): Double{
-        val contribution =  value / maxValue
+    fun subStatCurrentContribution(): Double{
+        if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
+
+        val contribution =  value / subStatMaxValue().toDouble()
 
         return "%.3f".format(contribution).toDouble()
     }
 
-    fun subStatMaxContribution(maxValue: Double): Double{
+    fun subStatGrindStoneContribution(): Double{
+        if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
+
+        val contribution: Double = (subStatGrindStoneValue()).toDouble() / (subStatMaxIncrementValue().toDouble() + increment)
+        return "%.3f".format(contribution).toDouble()
+    }
+
+    fun subStatMaxContribution(): Double{
+        if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
+
         val value = value
         val increment = statType?.increment ?: 0
-        val contribution: Double =  (value + increment).toDouble() / (maxValue + increment)
+        val contribution: Double = (value + increment).toDouble() / (subStatMaxIncrementValue().toDouble() + increment)
         return "%.3f".format(contribution).toDouble()
     }
 }

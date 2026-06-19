@@ -75,7 +75,9 @@ data class Rune(
         var totalContribution: Double = 0.0
 
         for (stat in subStats){
-            totalContribution += stat.subStatCurrentContribution(stat.subStatMaxValue(stars).toDouble())
+            stat.runeGrade(stars)
+
+            totalContribution += stat.subStatCurrentContribution()
         }
 
         if(innateStat?.statType != RuneStatType.UNKNOWN){
@@ -94,7 +96,9 @@ data class Rune(
         var totalContribution: Double = 0.0
 
         for (stat in subStats){
-            totalContribution += stat.subStatMaxContribution(stat.subStatMaxValue(stars).toDouble())
+            stat.runeGrade(stars)
+
+            totalContribution += stat.subStatMaxContribution()
         }
 
         if(innateStat?.statType != RuneStatType.UNKNOWN){

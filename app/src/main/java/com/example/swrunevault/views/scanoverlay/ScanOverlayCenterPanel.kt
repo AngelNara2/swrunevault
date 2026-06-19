@@ -187,21 +187,21 @@ fun createScanOverlayCenterPanel(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
+            weightSum = 4f
         }
 
-        // 1. Icono e Identificador de la estadística (Columna Izquierda con Peso para empujar el resto)
+        // Icono de la estadística
         val leftLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2f)
+            addView(ImageView(context).apply {
+                setBackgroundColor(Color.GRAY) // Placeholder para el icono de la estadística
+                layoutParams = LinearLayout.LayoutParams(35, 35)
+            })
         }
 
-        val subIcon = ImageView(context).apply {
-            setBackgroundColor(Color.GRAY) // Placeholder para el icono de la estadística
-            layoutParams = LinearLayout.LayoutParams(35, 35)
-        }
-        leftLayout.addView(subIcon)
-
+        // Nombre del sub stat
         val tvSubName = TextView(context).apply {
             text = subStat.statType?.displayName
             setTextColor(Color.BLACK)
@@ -210,28 +210,37 @@ fun createScanOverlayCenterPanel(
         leftLayout.addView(tvSubName)
         row.addView(leftLayout)
 
-        // 2. Valor numérico central (Morado/Azul eléctrico en tu imagen)
+        // Valor actual del sub stat
         val tvSubValue = TextView(context).apply {
-            text = "${subStat.value} ${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            text = "${subStat.value}${if(subStat.statType?.isPercentage == true) "%" else ""}"
             setTextColor("#4A148C".toColorInt()) // Color morado vivo para los números procesados
-            textSize = 16f
+            textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            gravity = Gravity.CENTER
+            gravity = Gravity.END
             layoutParams = LinearLayout.LayoutParams(
+                0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply { setMargins(0, 0, 48, 0) }
+                (if(subStat.increment == 0) 2f else 1f))
         }
         row.addView(tvSubValue)
 
-        // 3. Cantidad de Rolls (Columna Derecha)
-        /*val tvSubRolls = TextView(context).apply {
-            text = "rolls"
-            setTextColor(Color.GRAY)
-            textSize = 13f
-            gravity = Gravity.END
+        // Si el valor actual de la piedra de la piedra de molino es mayor a cero
+        // se agrega el texto del valor base + su incremento
+        if(subStat.increment != 0)
+        {
+            val tvCurrentGrindstone = TextView(context).apply {
+                text = "${subStat.value+subStat.increment}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+                setTextColor(Color.GRAY)
+                textSize = 13f
+                gravity = Gravity.END
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
+            }
+            row.addView(tvCurrentGrindstone)
         }
-        row.addView(tvSubRolls)*/
 
         subPropertiesCard.addView(row)
 

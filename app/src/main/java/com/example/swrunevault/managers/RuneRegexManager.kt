@@ -83,7 +83,7 @@ class RuneRegexManager(
                 if (matchStat != null)
                 {
                     if((matchStat.groups["anycharacter"]?.value?:"") == ""){
-                        Log.d("RUNE_REGEX","Tipo: ${matchStat.groups["stat"]?.value?:""}")
+                        Log.d("RUNE_REGEX","Tipo: ${matchStat.groups["stat"]?.value?.trim()?:""}")
                         Log.d("RUNE_REGEX","Valor: ${matchStat.groups["value"]?.value?.replace(" ","")?.toIntOrNull() ?: 0}")
                         Log.d("RUNE_REGEX","Porcentual: ${(matchStat.groups["percentage"]?.value ?: "") == "%"}")
                         Log.d("RUNE_REGEX","Incremento: ${matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0}")
@@ -141,10 +141,12 @@ class RuneRegexManager(
         for (substat in rune.subStats){
             Log.d("RUNE_OBJECT_SUBSTAT","====================")
             Log.d("RUNE_OBJECT_SUBSTAT",substat.secondaryStat())
-            Log.d("RUNE_OBJECT_SUBSTAT","Valor actual maximo del subStat ${substat.subStatMaxValue(rune.stars)}")
-            Log.d("RUNE_OBJECT_SUBSTAT","Contribution actual subStat ${substat.subStatCurrentContribution(substat.subStatMaxValue(rune.stars).toDouble())}")
-            Log.d("RUNE_OBJECT_SUBSTAT","Valor maximo maximo del subStat ${substat.subStatMaxIncrementValue(rune.stars)}")
-            Log.d("RUNE_OBJECT_SUBSTAT","Contribution maxima subStat ${substat.subStatMaxContribution(substat.subStatMaxIncrementValue(rune.stars).toDouble())}")
+            Log.d("RUNE_OBJECT_SUBSTAT",substat.secondaryStat())
+            substat.runeGrade(rune.stars)
+            Log.d("RUNE_OBJECT_SUBSTAT","Valor actual maximo del subStat ${substat.subStatMaxValue()}")
+            Log.d("RUNE_OBJECT_SUBSTAT","Contribution actual subStat ${substat.subStatCurrentContribution()}")
+            Log.d("RUNE_OBJECT_SUBSTAT","Valor maximo maximo del subStat ${substat.subStatMaxIncrementValue()}")
+            Log.d("RUNE_OBJECT_SUBSTAT","Contribution maxima subStat ${substat.subStatMaxContribution()}")
         }
 
         Log.d("RUNE_OBJECT","====================")
