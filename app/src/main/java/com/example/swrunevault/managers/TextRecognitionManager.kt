@@ -106,11 +106,6 @@ class TextRecognitionManager {
                             it.boundingBox?.left ?: 0
                         }
 
-                    Log.d(
-                        "OCR",
-                        "===================="
-                    )
-
                     //Mostrar elementos ya ordenados.
                     for (line in sortedRow) {
                         val text =
@@ -121,10 +116,6 @@ class TextRecognitionManager {
                             box?.left ?: 0
                         val y =
                             box?.top ?: 0
-                        Log.d(
-                            "OCR",
-                            "Texto: $text | X:$x Y:$y"
-                        )
                     }
                 }
 

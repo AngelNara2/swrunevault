@@ -15,6 +15,7 @@ import com.example.swrunevault.managers.ScanOverlayManager
 import com.example.swrunevault.managers.ScreenCaptureManager
 import com.example.swrunevault.managers.ScreenshotOverlayManager
 import com.example.swrunevault.managers.TextRecognitionManager
+import com.example.swrunevault.models.RuneSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -153,12 +154,18 @@ class OverlayService : Service() {
                                 //Aplicamos regex para analizar el texto
                                 runeRegexManager.analyze(groupedLines){ rune ->
 
-                                    scanOverlayManager.show(
-                                        rune,
-                                        onClose = {
-                                            overlayManager.showOverlay()
-                                        }
-                                    )
+                                    if(rune.runeSet != RuneSet.UNKNOWN){
+                                        Log.d("OCR_FLOW", "Rune creada: $rune")
+
+                                        scanOverlayManager.show(
+                                            rune,
+                                            onClose = {
+                                                overlayManager.showOverlay()
+                                            }
+                                        )
+                                    }else{
+                                        overlayManager.showOverlay()
+                                    }
                                 }
                             }
 

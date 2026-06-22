@@ -178,6 +178,7 @@ fun createScanOverlayCenterPanel(
         )
     }
 
+    // Cargar los subStats de la runa
     rune.subStats.forEachIndexed { index, subStat ->
         val row = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -187,6 +188,7 @@ fun createScanOverlayCenterPanel(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
+            setPadding(dp(8),dp(8),0,dp(8))
             weightSum = 4f
         }
 
@@ -206,6 +208,7 @@ fun createScanOverlayCenterPanel(
             text = subStat.statType?.displayText
             setTextColor(Color.BLACK)
             typeface = Typeface.DEFAULT_BOLD
+            setPadding(dp(8),0,0,0)
         }
         leftLayout.addView(tvSubName)
         row.addView(leftLayout)
@@ -247,7 +250,7 @@ fun createScanOverlayCenterPanel(
         // Agregar una mini línea divisoria gris entre cada fila, excepto en la última
         if (index < rune.subStats.size - 1) {
             val innerDivisor = android.view.View(context).apply {
-                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1)
+                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2)
                 setBackgroundColor(Color.BLACK)
             }
             subPropertiesCard.addView(innerDivisor)
