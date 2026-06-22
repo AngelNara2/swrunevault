@@ -93,7 +93,7 @@ class RuneRegexManager(
                             (matchStat.groups["percentage"]?.value ?: "") == "%"
                         )
 
-                        runeStatType?.displayName = matchStat.groups["stat"]?.value?:""
+                        //runeStatType?.displayName = matchStat.groups["stat"]?.value?:""
 
                         stats.add(
                             RuneStat(

@@ -1,7 +1,9 @@
 package com.example.swrunevault.services
 
+import android.app.Service
 import android.content.Intent
 import android.os.Handler
+import android.os.IBinder
 import android.util.Log
 import com.example.swrunevault.data.SettingsManager
 import com.example.swrunevault.managers.BitmapCropManager
@@ -16,8 +18,6 @@ import com.example.swrunevault.managers.TextRecognitionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.app.Service
-import android.os.IBinder
 
 class OverlayService : Service() {
     companion object {
@@ -152,8 +152,6 @@ class OverlayService : Service() {
                             textRecognitionManager.recognizeText(croppedBitmap) { groupedLines ->
                                 //Aplicamos regex para analizar el texto
                                 runeRegexManager.analyze(groupedLines){ rune ->
-
-                                    Log.d("OCR_FLOW", "Rune creada: $rune")
 
                                     scanOverlayManager.show(
                                         rune,

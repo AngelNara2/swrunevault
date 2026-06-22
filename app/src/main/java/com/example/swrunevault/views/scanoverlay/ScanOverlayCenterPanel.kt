@@ -203,7 +203,7 @@ fun createScanOverlayCenterPanel(
 
         // Nombre del sub stat
         val tvSubName = TextView(context).apply {
-            text = subStat.statType?.displayName
+            text = subStat.statType?.displayText
             setTextColor(Color.BLACK)
             typeface = Typeface.DEFAULT_BOLD
         }
