@@ -11,7 +11,7 @@ class SpanishRegexProvider :
 
     override fun runeStat(): Regex {
         return Regex(
-            """^(?<anycharacter>.*)(?<stat>ATQ|DEF|HP|VEL|Tasa|Daño|RES|Precisión).*\s*\+\s*(?<value>\d[\d\s]*)(?<percentage>%)?(?:\+(?<increment>\d+))?.*$""",
+            """^(?<anycharacter>.*)(?<stat>ATQ|DEF|HP|VEL|Tasa|Daño|RES|Precisión).+?\+(?<value>[0-9]+)(?<percentage>\%)?(\+(?<grindstone>[0-9]+)(?<percentage2>\%)?)?(\ (?<enchanted>(C)?(\()?\)))?""",
             RegexOption.IGNORE_CASE
         )
     }

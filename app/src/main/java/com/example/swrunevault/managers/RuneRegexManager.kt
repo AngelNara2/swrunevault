@@ -86,20 +86,19 @@ class RuneRegexManager(
                         Log.d("RUNE_REGEX","Tipo: ${matchStat.groups["stat"]?.value?.trim()?:""}")
                         Log.d("RUNE_REGEX","Valor: ${matchStat.groups["value"]?.value?.replace(" ","")?.toIntOrNull() ?: 0}")
                         Log.d("RUNE_REGEX","Porcentual: ${(matchStat.groups["percentage"]?.value ?: "") == "%"}")
-                        Log.d("RUNE_REGEX","Incremento: ${matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0}")
+                        Log.d("RUNE_REGEX","Grindstone: ${matchStat.groups["grindstone"]?.value?.toIntOrNull() ?: 0}")
+                        Log.d("RUNE_REGEX","Enchanted: ${(matchStat.groups["enchanted"]?.value ?: "") != ""}")
 
                         val runeStatType = RuneStatType.fromText(
                             matchStat.groups["stat"]?.value?:"",
                             (matchStat.groups["percentage"]?.value ?: "") == "%"
                         )
 
-                        //runeStatType?.displayName = matchStat.groups["stat"]?.value?:""
-
                         stats.add(
                             RuneStat(
                                 runeStatType,
                                 matchStat.groups["value"]?.value?.replace(" ","")?.toIntOrNull() ?: 0,
-                                matchStat.groups["increment"]?.value?.toIntOrNull() ?: 0
+                                matchStat.groups["grindstone"]?.value?.toIntOrNull() ?: 0
                             )
                         )
                     }
