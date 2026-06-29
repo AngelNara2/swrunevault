@@ -189,7 +189,7 @@ fun createScanOverlayCenterPanel(
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             setPadding(dp(8),dp(8),0,dp(8))
-            weightSum = 4f
+            weightSum = 5f
         }
 
         // Icono de la estadística
@@ -223,27 +223,42 @@ fun createScanOverlayCenterPanel(
             layoutParams = LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                (if(subStat.increment == 0) 2f else 1f))
+                1f
+            )
         }
         row.addView(tvSubValue)
 
-        // Si el valor actual de la piedra de la piedra de molino es mayor a cero
-        // se agrega el texto del valor base + su incremento
-        if(subStat.increment != 0)
-        {
-            val tvCurrentGrindstone = TextView(context).apply {
-                text = "${subStat.value+subStat.increment}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-                setTextColor(Color.GRAY)
-                textSize = 13f
-                gravity = Gravity.END
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
-            }
-            row.addView(tvCurrentGrindstone)
+        val grindstoneMaxValue = subStat.statType?.increment?: 0
+
+        val tvGrindstone = TextView(context).apply {
+            text = "${subStat.increment}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            setTextColor(Color.GRAY)
+            textSize = 13f
+            typeface = Typeface.DEFAULT_BOLD
+            gravity = Gravity.END
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
         }
+
+        row.addView(tvGrindstone)
+
+        val tvTotal = TextView(context).apply {
+            text = "${subStat.value+subStat.increment}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            setTextColor(Color.GRAY)
+            textSize = 13f
+            typeface = Typeface.DEFAULT_BOLD
+            gravity = Gravity.END
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+        row.addView(tvTotal)
+
 
         subPropertiesCard.addView(row)
 
