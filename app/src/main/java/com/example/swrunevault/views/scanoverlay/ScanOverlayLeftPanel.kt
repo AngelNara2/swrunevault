@@ -179,22 +179,43 @@ fun createScanOverlayLeftPanel(
     val rowFecha = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }
     rowFecha.addView(
         TextView(context).apply {
-            text = "Escaneo"; setTextColor(Color.BLACK);
+            text = "Fecha"; setTextColor(Color.BLACK);
             layoutParams = LinearLayout.LayoutParams(
                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
     )
-    rowFecha.addView(TextView(context).apply { text = "22/11/2024"; setTextColor(Color.BLACK )})
+    rowFecha.addView(TextView(context).apply { text = rune.scanDate(); setTextColor(Color.BLACK )})
     middleContainer.addView(rowFecha)
 
     // Línea divisoria
-    val divisor = android.view.View(context).apply {
+    val divisor1 = android.view.View(context).apply {
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, 4).apply {
                 setMargins(0, dp(8), 0, dp(8)) }
         setBackgroundColor(Color.BLACK)
     }
-    middleContainer.addView(divisor)
+    middleContainer.addView(divisor1)
+
+    // Fila: Fecha Escaneo
+    val rowHora = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }
+    rowHora.addView(
+        TextView(context).apply {
+            text = "Hora"; setTextColor(Color.BLACK);
+            layoutParams = LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+        }
+    )
+    rowHora.addView(TextView(context).apply { text = rune.scanTime(); setTextColor(Color.BLACK )})
+    middleContainer.addView(rowHora)
+
+    // Línea divisoria
+    val divisor2 = android.view.View(context).apply {
+        layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, 4).apply {
+            setMargins(0, dp(8), 0, dp(8)) }
+        setBackgroundColor(Color.BLACK)
+    }
+    middleContainer.addView(divisor2)
 
     // Fila: Ubicación
     val rowUbicacion = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }

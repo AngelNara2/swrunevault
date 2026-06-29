@@ -1,5 +1,8 @@
 package com.example.swrunevault.models
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 // Runa encontrada en el juego.
 data class Rune(
     // Conjunto de la runa.
@@ -23,13 +26,27 @@ data class Rune(
     var innateStat: RuneInnateStat? = null,
 
     // Propiedades secundarias.
-    var subStats: MutableList<RuneStat> = mutableListOf()
+    var subStats: MutableList<RuneStat> = mutableListOf(),
+
+    var scanDateTime: LocalDateTime = LocalDateTime.now()
 ){
     fun titleName(): String{
         return (if(level == 0) "" else "+ $level ") +
                 (if(innateStat == RuneInnateStat.UNKNOWN) "" else "${innateStat?.title} ")+
                 (if(runeSet == RuneSet.UNKNOWN) "" else "$runeSet ") +
                 "(${slot})"
+    }
+
+    fun scanDate(): String{
+        return scanDateTime.format(
+            DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        )
+    }
+
+    fun scanTime(): String{
+        return scanDateTime.format(
+            DateTimeFormatter.ofPattern("hh:mm:ss a")
+        )
     }
 
     fun primaryStat(): String{
