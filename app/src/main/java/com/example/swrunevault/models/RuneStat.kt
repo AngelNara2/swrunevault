@@ -92,4 +92,20 @@ data class RuneStat(
         val contribution: Double = (value + increment).toDouble() / (subStatMaxIncrementValue().toDouble() + increment)
         return "%.3f".format(contribution).toDouble()
     }
+
+    fun getColorByValue(): String {
+        val minValue = statType?.grindstoneMinValue?: 0
+        val maxValue = statType?.grindstoneMaxValue?: 0
+
+        if (grindstonevalue <= minValue) return "#FF0000" // Red
+        if (grindstonevalue >= maxValue) return "#00FF00" // Green
+
+        val midpoint = (minValue + maxValue) / 2
+
+        return when {
+            grindstonevalue < midpoint -> "#FFA500" // Orange
+            grindstonevalue > midpoint -> "#FFFF00" // Yellow
+            else -> "#FFFF00"             // Exactly at the midpoint
+        }
+    }
 }

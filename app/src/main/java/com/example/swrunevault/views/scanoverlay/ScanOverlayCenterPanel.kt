@@ -220,7 +220,7 @@ fun createScanOverlayCenterPanel(
         // Valor actual del sub stat
         val tvSubValue = TextView(context).apply {
             text = "${subStat.value}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-            setTextColor("#4A148C".toColorInt()) // Color morado vivo para los números procesados
+            setTextColor(Color.BLACK) // Color morado vivo para los números procesados
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.END
@@ -232,11 +232,13 @@ fun createScanOverlayCenterPanel(
         }
         row.addView(tvSubValue)
 
-        val grindstoneMaxValue = subStat.statType?.grindstoneMaxValue?: 0
-
         val tvGrindstone = TextView(context).apply {
-            text = "${subStat.grindstonevalue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-            setTextColor(Color.GRAY)
+            text =
+                if(subStat.statType?.hasGrindsTone == true)
+                    "${subStat.grindstonevalue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+                else
+                    "-"
+            setTextColor(subStat.getColorByValue().toColorInt())
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.END
@@ -251,7 +253,7 @@ fun createScanOverlayCenterPanel(
 
         val tvTotal = TextView(context).apply {
             text = "${subStat.value+subStat.grindstonevalue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-            setTextColor(Color.GRAY)
+            setTextColor("#4A148C".toColorInt())
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.END
