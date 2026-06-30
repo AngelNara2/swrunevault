@@ -10,8 +10,8 @@ data class RuneStat(
     // Valor actual.
     val value: Int,
 
-    // Valor incrementado
-    val increment: Int,
+    // Valor incrementado por el uso de una grindstone
+    val grindstonevalue: Int,
 
     // Grado de la runa para los calculos
     private var stars: RuneGrade = RuneGrade.ZERO
@@ -29,8 +29,8 @@ data class RuneStat(
                         else
                             ""
                         ) +
-                if(increment != 0)
-                    "+${increment}" + (
+                if(grindstonevalue != 0)
+                    "+${grindstonevalue}" + (
                             if (statType?.isPercentage== true)
                                 "%"
                             else
@@ -53,7 +53,7 @@ data class RuneStat(
     }
 
     fun subStatGrindStoneValue(): Int{
-        return value + increment
+        return value + grindstonevalue
     }
 
     fun subStatMaxIncrementValue(): Int{
@@ -66,7 +66,7 @@ data class RuneStat(
                 stars
             )
 
-        return (maxValue?.times(5)?:0) + (statType?.increment ?: 0)
+        return (maxValue?.times(5)?:0) + (statType?.grindstoneMaxValue ?: 0)
     }
 
     fun subStatCurrentContribution(): Double{
@@ -80,7 +80,7 @@ data class RuneStat(
     fun subStatGrindStoneContribution(): Double{
         if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
 
-        val contribution: Double = (subStatGrindStoneValue()).toDouble() / (subStatMaxIncrementValue().toDouble() + increment)
+        val contribution: Double = (subStatGrindStoneValue()).toDouble() / (subStatMaxIncrementValue().toDouble() + grindstonevalue)
         return "%.3f".format(contribution).toDouble()
     }
 
@@ -88,7 +88,7 @@ data class RuneStat(
         if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
 
         val value = value
-        val increment = statType?.increment ?: 0
+        val increment = statType?.grindstoneMaxValue ?: 0
         val contribution: Double = (value + increment).toDouble() / (subStatMaxIncrementValue().toDouble() + increment)
         return "%.3f".format(contribution).toDouble()
     }

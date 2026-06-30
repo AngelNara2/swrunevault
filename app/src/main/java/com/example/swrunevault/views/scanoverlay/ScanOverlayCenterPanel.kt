@@ -71,6 +71,7 @@ fun createScanOverlayCenterPanel(
         text = "Stat Principal"
         setTextColor(Color.BLACK)
         textSize = 14f
+        typeface = Typeface.DEFAULT_BOLD
         setPadding(0, 0, 0, dp(8))
     })
 
@@ -82,16 +83,16 @@ fun createScanOverlayCenterPanel(
 
     // Icono (Espada/ATQ) con fondo morado muy claro
     val imgMainIcon = ImageView(context).apply {
-        setBackgroundColor("#F3E8FF".toColorInt()) // Fondo lila claro
+        setBackgroundColor(Color.GRAY) // Fondo gris
         // setImageResource(R.drawable.ic_atq)
-        layoutParams = LinearLayout.LayoutParams(70, 70)
+        layoutParams = LinearLayout.LayoutParams(35, 35)
     }
     mainPropData.addView(imgMainIcon)
 
     mainPropData.addView(TextView(context).apply {
         text = rune.primaryStat()
         setTextColor("#1A237E".toColorInt())
-        textSize = 14f
+        textSize = 13f
         typeface = Typeface.DEFAULT_BOLD
         setPadding(dp(8), 0, 0, 0)
     })
@@ -120,6 +121,7 @@ fun createScanOverlayCenterPanel(
             text = "Stat Innate"
             setTextColor(Color.BLACK)
             textSize = 14f
+            typeface = Typeface.DEFAULT_BOLD
             setPadding(0, 0, 0, dp(8))
         })
 
@@ -130,16 +132,16 @@ fun createScanOverlayCenterPanel(
         }
         // Icono (Escudo/HP) con fondo naranja muy claro
         val imgInnateIcon = ImageView(context).apply {
-            setBackgroundColor("#FFF3E0".toColorInt()) // Fondo naranja claro
+            setBackgroundColor(Color.GRAY) // Fondo gris
             // setImageResource(R.drawable.ic_hp)
-            layoutParams = LinearLayout.LayoutParams(70, 70)
+            layoutParams = LinearLayout.LayoutParams(35, 35)
         }
         innatePropData.addView(imgInnateIcon)
 
         innatePropData.addView(TextView(context).apply {
             text = rune.innateStat()
             setTextColor("#1A237E".toColorInt())
-            textSize = 14f
+            textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             setPadding(dp(8), 0, 0, 0)
         })
@@ -162,15 +164,16 @@ fun createScanOverlayCenterPanel(
     //<editor-fold desc="Sub propiedades">
     mainContainer.addView(TextView(context).apply {
         text = "Sub Propiedades"
-        setTextColor(Color.DKGRAY)
+        setTextColor(Color.BLACK)
         textSize = 14f
+        typeface = Typeface.DEFAULT_BOLD
         setPadding(0, 0, 0, dp(8))
     })
 
     // Contenedor gris/lila muy claro para encerrar la lista de sub-propiedades
     val subPropertiesCard = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setBackgroundColor("#F8F9FA".toColorInt()) // Fondo sutil para la "tarjeta"
+        setBackgroundColor(Color.TRANSPARENT)
         //setPadding(24, 16, 24, 16)
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -207,6 +210,7 @@ fun createScanOverlayCenterPanel(
         val tvSubName = TextView(context).apply {
             text = subStat.statType?.displayText
             setTextColor(Color.BLACK)
+            textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             setPadding(dp(8),0,0,0)
         }
@@ -228,10 +232,10 @@ fun createScanOverlayCenterPanel(
         }
         row.addView(tvSubValue)
 
-        val grindstoneMaxValue = subStat.statType?.increment?: 0
+        val grindstoneMaxValue = subStat.statType?.grindstoneMaxValue?: 0
 
         val tvGrindstone = TextView(context).apply {
-            text = "${subStat.increment}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            text = "${subStat.grindstonevalue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
             setTextColor(Color.GRAY)
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
@@ -246,7 +250,7 @@ fun createScanOverlayCenterPanel(
         row.addView(tvGrindstone)
 
         val tvTotal = TextView(context).apply {
-            text = "${subStat.value+subStat.increment}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            text = "${subStat.value+subStat.grindstonevalue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
             setTextColor(Color.GRAY)
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
@@ -258,7 +262,6 @@ fun createScanOverlayCenterPanel(
             )
         }
         row.addView(tvTotal)
-
 
         subPropertiesCard.addView(row)
 

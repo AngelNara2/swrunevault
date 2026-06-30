@@ -8,23 +8,98 @@ enum class RuneStatType(
     // Indica si el stat és porcentual.
     val isPercentage: Boolean,
 
-    var displayText: String = "",
+    val hasGrindsTone: Boolean,
 
-    val increment: Int,
+    val grindstoneMinValue: Int,
+
+    val grindstoneMaxValue: Int,
+
+    var displayText: String = "",
 ) {
     // Nombre mostrado de la propiedad en En | Es
-    UNKNOWN("UNKNOWN",false, increment = 0),
-    HP("HP",false, increment = 550),
-    HP_PERCENT("HP",true, increment = 10),
-    ATK("ATK|ATQ",false, increment = 30),
-    ATK_PERCENT("ATK|ATQ",true, increment = 10),
-    DEF("DEF",false, increment = 30),
-    DEF_PERCENT("DEF",true, increment = 10),
-    SPD("SPD|VEL",false, increment = 5),
-    CRIT_RATE(displayName = "CRI Rate|Tasa CRÍ", isPercentage = true, increment = 0),
-    CRIT_DAMAGE("CRI Dmg|Daño CRÍ",true, increment = 0),
-    ACCURACY("Accuracy|Precisión",true, increment = 0),
-    RESISTANCE("RES|Resistencia",true, increment = 0);
+    UNKNOWN(
+        "UNKNOWN",
+        false,
+        false,
+        0 ,
+        0
+    ),
+
+    HP(
+        "HP",
+        false,
+        true,
+        430,
+        550),
+
+    HP_PERCENT(
+        "HP",
+        true,
+        true,
+        5,
+        10),
+
+    ATK(
+        "ATK|ATQ",
+        false,
+        true,
+        18 ,
+        30),
+
+    ATK_PERCENT(
+        "ATK|ATQ",
+        true,
+        true,
+        5,
+        10),
+
+    DEF(
+        "DEF",
+        false,
+        true,
+        18,
+        30),
+
+    DEF_PERCENT(
+        "DEF",
+        true ,
+        true,
+        5,
+        10),
+
+    SPD(
+        "SPD|VEL",
+        false,
+        true,
+        4,
+        5),
+
+    CRIT_RATE(
+        "CRI Rate|Tasa CRÍ",
+        true,
+        false,
+        0 ,
+        0),
+    CRIT_DAMAGE(
+        "CRI Dmg|Daño CRÍ",
+        true,
+        false,
+        0 ,
+        0),
+
+    ACCURACY(
+        "Accuracy|Precisión",
+        true,
+        false,
+        0 ,
+        0),
+
+    RESISTANCE(
+        "RES|Resistencia",
+        true,
+        false,
+        0,
+        0);
 
     companion object {
         // Buscar stat usando OCR.
