@@ -173,7 +173,7 @@ fun createScanOverlayCenterPanel(
     // Contenedor gris/lila muy claro para encerrar la lista de sub-propiedades
     val subPropertiesCard = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setBackgroundColor(Color.TRANSPARENT)
+        setBackgroundColor(Color.CYAN)
         //setPadding(24, 16, 24, 16)
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -232,10 +232,12 @@ fun createScanOverlayCenterPanel(
         }
         row.addView(tvSubValue)
 
+        val grindstoneValue = if((subStat.statType?.hasGrindsTone == true) and (subStat.grindstonevalue == 0)) (subStat.statType?.grindstoneMaxValue?:0) else subStat.grindstonevalue
+
         val tvGrindstone = TextView(context).apply {
             text =
                 if(subStat.statType?.hasGrindsTone == true)
-                    "${subStat.grindstonevalue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+                    "${grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
                 else
                     "-"
             setTextColor(subStat.getColorByValue().toColorInt())
@@ -252,7 +254,7 @@ fun createScanOverlayCenterPanel(
         row.addView(tvGrindstone)
 
         val tvTotal = TextView(context).apply {
-            text = "${subStat.value+subStat.grindstonevalue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            text = "${subStat.value+grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
             setTextColor("#4A148C".toColorInt())
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD

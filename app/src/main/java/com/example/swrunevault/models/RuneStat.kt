@@ -94,6 +94,8 @@ data class RuneStat(
     }
 
     fun getColorByValue(): String {
+        if ((grindstonevalue == 0) and (statType?.hasGrindsTone == true)) return "#A9A9A9" // Gris
+
         val minValue = statType?.grindstoneMinValue?: 0
         val maxValue = statType?.grindstoneMaxValue?: 0
 
