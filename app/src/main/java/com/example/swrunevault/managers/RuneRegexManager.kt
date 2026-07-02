@@ -141,12 +141,14 @@ class RuneRegexManager(
             for (substat in rune.subStats){
                 Log.d("RUNE_OBJECT_SUBSTAT","====================")
                 Log.d("RUNE_OBJECT_SUBSTAT",substat.secondaryStat())
-                Log.d("RUNE_OBJECT_SUBSTAT",substat.secondaryStat())
                 substat.runeGrade(rune.stars)
-                Log.d("RUNE_OBJECT_SUBSTAT","Valor actual maximo del subStat ${substat.subStatMaxValue()}")
-                Log.d("RUNE_OBJECT_SUBSTAT","Contribution actual subStat ${substat.subStatCurrentContribution()}")
-                Log.d("RUNE_OBJECT_SUBSTAT","Valor maximo maximo del subStat ${substat.subStatMaxIncrementValue()}")
-                Log.d("RUNE_OBJECT_SUBSTAT","Contribution maxima subStat ${substat.subStatMaxContribution()}")
+                Log.d("RUNE_OBJECT_SUBSTAT","Estadistica base maxima")
+                Log.d("RUNE_OBJECT_SUBSTAT","SubStat ${substat.subStatMaxValue()}")
+                Log.d("RUNE_OBJECT_SUBSTAT","Contribution ${substat.subStatCurrentContribution()}")
+
+                Log.d("RUNE_OBJECT_SUBSTAT","Estadistica base maxima + Grindstone maximo")
+                Log.d("RUNE_OBJECT_SUBSTAT","subStat ${substat.subStatMaxIncrementValue()}")
+                Log.d("RUNE_OBJECT_SUBSTAT","Contribution ${substat.subStatMaxContribution()}")
             }
 
             Log.d("RUNE_OBJECT","====================")

@@ -89,7 +89,7 @@ data class RuneStat(
 
         val value = value
         val increment = statType?.grindstoneMaxValue ?: 0
-        val contribution: Double = (value + increment).toDouble() / (subStatMaxIncrementValue().toDouble() + increment)
+        val contribution: Double = (value + increment).toDouble() / (subStatMaxIncrementValue().toDouble())
         return "%.3f".format(contribution).toDouble()
     }
 
