@@ -191,7 +191,7 @@ fun createScanOverlayCenterPanel(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            setPadding(dp(8),dp(8),0,dp(8))
+            setPadding(dp(8),dp(8),dp(8),dp(8))
             weightSum = 5f
         }
 
