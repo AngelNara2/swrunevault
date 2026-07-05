@@ -5,7 +5,7 @@ import com.example.swrunevault.exceptions.RuneNotFoundException
 // Estadística de una runa.
 data class RuneStat(
     // Tipo de estadística.
-    val statType: RuneStatType? = RuneStatType.UNKNOWN,
+    val statType: RuneStatType = RuneStatType.UNKNOWN,
 
     // Valor actual.
     val value: Int,
@@ -18,6 +18,10 @@ data class RuneStat(
 ){
     fun runeGrade(runeGrade: RuneGrade){
         stars = runeGrade
+    }
+
+    fun imgStat(): Int {
+        return statType.idStatResource
     }
 
     fun secondaryStat(): String{
@@ -108,6 +112,16 @@ data class RuneStat(
             grindstonevalue < midpoint -> "#FFA500" // Orange
             grindstonevalue > midpoint -> "#FFFF00" // Yellow
             else -> "#FFFF00"             // Exactly at the midpoint
+        }
+    }
+
+    companion object {
+        fun defaultStat(): RuneStat {
+            return RuneStat(
+                RuneStatType.UNKNOWN,
+                0,
+                0
+            )
         }
     }
 }

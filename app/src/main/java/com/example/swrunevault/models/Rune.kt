@@ -20,10 +20,10 @@ data class Rune(
     var level: Int = 0,
 
     // Propiedad principal.
-    var mainStat: RuneStat? = null,
+    var mainStat: RuneStat = RuneStat.defaultStat(),
 
     // Propiedad innata.
-    var innateStat: RuneInnateStat? = null,
+    var innateStat: RuneInnateStat = RuneInnateStat.UNKNOWN,
 
     // Propiedades secundarias.
     var subStats: MutableList<RuneStat> = mutableListOf(),
@@ -55,6 +55,10 @@ data class Rune(
                 if(mainStat?.statType?.isPercentage==true) "%" else ""
     }
 
+    fun imgMainStat(): Int{
+        return mainStat.statType.idStatResource
+    }
+
     fun primaryStatMaxValue(): Double? {
         val maxValue = RuneMainStats
             .getByStatType(
@@ -73,6 +77,10 @@ data class Rune(
                     if (innateStat?.statType?.isPercentage == true) "%" else ""
         }
         return ""
+    }
+
+    fun imgInnateStat(): Int {
+        return innateStat.statType.idStatResource
     }
 
     fun innateStatMaxValue(): Int{

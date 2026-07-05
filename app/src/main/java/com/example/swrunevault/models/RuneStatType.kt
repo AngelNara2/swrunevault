@@ -1,5 +1,6 @@
 package com.example.swrunevault.models
 
+import com.example.swrunevault.R
 // Tipos posibles de stats.
 enum class RuneStatType(
     // Nombre mostrado.
@@ -14,7 +15,9 @@ enum class RuneStatType(
 
     val grindstoneMaxValue: Int,
 
-    var displayText: String = "",
+    val idStatResource: Int,
+
+    var displayText: String = ""
 ) {
     // Nombre mostrado de la propiedad en En | Es
     UNKNOWN(
@@ -22,7 +25,8 @@ enum class RuneStatType(
         false,
         false,
         0 ,
-        0
+        0,
+        R.drawable.substat_atk
     ),
 
     HP(
@@ -30,94 +34,117 @@ enum class RuneStatType(
         false,
         true,
         430,
-        550),
+        550,
+        R.drawable.substat_hp
+        ),
 
     HP_PERCENT(
         "HP",
         true,
         true,
         5,
-        10),
+        10,
+        R.drawable.substat_hp
+    ),
 
     ATK(
         "ATK|ATQ",
         false,
         true,
         18 ,
-        30),
+        30,
+        R.drawable.substat_atk
+    ),
 
     ATK_PERCENT(
         "ATK|ATQ",
         true,
         true,
         5,
-        10),
+        10,
+        R.drawable.substat_atk
+    ),
 
     DEF(
         "DEF",
         false,
         true,
         18,
-        30),
+        30,
+        R.drawable.substat_def
+    ),
 
     DEF_PERCENT(
         "DEF",
         true ,
         true,
         5,
-        10),
+        10,
+        R.drawable.substat_def
+    ),
 
     SPD(
         "SPD|VEL",
         false,
         true,
         4,
-        5),
+        5,
+        R.drawable.substat_spd
+    ),
 
     CRIT_RATE(
         "CRI Rate|Tasa CRÍ",
         true,
         false,
         0 ,
-        0),
+        0,
+        R.drawable.substat_crirate
+    ),
     CRIT_DAMAGE(
         "CRI Dmg|Daño CRÍ",
         true,
         false,
         0 ,
-        0),
+        0,
+        R.drawable.substat_cridmg
+    ),
 
     ACCURACY(
         "Accuracy|Precisión",
         true,
         false,
         0 ,
-        0),
+        0,
+        R.drawable.substat_acc
+    ),
 
     RESISTANCE(
         "RES|Resistencia",
         true,
         false,
         0,
-        0);
+        0,
+        R.drawable.substat_res
+    );
 
     companion object {
         // Buscar stat usando OCR.
         fun fromText(
             text: String,
             percentage: Boolean
-        ): RuneStatType? {
-            var runeStatType = entries.firstOrNull {
+        ): RuneStatType {
+            var runeStatType = entries.firstOrNull() {
                 it.displayName.contains(
                     text.trim(),
                     ignoreCase = true
                 ) && it.isPercentage == percentage
-
             }
 
-            val localizedText = getStatName(runeStatType?.displayName?:"",text.trim())
+            if(runeStatType == null) {runeStatType = UNKNOWN}
 
-            runeStatType?.displayText = localizedText?:""
+            val localizedText = getStatName(runeStatType.displayName,text.trim())
+
+            runeStatType.displayText = localizedText?:""
 
             return runeStatType
         }
