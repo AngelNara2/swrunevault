@@ -83,9 +83,9 @@ fun createScanOverlayCenterPanel(
 
     // Icono (Espada/ATQ) con fondo morado muy claro
     val imgMainIcon = ImageView(context).apply {
-        setBackgroundColor(Color.GRAY) // Fondo gris
         setImageResource(rune.imgMainStat())
         layoutParams = LinearLayout.LayoutParams(35, 35)
+        scaleType = ImageView.ScaleType.FIT_CENTER
     }
     mainPropData.addView(imgMainIcon)
 
@@ -94,7 +94,7 @@ fun createScanOverlayCenterPanel(
         setTextColor("#1A237E".toColorInt())
         textSize = 13f
         typeface = Typeface.DEFAULT_BOLD
-        setPadding(dp(8), 0, 0, 0)
+        setPadding(dp(4), 0, 0, 0)
     })
     mainPropLayout.addView(mainPropData)
 
@@ -132,9 +132,9 @@ fun createScanOverlayCenterPanel(
         }
         // Icono (Escudo/HP) con fondo naranja muy claro
         val imgInnateIcon = ImageView(context).apply {
-            setBackgroundColor(Color.GRAY) // Fondo gris
             setImageResource(rune.imgInnateStat())
             layoutParams = LinearLayout.LayoutParams(35, 35)
+            scaleType = ImageView.ScaleType.FIT_CENTER
         }
         innatePropData.addView(imgInnateIcon)
 
@@ -143,7 +143,7 @@ fun createScanOverlayCenterPanel(
             setTextColor("#1A237E".toColorInt())
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(dp(8), 0, 0, 0)
+            setPadding(dp(4), 0, 0, 0)
         })
         innatePropLayout.addView(innatePropData)
         propertiesRow.addView(innatePropLayout)
@@ -199,11 +199,14 @@ fun createScanOverlayCenterPanel(
         val leftLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2f)
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                2f)
             addView(ImageView(context).apply {
-                setBackgroundColor(Color.GRAY) // Placeholder para el icono de la estadística
                 setImageResource(subStat.imgStat())
-                layoutParams = LinearLayout.LayoutParams(35, 35)
+                layoutParams = FrameLayout.LayoutParams(35,35)
+                scaleType = ImageView.ScaleType.FIT_CENTER
             })
         }
 
@@ -213,7 +216,7 @@ fun createScanOverlayCenterPanel(
             setTextColor(Color.BLACK)
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(dp(8),0,0,0)
+            setPadding(dp(4),0,0,0)
         }
         leftLayout.addView(tvSubName)
         row.addView(leftLayout)
