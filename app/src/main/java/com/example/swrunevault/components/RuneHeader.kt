@@ -40,7 +40,7 @@ fun RuneHeader(
         Card(
             modifier = Modifier.size(125.dp).padding(horizontal = 10.dp).padding(top= 10.dp),
             colors = CardDefaults.cardColors(
-                containerColor = rune.rarity.color
+                containerColor = Color.LightGray
             )
         ) {
             Image(
@@ -67,13 +67,13 @@ fun RuneHeader(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Surface(
-                color = rune.rarity.color,
+                color =  Color.LightGray,
                 shape = RoundedCornerShape(10)
             ) {
                 Text(
                     text = rune.rarity.displayName,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = rune.rarity.colorText,
+                    color =  Color.LightGray,
                     modifier = Modifier.padding(
                         horizontal = 10.dp,
                         vertical = 4.dp

@@ -3,6 +3,8 @@ package com.example.swrunevault.extensions
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 
 fun Context.CustumfindActivity(): Activity? {
     var context = this
@@ -13,4 +15,8 @@ fun Context.CustumfindActivity(): Activity? {
         context = context.baseContext
     }
     return null
+}
+
+fun Context.colorRes(@ColorRes colorRes: Int): Int {
+    return ContextCompat.getColor(this, colorRes)
 }

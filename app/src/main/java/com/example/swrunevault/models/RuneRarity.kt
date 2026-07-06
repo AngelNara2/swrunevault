@@ -1,60 +1,48 @@
 package com.example.swrunevault.models
 
+import androidx.annotation.ColorRes
 import androidx.compose.ui.graphics.Color
+import com.example.swrunevault.R
 
 enum class RuneRarity(
     val displayName: String,
-    val color: Color,
-    val colorText: Color,
-    val colorString: String,
-    val colorTextString: String,
+    @ColorRes val colorBackground: Int,
+    @ColorRes val colorText: Int
 ) {
     NORMAL(
         displayName = "Normal",
-        color = Color(0xFF564D49),
-        colorText = Color(0xFFFFF9F5),
-        colorString = "#564D49",
-        colorTextString = "#FFF9F5"
+        colorBackground = R.color.rarity_normal_primary,
+        colorText = R.color.rarity_normal_secondary
     ),
 
     MAGIC(
         displayName = "Magic",
-        color = Color(0xFF1b3a07),
-        colorText = Color(0xFFb4cd6f),
-        colorString = "#1b3a07",
-        colorTextString = "#b4cd6f"
+        colorBackground = R.color.rarity_magic_primary,
+        colorText = R.color.rarity_magic_secondary
     ),
 
     RARE(
         displayName = "Rare",
-        color = Color(0xFF1a3c4b),
-        colorText = Color(0xFFa3cedb),
-        colorString = "#1a3c4b",
-        colorTextString = "#a3cedb"
+        colorBackground = R.color.rarity_rare_primary,
+        colorText = R.color.rarity_rare_secondary
     ),
 
     HERO(
         displayName = "Hero",
-        color = Color(0xFF5e1c3d),
-        colorText = Color(0xFFe2acca),
-        colorString = "#5e1c3d",
-        colorTextString = "#e2acca"
+        colorBackground = R.color.rarity_hero_primary,
+        colorText = R.color.rarity_rare_secondary
     ),
 
     LEGENDARY(
         displayName = "Legend",
-        color = Color(0xFF743214),
-        colorText = Color(0xFFe4a97a),
-        colorString = "#743214",
-        colorTextString = "#e4a97a"
+        colorBackground = R.color.rarity_legend_primary,
+        colorText = R.color.rarity_legend_secondary
     ),
 
     UNKNOWN(
         displayName = "Unknown",
-        color = Color(0xFF000000),
-        colorText = Color(0xFFFFFFFF),
-        colorString = "#000000",
-        colorTextString = "#FFFFFF"
+        colorBackground = R.color.rarity_unknown_primary,
+        colorText = R.color.rarity_unknown_secondary
     );
 
     companion object {

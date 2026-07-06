@@ -14,6 +14,8 @@ import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.utils.getStars
+import com.example.swrunevault.R
+import com.example.swrunevault.extensions.colorRes
 
 @SuppressLint("SetTextI18n")
 fun createScanOverlayLeftPanel(
@@ -26,7 +28,7 @@ fun createScanOverlayLeftPanel(
 
     // Panel principal para contener todos los elementos
     val panel = FrameLayout(context).apply {
-        setBackgroundColor("#F0F0F0".toColorInt())
+        setBackgroundColor(Color.TRANSPARENT)
         layoutParams = LinearLayout.LayoutParams(
             0,
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -46,9 +48,9 @@ fun createScanOverlayLeftPanel(
         // Fondo con esquinas y borde
         background = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
-            setColor("#F0F0F0".toColorInt())
+            setColor(context.colorRes(R.color.background_secondary))
             cornerRadius = 24f // Esquinas redondeadas en píxeles
-            setStroke(4, Color.LTGRAY) // Borde: grosor en px, color del borde
+            setStroke(4, context.colorRes(R.color.border)) // Borde: grosor en px, color del borde
         }
     }
 
@@ -63,7 +65,7 @@ fun createScanOverlayLeftPanel(
         layoutParams = LinearLayout.LayoutParams(180, 180)
         // Fondo con esquinas y borde
         background = GradientDrawable().apply {
-            setColor(Color.LTGRAY)
+            setColor(context.colorRes(R.color.background_primary))
             shape = GradientDrawable.RECTANGLE
             cornerRadius = 16f // Esquinas redondeadas en píxeles
         }
@@ -97,7 +99,7 @@ fun createScanOverlayLeftPanel(
     // Cantidad de estrellas
     val tvStarts = TextView(context).apply {
         text = ""
-        setTextColor("#5E24B3".toColorInt())
+        setTextColor(context.colorRes(R.color.purple))
         typeface = Typeface.DEFAULT_BOLD
         setGravity(Gravity.CENTER_VERTICAL)
         layoutParams = LinearLayout.LayoutParams(
@@ -111,7 +113,7 @@ fun createScanOverlayLeftPanel(
     // Set
     val tvTitle = TextView(context).apply {
         text = rune.runeSet.name
-        setTextColor("#5E24B3".toColorInt())
+        setTextColor(context.colorRes(R.color.purple))
         textSize = 14f
         typeface = Typeface.DEFAULT_BOLD
         setGravity(Gravity.CENTER_VERTICAL)
@@ -126,15 +128,15 @@ fun createScanOverlayLeftPanel(
     // Rareza
     val tvTag = TextView(context).apply {
         text = rune.rarity.name
-        setTextColor(rune.rarity.colorTextString.toColorInt())
-        setBackgroundColor(rune.rarity.colorString.toColorInt())
+        setTextColor(context.colorRes(rune.rarity.colorText))
+        setBackgroundColor(context.colorRes(rune.rarity.colorBackground))
         setPadding(10, 4, 10, 4)
         textSize = 10f
         typeface = Typeface.DEFAULT_BOLD
         background = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
             // Color de fondo del contenedor
-            setColor(rune.rarity.colorString.toColorInt())
+            setColor(context.colorRes(rune.rarity.colorBackground))
             // Esquinas redondeadas en píxeles
             cornerRadius = 10f
         }
@@ -149,7 +151,7 @@ fun createScanOverlayLeftPanel(
     // Slot
     val tvSlot = TextView(context).apply {
         text = "Slot ${rune.slot}"
-        setTextColor(Color.BLACK)
+        setTextColor(Color.WHITE)
         setGravity(Gravity.CENTER_VERTICAL)
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -179,12 +181,21 @@ fun createScanOverlayLeftPanel(
     val rowFecha = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }
     rowFecha.addView(
         TextView(context).apply {
-            text = "Fecha"; setTextColor(Color.BLACK);
-            layoutParams = LinearLayout.LayoutParams(
-                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            text = "Fecha";
+            setTextColor(Color.WHITE);
+            layoutParams =
+                LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f)
         }
     )
-    rowFecha.addView(TextView(context).apply { text = rune.scanDate(); setTextColor(Color.BLACK )})
+    rowFecha.addView(
+        TextView(context).apply {
+            text = rune.scanDate();
+            setTextColor(Color.WHITE )
+        }
+    )
     middleContainer.addView(rowFecha)
 
     // Línea divisoria
@@ -192,7 +203,7 @@ fun createScanOverlayLeftPanel(
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, 4).apply {
                 setMargins(0, dp(8), 0, dp(8)) }
-        setBackgroundColor(Color.BLACK)
+        setBackgroundColor(context.colorRes(R.color.border))
     }
     middleContainer.addView(divisor1)
 
@@ -200,12 +211,22 @@ fun createScanOverlayLeftPanel(
     val rowHora = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }
     rowHora.addView(
         TextView(context).apply {
-            text = "Hora"; setTextColor(Color.BLACK);
-            layoutParams = LinearLayout.LayoutParams(
-                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            text = "Hora";
+            setTextColor(Color.WHITE);
+            layoutParams =
+                LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
         }
     )
-    rowHora.addView(TextView(context).apply { text = rune.scanTime(); setTextColor(Color.BLACK )})
+    rowHora.addView(
+        TextView(context).apply {
+            text = rune.scanTime();
+            setTextColor(Color.WHITE )
+        }
+    )
     middleContainer.addView(rowHora)
 
     // Línea divisoria
@@ -213,7 +234,7 @@ fun createScanOverlayLeftPanel(
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, 4).apply {
             setMargins(0, dp(8), 0, dp(8)) }
-        setBackgroundColor(Color.BLACK)
+        setBackgroundColor(context.colorRes(R.color.border))
     }
     middleContainer.addView(divisor2)
 
@@ -221,12 +242,16 @@ fun createScanOverlayLeftPanel(
     val rowUbicacion = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }
     rowUbicacion.addView(
         TextView(context).apply {
-            text = "Ubicación"; setTextColor(Color.BLACK);
+            text = "Ubicación"; setTextColor(Color.WHITE);
             layoutParams = LinearLayout.LayoutParams(
                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
     )
-    rowUbicacion.addView(TextView(context).apply { text = "Inventario"; setTextColor( Color.BLACK )})
+    rowUbicacion.addView(
+        TextView(context).apply {
+            text = "Inventario"; setTextColor( Color.WHITE)
+        }
+    )
     middleContainer.addView(rowUbicacion)
 
     mainContainer.addView(middleContainer)
@@ -241,7 +266,7 @@ fun createScanOverlayLeftPanel(
             LinearLayout.LayoutParams.WRAP_CONTENT
         ).apply { setMargins(0, dp(8), 0, 0) }
         background = GradientDrawable().apply {
-            setColor(Color.LTGRAY)
+            setColor(context.colorRes(R.color.background_primary))
             shape = GradientDrawable.RECTANGLE
             cornerRadius = 16f // Esquinas redondeadas en píxeles
         }
@@ -249,7 +274,7 @@ fun createScanOverlayLeftPanel(
 
     val tvEstrellasLabel = TextView(context).apply {
         text = "Estrellas"
-        setTextColor(Color.DKGRAY)
+        setTextColor(Color.WHITE)
         typeface = Typeface.DEFAULT_BOLD
     }
     selectorContainer.addView(tvEstrellasLabel)
@@ -269,7 +294,7 @@ fun createScanOverlayLeftPanel(
         text = "(Los cálculos se realizan como 6★)"
         gravity = Gravity.CENTER
         textSize = 12f
-        setTextColor(Color.BLACK)
+        setTextColor(Color.WHITE)
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -289,14 +314,14 @@ fun createScanOverlayLeftPanel(
         listaBotones.forEachIndexed { index, button ->
             button.background = GradientDrawable().apply {
                 setColor(
-                    if(index + 1 == cantidad) "#5E24B3".toColorInt() else Color.WHITE
+                    if(index + 1 == cantidad) context.colorRes(R.color.orange) else context.colorRes(R.color.background_primary)
                 )
                 shape = GradientDrawable.RECTANGLE
                 cornerRadius = 16f // Esquinas redondeadas en píxeles
             }
 
             button.setTextColor(
-                if(index + 1 == cantidad) Color.WHITE else Color.BLACK
+                if(index + 1 == cantidad) Color.BLACK else Color.WHITE
             )
         }
     }

@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.swrunevault.data.SettingsManager
 import com.example.swrunevault.screens.MainScreen
 import com.example.swrunevault.services.OverlayService
-import com.example.swrunevault.ui.theme.SWRuneVaultTheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -40,9 +39,7 @@ class MainActivity : ComponentActivity() {
         settingsManager = SettingsManager(this)
 
         setContent {
-            SWRuneVaultTheme {
-                MainScreen()
-            }
+            MainScreen()
         }
     }
 

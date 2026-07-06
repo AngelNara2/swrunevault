@@ -11,6 +11,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.graphics.toColorInt
+import com.example.swrunevault.R
+import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.models.RuneInnateStat
 
@@ -25,7 +27,7 @@ fun createScanOverlayCenterPanel(
 
     // Panel principal para contener todos los elementos
     val panel = FrameLayout(context).apply {
-        setBackgroundColor("#F0F0F0".toColorInt()) // Cambiado de GREEN a WHITE
+        setBackgroundColor(Color.TRANSPARENT)
         layoutParams = LinearLayout.LayoutParams(
             0,
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -45,9 +47,9 @@ fun createScanOverlayCenterPanel(
         // Fondo con esquinas y borde
         background = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
-            setColor("#F0F0F0".toColorInt())
+            setColor(context.colorRes(R.color.background_secondary))
             cornerRadius = 24f // Esquinas redondeadas en píxeles
-            setStroke(4, Color.LTGRAY) // Borde: grosor en px, color del borde
+            setStroke(4, context.colorRes(R.color.border)) // Borde: grosor en px, color del borde
         }
     }
 
@@ -69,7 +71,7 @@ fun createScanOverlayCenterPanel(
 
     mainPropLayout.addView(TextView(context).apply {
         text = "Stat Principal"
-        setTextColor(Color.BLACK)
+        setTextColor(Color.WHITE)
         textSize = 14f
         typeface = Typeface.DEFAULT_BOLD
         setPadding(0, 0, 0, dp(8))
@@ -91,7 +93,7 @@ fun createScanOverlayCenterPanel(
 
     mainPropData.addView(TextView(context).apply {
         text = rune.primaryStat()
-        setTextColor("#1A237E".toColorInt())
+        setTextColor(Color.WHITE)
         textSize = 13f
         typeface = Typeface.DEFAULT_BOLD
         setPadding(dp(4), 0, 0, 0)
@@ -107,7 +109,7 @@ fun createScanOverlayCenterPanel(
             layoutParams = LinearLayout.LayoutParams(4, LinearLayout.LayoutParams.MATCH_PARENT).apply {
                 setMargins(16, 8, 16, 8)
             }
-            setBackgroundColor(Color.BLACK)
+            setBackgroundColor(context.colorRes(R.color.border))
         }
         propertiesRow.addView(centerVerticalLine)
 
@@ -119,7 +121,7 @@ fun createScanOverlayCenterPanel(
 
         innatePropLayout.addView(TextView(context).apply {
             text = "Stat Innate"
-            setTextColor(Color.BLACK)
+            setTextColor(Color.WHITE)
             textSize = 14f
             typeface = Typeface.DEFAULT_BOLD
             setPadding(0, 0, 0, dp(8))
@@ -140,7 +142,7 @@ fun createScanOverlayCenterPanel(
 
         innatePropData.addView(TextView(context).apply {
             text = rune.innateStat()
-            setTextColor("#1A237E".toColorInt())
+            setTextColor(Color.WHITE)
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             setPadding(dp(4), 0, 0, 0)
@@ -157,14 +159,14 @@ fun createScanOverlayCenterPanel(
         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2).apply {
             setMargins(0, dp(8), 0, dp(8))
         }
-        setBackgroundColor(Color.BLACK)
+        setBackgroundColor(context.colorRes(R.color.border))
     }
     mainContainer.addView(middleDivisor)
 
     //<editor-fold desc="Sub propiedades">
     mainContainer.addView(TextView(context).apply {
         text = "Sub Propiedades"
-        setTextColor(Color.BLACK)
+        setTextColor(Color.WHITE)
         textSize = 14f
         typeface = Typeface.DEFAULT_BOLD
         setPadding(0, 0, 0, dp(8))
@@ -173,8 +175,7 @@ fun createScanOverlayCenterPanel(
     // Contenedor gris/lila muy claro para encerrar la lista de sub-propiedades
     val subPropertiesCard = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setBackgroundColor(Color.CYAN)
-        //setPadding(24, 16, 24, 16)
+        setBackgroundColor(Color.TRANSPARENT)
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -186,7 +187,7 @@ fun createScanOverlayCenterPanel(
         val row = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            //setPadding(0, 16, 0, 16)
+            setBackgroundColor(context.colorRes(R.color.background_primary))
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -213,7 +214,7 @@ fun createScanOverlayCenterPanel(
         // Nombre del sub stat
         val tvSubName = TextView(context).apply {
             text = subStat.statType?.displayText
-            setTextColor(Color.BLACK)
+            setTextColor(Color.WHITE)
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             setPadding(dp(4),0,0,0)
@@ -224,7 +225,7 @@ fun createScanOverlayCenterPanel(
         // Valor actual del sub stat
         val tvSubValue = TextView(context).apply {
             text = "${subStat.value}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-            setTextColor(Color.BLACK) // Color morado vivo para los números procesados
+            setTextColor(Color.WHITE)
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.END
@@ -259,7 +260,7 @@ fun createScanOverlayCenterPanel(
 
         val tvTotal = TextView(context).apply {
             text = "${subStat.value+grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-            setTextColor("#4A148C".toColorInt())
+            setTextColor(context.colorRes(R.color.purple))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.END
@@ -277,7 +278,7 @@ fun createScanOverlayCenterPanel(
         if (index < rune.subStats.size - 1) {
             val innerDivisor = android.view.View(context).apply {
                 layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2)
-                setBackgroundColor(Color.BLACK)
+                setBackgroundColor(context.colorRes(R.color.border))
             }
             subPropertiesCard.addView(innerDivisor)
         }

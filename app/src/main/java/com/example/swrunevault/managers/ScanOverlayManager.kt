@@ -10,6 +10,8 @@ import com.example.swrunevault.views.scanoverlay.createScanOverlayCenterPanel
 import com.example.swrunevault.views.scanoverlay.createScanOverlayContainer
 import com.example.swrunevault.views.scanoverlay.createScanOverlayLeftPanel
 import com.example.swrunevault.views.scanoverlay.createScanOverlayRightPanel
+import com.example.swrunevault.R
+import com.example.swrunevault.extensions.colorRes
 
 class ScanOverlayManager(
     private val context: Context
@@ -33,7 +35,7 @@ class ScanOverlayManager(
         overlayView =
             FrameLayout(context).apply {
                 setBackgroundColor(
-                    "#F0F0F0".toColorInt()
+                    context.colorRes(R.color.background_primary)
                 )
             }
 
