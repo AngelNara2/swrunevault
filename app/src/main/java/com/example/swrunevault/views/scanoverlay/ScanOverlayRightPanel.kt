@@ -75,7 +75,7 @@ fun createScanOverlayRightPanel(
         setTextColor(Color.WHITE)
         textSize = 15f // Las fuentes en Android ya se auto-escalan de forma nativa (SP)
         typeface = Typeface.DEFAULT_BOLD
-        //setPadding(dp(8), 0, 0, 0)
+        setPadding(dp(4),0,0,0)
     }
     titleContainer.addView(tvSectionTitle)
     mainContainer.addView(titleContainer)
@@ -94,8 +94,12 @@ fun createScanOverlayRightPanel(
     // ==========================================
     val actualCard = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setBackgroundColor(context.colorRes(R.color.background_primary))
-        //setPadding(dp(8), dp(8), dp(8), dp(8))
+        background = GradientDrawable().apply {
+            setColor(context.colorRes(R.color.background_primary))
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 16f // Esquinas redondeadas en píxeles
+        }
+        setPadding(dp(8), dp(8), dp(8), dp(8))
         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
     }
 
@@ -138,7 +142,12 @@ fun createScanOverlayRightPanel(
     // ==========================================
     val maxCard = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setBackgroundColor(context.colorRes(R.color.background_primary))
+        background = GradientDrawable().apply {
+            setColor(context.colorRes(R.color.background_primary))
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 16f // Esquinas redondeadas en píxeles
+        }
+        setPadding(dp(8), dp(8), dp(8), dp(8))
         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
     }
 
@@ -165,7 +174,7 @@ fun createScanOverlayRightPanel(
     mainContainer.addView(maxCard)
 
     // Espaciador responsivo antes de los botones
-    mainContainer.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(24)) })
+    mainContainer.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(10)) })
 
     // ==========================================
     // SECCIÓN SECTORES: BOTONES DE ACCIÓN (Fila Doble)
@@ -179,9 +188,13 @@ fun createScanOverlayRightPanel(
     // --- Botón Izquierdo: Escanear Otra ---
     val btnEscanearOtra = LinearLayout(context).apply {
         orientation = LinearLayout.HORIZONTAL
-        gravity = Gravity.CENTER_VERTICAL
-        setBackgroundColor(context.colorRes(R.color.light_purple))
-        //setPadding(dp(8), dp(8), dp(8), dp(8))
+        gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
+        background = GradientDrawable().apply {
+            setColor(context.colorRes(R.color.light_purple))
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 16f // Esquinas redondeadas en píxeles
+        }
+        setPadding(dp(8), dp(8), dp(8), dp(8))
         layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
 
         // 💡 SOLUCIÓN: Forzar a que el contenedor capture el clic y no sus vistas hijas
@@ -194,29 +207,19 @@ fun createScanOverlayRightPanel(
         }
     }
     btnEscanearOtra.addView(ImageView(context).apply {
-        layoutParams = LinearLayout.LayoutParams(dp(8), dp(8))
+        layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
         setBackgroundColor(context.colorRes(R.color.purple))
     })
-    // RESTRICCIÓN RESPONSIVA: Añadimos peso (1f) al contenedor de texto interno para evitar desbordes de palabra
     val txtEscanearContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        //setPadding(dp(8), 0, 0, 0)
-        layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
     }
     txtEscanearContainer.addView(
         TextView(context).apply {
-            text = "Escanear Otra";
+            text = "Volver";
             setTextColor(context.colorRes(R.color.purple));
             typeface = Typeface.DEFAULT_BOLD;
             textSize = 13f
-        }
-    )
-    txtEscanearContainer.addView(
-        TextView(context).apply {
-            text = "Analizar nueva";
-            setTextColor(context.colorRes(R.color.purple));
-            textSize = 10f;
-            isSingleLine = true
+            setPadding(dp(4),0,0,0)
         }
     )
     btnEscanearOtra.addView(txtEscanearContainer)
@@ -228,35 +231,30 @@ fun createScanOverlayRightPanel(
     // --- Botón Derecho: Editar Runa ---
     val btnEditarRuna = LinearLayout(context).apply {
         orientation = LinearLayout.HORIZONTAL
-        gravity = Gravity.CENTER_VERTICAL
-        setBackgroundColor(context.colorRes(R.color.light_cyan))
-        //setPadding(dp(8), dp(8), dp(8), dp(8))
+        gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
+        background = GradientDrawable().apply {
+            setColor(context.colorRes(R.color.light_cyan))
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 16f // Esquinas redondeadas en píxeles
+        }
+        setPadding(dp(8), dp(8), dp(8), dp(8))
         layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         setOnClickListener { /* Lógica para editar manualmente */ }
     }
     btnEditarRuna.addView(ImageView(context).apply {
-        layoutParams = LinearLayout.LayoutParams(dp(8), dp(8))
+        layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
         setBackgroundColor(context.colorRes(R.color.cyan))
     })
     val txtEditarContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        //setPadding(dp(8), 0, 0, 0)
-        layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
     }
     txtEditarContainer.addView(
         TextView(context).apply {
-            text = "Editar Runa";
+            text = "Editar";
             setTextColor(context.colorRes(R.color.cyan));
             typeface = Typeface.DEFAULT_BOLD;
             textSize = 13f
-        }
-    )
-    txtEditarContainer.addView(
-        TextView(context).apply {
-            text = "Manualmente";
-            setTextColor(context.colorRes(R.color.cyan));
-            textSize = 10f;
-            isSingleLine = true
+            setPadding(dp(4),0,0,0)
         }
     )
     btnEditarRuna.addView(txtEditarContainer)
@@ -273,8 +271,12 @@ fun createScanOverlayRightPanel(
     val btnEliminarRuna = LinearLayout(context).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
-        setBackgroundColor(context.colorRes(R.color.light_red))
-        //setPadding(dp(12), dp(12), dp(12), dp(12))
+        background = GradientDrawable().apply {
+            setColor(context.colorRes(R.color.light_red))
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 16f // Esquinas redondeadas en píxeles
+        }
+        setPadding(dp(8), dp(8), dp(8), dp(8))
         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         setOnClickListener {
             //onRemove()
@@ -290,17 +292,11 @@ fun createScanOverlayRightPanel(
     }
     txtEliminarContainer.addView(
         TextView(context).apply {
-            text = "Eliminar Runa";
+            text = "Eliminar";
             setTextColor(context.colorRes(R.color.red));
             typeface = Typeface.DEFAULT_BOLD;
             textSize = 13f
-        }
-    )
-    txtEliminarContainer.addView(
-        TextView(context).apply {
-            text = "Eliminar del inventario";
-            setTextColor(context.colorRes(R.color.red));
-            textSize = 10f
+            setPadding(dp(4),0,0,0)
         }
     )
     btnEliminarRuna.addView(txtEliminarContainer)

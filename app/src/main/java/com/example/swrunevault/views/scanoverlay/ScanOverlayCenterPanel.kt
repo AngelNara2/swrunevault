@@ -175,7 +175,11 @@ fun createScanOverlayCenterPanel(
     // Contenedor gris/lila muy claro para encerrar la lista de sub-propiedades
     val subPropertiesCard = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setBackgroundColor(Color.TRANSPARENT)
+        background = GradientDrawable().apply {
+            setColor(context.colorRes(R.color.background_primary))
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 16f // Esquinas redondeadas en píxeles
+        }
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -187,7 +191,7 @@ fun createScanOverlayCenterPanel(
         val row = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setBackgroundColor(context.colorRes(R.color.background_primary))
+            setBackgroundColor(Color.TRANSPARENT)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
