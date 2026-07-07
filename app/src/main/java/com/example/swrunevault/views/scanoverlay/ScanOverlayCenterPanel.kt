@@ -82,11 +82,12 @@ fun createScanOverlayCenterPanel(
         gravity = Gravity.CENTER_VERTICAL
     }
 
-    // Icono (Espada/ATQ) con fondo morado muy claro
+    // Icono del stat principal
     val imgMainIcon = ImageView(context).apply {
         setImageResource(rune.imgMainStat())
-        layoutParams = LinearLayout.LayoutParams(35, 35)
+        layoutParams = LinearLayout.LayoutParams(50, 50)
         scaleType = ImageView.ScaleType.FIT_CENTER
+        setColorFilter(Color.WHITE)
     }
     mainPropData.addView(imgMainIcon)
 
@@ -134,8 +135,9 @@ fun createScanOverlayCenterPanel(
         // Icono (Escudo/HP) con fondo naranja muy claro
         val imgInnateIcon = ImageView(context).apply {
             setImageResource(rune.imgInnateStat())
-            layoutParams = LinearLayout.LayoutParams(35, 35)
+            layoutParams = LinearLayout.LayoutParams(50, 50)
             scaleType = ImageView.ScaleType.FIT_CENTER
+            setColorFilter(Color.WHITE)
         }
         innatePropData.addView(imgInnateIcon)
 
@@ -209,8 +211,9 @@ fun createScanOverlayCenterPanel(
                 2f)
             addView(ImageView(context).apply {
                 setImageResource(subStat.imgStat())
-                layoutParams = FrameLayout.LayoutParams(35,35)
+                layoutParams = FrameLayout.LayoutParams(50,50)
                 scaleType = ImageView.ScaleType.FIT_CENTER
+                setColorFilter(Color.WHITE)
             })
         }
 
