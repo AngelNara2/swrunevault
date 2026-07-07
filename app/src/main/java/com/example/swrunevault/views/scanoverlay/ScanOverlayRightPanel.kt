@@ -11,7 +11,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.graphics.toColorInt
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
@@ -65,8 +64,10 @@ fun createScanOverlayRightPanel(
     }
 
     val imgEficienciaIcon = ImageView(context).apply {
-        setBackgroundColor("#5E24B3".toColorInt())
-        layoutParams = LinearLayout.LayoutParams(dp(18), dp(18)) // Escalado a DP
+        setImageResource(R.drawable.icon_efficiency)
+        layoutParams = LinearLayout.LayoutParams(50, 50) // Escalado a DP
+        scaleType = ImageView.ScaleType.FIT_CENTER
+        setColorFilter(Color.WHITE)
     }
     titleContainer.addView(imgEficienciaIcon)
 
@@ -207,8 +208,10 @@ fun createScanOverlayRightPanel(
         }
     }
     btnEscanearOtra.addView(ImageView(context).apply {
+        setImageResource(R.drawable.action_back)
         layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
-        setBackgroundColor(context.colorRes(R.color.purple))
+        scaleType = ImageView.ScaleType.FIT_CENTER
+        setColorFilter(context.colorRes(R.color.purple))
     })
     val txtEscanearContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
@@ -242,8 +245,10 @@ fun createScanOverlayRightPanel(
         setOnClickListener { /* Lógica para editar manualmente */ }
     }
     btnEditarRuna.addView(ImageView(context).apply {
+        setImageResource(R.drawable.action_edit)
         layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
-        setBackgroundColor(context.colorRes(R.color.cyan))
+        scaleType = ImageView.ScaleType.FIT_CENTER
+        setColorFilter(context.colorRes(R.color.dark_cyan))
     })
     val txtEditarContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
@@ -282,14 +287,19 @@ fun createScanOverlayRightPanel(
             //onRemove()
         }
     }
-    btnGuardarRuna.addView(ImageView(context).apply {
-        layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
-        setBackgroundColor(context.colorRes(R.color.green))
+
+    btnGuardarRuna.addView(
+        ImageView(context).apply {
+            setImageResource(R.drawable.action_save)
+            layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
+            scaleType = ImageView.ScaleType.FIT_CENTER
+            setColorFilter(context.colorRes(R.color.dark_green))
     })
+
     val txtGuardarContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        //setPadding(dp(8), 0, 0, 0)
     }
+
     txtGuardarContainer.addView(
         TextView(context).apply {
             text = "Guardar";

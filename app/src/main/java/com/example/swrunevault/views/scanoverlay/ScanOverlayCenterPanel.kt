@@ -266,7 +266,7 @@ fun createScanOverlayCenterPanel(
 
         val tvTotal = TextView(context).apply {
             text = "${subStat.value+grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-            setTextColor(context.colorRes(R.color.purple))
+            setTextColor(context.colorRes(R.color.orange))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.END
