@@ -10,7 +10,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.graphics.toColorInt
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
@@ -249,7 +248,7 @@ fun createScanOverlayCenterPanel(
                     "${grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
                 else
                     "-"
-            setTextColor(subStat.getColorByValue().toColorInt())
+            setTextColor(context.colorRes(subStat.getColorByValueGrinstone()))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.END

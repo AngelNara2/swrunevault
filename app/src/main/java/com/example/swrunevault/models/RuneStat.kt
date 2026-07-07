@@ -1,5 +1,6 @@
 package com.example.swrunevault.models
 
+import com.example.swrunevault.R
 import com.example.swrunevault.exceptions.RuneNotFoundException
 
 // Estadística de una runa.
@@ -97,21 +98,21 @@ data class RuneStat(
         return "%.3f".format(contribution).toDouble()
     }
 
-    fun getColorByValue(): String {
-        if ((grindstonevalue == 0) and (statType?.hasGrindsTone == true)) return "#A9A9A9" // Gris
+    fun getColorByValueGrinstone(): Int {
+        if ((grindstonevalue == 0) and (statType?.hasGrindsTone == true)) return R.color.gray // No tiene implementada una Grindstone
 
         val minValue = statType?.grindstoneMinValue?: 0
         val maxValue = statType?.grindstoneMaxValue?: 0
 
-        if (grindstonevalue <= minValue) return "#FF0000" // Red
-        if (grindstonevalue >= maxValue) return "#00FF00" // Green
+        if (grindstonevalue <= minValue) return R.color.red // El valor más bajo
+        if (grindstonevalue >= maxValue) return R.color.green // El valor más alto
 
         val midpoint = (minValue + maxValue) / 2
 
         return when {
-            grindstonevalue < midpoint -> "#FFA500" // Orange
-            grindstonevalue > midpoint -> "#FFFF00" // Yellow
-            else -> "#FFFF00"             // Exactly at the midpoint
+            grindstonevalue < midpoint -> R.color.orange // Orange
+            grindstonevalue > midpoint -> R.color.yellow // Yellow
+            else -> R.color.yellow             // Exactly at the midpoint
         }
     }
 
