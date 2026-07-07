@@ -32,11 +32,13 @@
     <color name="red">#FF0000</color>
     <color name="light_red">#FFDADA</color>
     <color name="green">#00FF00</color>
+    <color name="dark_green">#0D620D</color>
     <color name="light_green">#C8FAC8</color>
     <color name="orange">#EA8814</color>
     <color name="yellow">#FFFF00</color>
     <color name="purple">#5E24B3</color>
     <color name="light_purple">#E8DFF6</color>
+    <color name="dark_cyan">#0A608C</color>
     <color name="cyan">#03AEFF</color>
     <color name="light_cyan">#D6F2FB</color>
 

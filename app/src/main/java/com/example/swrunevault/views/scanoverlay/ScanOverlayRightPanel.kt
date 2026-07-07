@@ -251,7 +251,7 @@ fun createScanOverlayRightPanel(
     txtEditarContainer.addView(
         TextView(context).apply {
             text = "Editar";
-            setTextColor(context.colorRes(R.color.cyan));
+            setTextColor(context.colorRes(R.color.dark_cyan));
             typeface = Typeface.DEFAULT_BOLD;
             textSize = 13f
             setPadding(dp(4),0,0,0)
@@ -262,17 +262,17 @@ fun createScanOverlayRightPanel(
 
     mainContainer.addView(actionRow)
 
-    // Espaciador antes del botón de eliminar
+    // Espaciador antes del botón de guardar
     mainContainer.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(12)) })
 
     // ==========================================
-    // BOTÓN INFERIOR LARGO: ELIMINAR RUNA
+    // BOTÓN GUARDAR LARGO: GUARDAR RUNA
     // ==========================================
-    val btnEliminarRuna = LinearLayout(context).apply {
+    val btnGuardarRuna = LinearLayout(context).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
         background = GradientDrawable().apply {
-            setColor(context.colorRes(R.color.light_red))
+            setColor(context.colorRes(R.color.light_green))
             shape = GradientDrawable.RECTANGLE
             cornerRadius = 16f // Esquinas redondeadas en píxeles
         }
@@ -282,26 +282,26 @@ fun createScanOverlayRightPanel(
             //onRemove()
         }
     }
-    btnEliminarRuna.addView(ImageView(context).apply {
+    btnGuardarRuna.addView(ImageView(context).apply {
         layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
-        setBackgroundColor(context.colorRes(R.color.red))
+        setBackgroundColor(context.colorRes(R.color.green))
     })
-    val txtEliminarContainer = LinearLayout(context).apply {
+    val txtGuardarContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
         //setPadding(dp(8), 0, 0, 0)
     }
-    txtEliminarContainer.addView(
+    txtGuardarContainer.addView(
         TextView(context).apply {
-            text = "Eliminar";
-            setTextColor(context.colorRes(R.color.red));
+            text = "Guardar";
+            setTextColor(context.colorRes(R.color.dark_green));
             typeface = Typeface.DEFAULT_BOLD;
             textSize = 13f
             setPadding(dp(4),0,0,0)
         }
     )
-    btnEliminarRuna.addView(txtEliminarContainer)
+    btnGuardarRuna.addView(txtGuardarContainer)
 
-    mainContainer.addView(btnEliminarRuna)
+    mainContainer.addView(btnGuardarRuna)
 
     // Agregamos el contenedor al panel
     panel.addView(mainContainer)
