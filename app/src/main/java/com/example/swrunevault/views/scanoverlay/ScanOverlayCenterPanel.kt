@@ -137,13 +137,13 @@ fun createScanOverlayCenterPanel(
             setImageResource(rune.imgInnateStat())
             layoutParams = LinearLayout.LayoutParams(50, 50)
             scaleType = ImageView.ScaleType.FIT_CENTER
-            setColorFilter(Color.WHITE)
+            setColorFilter(context.colorRes(rune.getColorByInnateValue()))
         }
         innatePropData.addView(imgInnateIcon)
 
         innatePropData.addView(TextView(context).apply {
             text = rune.innateStat()
-            setTextColor(Color.WHITE)
+            setTextColor(context.colorRes(rune.getColorByInnateValue()))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             setPadding(dp(4), 0, 0, 0)

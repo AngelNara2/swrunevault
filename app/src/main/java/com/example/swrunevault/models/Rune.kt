@@ -1,5 +1,7 @@
 package com.example.swrunevault.models
 
+import android.util.Log
+import com.example.swrunevault.R
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -77,6 +79,30 @@ data class Rune(
                     if (innateStat?.statType?.isPercentage == true) "%" else ""
         }
         return ""
+    }
+
+    fun getColorByInnateValue(): Int
+    {
+        Log.d("COLOR_INNATE","Innate valor: ${innateStat.runeStat.value}")
+
+        val minValue = innateStat.minValue
+        val maxValue = innateStat.maxValue
+
+        Log.d("COLOR_INNATE","Minimo: $minValue")
+        Log.d("COLOR_INNATE","Maximo: $maxValue")
+
+        if (innateStat.runeStat.value <= minValue) return R.color.red // El valor más bajo
+        if (innateStat.runeStat.value >= maxValue) return R.color.green // El valor más alto
+
+        val midpoint = (minValue + maxValue) / 2
+
+        Log.d("COLOR_INNATE","Medio: $midpoint")
+
+        return when {
+            innateStat.runeStat.value < midpoint -> R.color.orange // Orange
+            innateStat.runeStat.value > midpoint -> R.color.yellow // Yellow
+            else -> R.color.yellow             // Exactly at the midpoint
+        }
     }
 
     fun imgInnateStat(): Int {
