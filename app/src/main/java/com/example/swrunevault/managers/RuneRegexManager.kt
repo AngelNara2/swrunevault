@@ -94,6 +94,8 @@ class RuneRegexManager(
                             (matchStat.groups["percentage"]?.value ?: "") == "%"
                         )
 
+                        runeStatType.isEnchanted = ((matchStat.groups["enchanted"]?.value ?: "") != "")
+
                         stats.add(
                             RuneStat(
                                 runeStatType,

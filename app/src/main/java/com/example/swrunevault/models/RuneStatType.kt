@@ -17,7 +17,9 @@ enum class RuneStatType(
 
     val idStatResource: Int,
 
-    var displayText: String = ""
+    var displayText: String = "",
+
+    var isEnchanted: Boolean = false
 ) {
     // Nombre mostrado de la propiedad en En | Es
     UNKNOWN(

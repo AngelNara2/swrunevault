@@ -213,14 +213,18 @@ fun createScanOverlayCenterPanel(
                 setImageResource(subStat.imgStat())
                 layoutParams = FrameLayout.LayoutParams(50,50)
                 scaleType = ImageView.ScaleType.FIT_CENTER
-                setColorFilter(Color.WHITE)
+                setColorFilter(
+                    if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
+                )
             })
         }
 
         // Nombre del sub stat
         val tvSubName = TextView(context).apply {
             text = subStat.statType?.displayText
-            setTextColor(Color.WHITE)
+            setTextColor(
+                if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
+            )
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             setPadding(dp(4),0,0,0)
@@ -234,7 +238,7 @@ fun createScanOverlayCenterPanel(
             setTextColor(Color.WHITE)
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            gravity = Gravity.END
+            gravity = Gravity.CENTER
             layoutParams = LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -254,7 +258,7 @@ fun createScanOverlayCenterPanel(
             setTextColor(context.colorRes(subStat.getColorByValueGrinstone()))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            gravity = Gravity.END
+            gravity = Gravity.CENTER
             layoutParams = LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -269,7 +273,7 @@ fun createScanOverlayCenterPanel(
             setTextColor(context.colorRes(R.color.orange))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            gravity = Gravity.END
+            gravity = Gravity.CENTER
             layoutParams = LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
