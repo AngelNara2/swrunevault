@@ -11,11 +11,10 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.graphics.toColorInt
-import com.example.swrunevault.models.Rune
-import com.example.swrunevault.utils.getStars
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
+import com.example.swrunevault.models.Rune
+import com.example.swrunevault.utils.getStars
 
 @SuppressLint("SetTextI18n")
 fun createScanOverlayLeftPanel(
@@ -99,7 +98,7 @@ fun createScanOverlayLeftPanel(
     // Cantidad de estrellas
     val tvStarts = TextView(context).apply {
         text = ""
-        setTextColor(context.colorRes(R.color.purple))
+        setTextColor(context.colorRes(R.color.orange))
         typeface = Typeface.DEFAULT_BOLD
         setGravity(Gravity.CENTER_VERTICAL)
         layoutParams = LinearLayout.LayoutParams(

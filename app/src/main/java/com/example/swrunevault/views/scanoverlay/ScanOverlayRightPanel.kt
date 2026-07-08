@@ -211,7 +211,7 @@ fun createScanOverlayRightPanel(
         setImageResource(R.drawable.action_back)
         layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
         scaleType = ImageView.ScaleType.FIT_CENTER
-        setColorFilter(context.colorRes(R.color.purple))
+        setColorFilter(context.colorRes(R.color.dark_purple))
     })
     val txtEscanearContainer = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
@@ -219,7 +219,7 @@ fun createScanOverlayRightPanel(
     txtEscanearContainer.addView(
         TextView(context).apply {
             text = "Volver";
-            setTextColor(context.colorRes(R.color.purple));
+            setTextColor(context.colorRes(R.color.dark_purple));
             typeface = Typeface.DEFAULT_BOLD;
             textSize = 13f
             setPadding(dp(4),0,0,0)

@@ -36,7 +36,8 @@
     <color name="light_green">#C8FAC8</color>
     <color name="orange">#EA8814</color>
     <color name="yellow">#FFFF00</color>
-    <color name="purple">#5E24B3</color>
+    <color name="dark_purple">#5E24B3</color>
+    <color name="purple">#6B52A2</color>
     <color name="light_purple">#E8DFF6</color>
     <color name="dark_cyan">#0A608C</color>
     <color name="cyan">#03AEFF</color>
