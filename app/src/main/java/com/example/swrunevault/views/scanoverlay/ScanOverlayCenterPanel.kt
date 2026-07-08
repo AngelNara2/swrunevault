@@ -187,6 +187,9 @@ fun createScanOverlayCenterPanel(
         )
     }
 
+    val lowSubStatContribution = rune.subStats.minByOrNull { it.subStatCurrentContribution() }
+    val hasSubStatEnchanted = rune.subStats.any {it.statType.isEnchanted}
+
     // Cargar los subStats de la runa
     rune.subStats.forEachIndexed { index, subStat ->
         val row = LinearLayout(context).apply {
@@ -214,7 +217,10 @@ fun createScanOverlayCenterPanel(
                 layoutParams = FrameLayout.LayoutParams(50,50)
                 scaleType = ImageView.ScaleType.FIT_CENTER
                 setColorFilter(
-                    if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
+                    if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
+                        context.colorRes(R.color.light_red)
+                    else
+                        if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
                 )
             })
         }
@@ -223,7 +229,10 @@ fun createScanOverlayCenterPanel(
         val tvSubName = TextView(context).apply {
             text = subStat.statType?.displayText
             setTextColor(
-                if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
+                if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
+                    context.colorRes(R.color.light_red)
+                else
+                    if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
             )
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
@@ -235,7 +244,12 @@ fun createScanOverlayCenterPanel(
         // Valor actual del sub stat
         val tvSubValue = TextView(context).apply {
             text = "${subStat.value}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-            setTextColor(Color.WHITE)
+            setTextColor(
+                if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
+                    context.colorRes(R.color.light_red)
+                else
+                    if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
+            )
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.CENTER
