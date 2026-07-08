@@ -204,6 +204,15 @@ fun createScanOverlayCenterPanel(
             weightSum = 5f
         }
 
+        val colorSubStat =
+            if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
+                context.colorRes(R.color.light_red)
+            else
+                if(!subStat.statType.isEnchanted)
+                    Color.WHITE
+                else
+                    context.colorRes(R.color.orange)
+
         // Icono de la estadística
         val leftLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -216,24 +225,15 @@ fun createScanOverlayCenterPanel(
                 setImageResource(subStat.imgStat())
                 layoutParams = FrameLayout.LayoutParams(50,50)
                 scaleType = ImageView.ScaleType.FIT_CENTER
-                setColorFilter(
-                    if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
-                        context.colorRes(R.color.light_red)
-                    else
-                        if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
-                )
+                setColorFilter(colorSubStat)
             })
         }
 
         // Nombre del sub stat
         val tvSubName = TextView(context).apply {
             text = subStat.statType?.displayText
-            setTextColor(
-                if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
-                    context.colorRes(R.color.light_red)
-                else
-                    if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
-            )
+            setTextColor(colorSubStat)
+
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             setPadding(dp(4),0,0,0)
@@ -244,12 +244,7 @@ fun createScanOverlayCenterPanel(
         // Valor actual del sub stat
         val tvSubValue = TextView(context).apply {
             text = "${subStat.value}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-            setTextColor(
-                if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
-                    context.colorRes(R.color.light_red)
-                else
-                    if(!subStat.statType.isEnchanted) Color.WHITE else context.colorRes(R.color.orange)
-            )
+            setTextColor(colorSubStat)
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.CENTER
