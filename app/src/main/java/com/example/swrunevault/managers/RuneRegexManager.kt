@@ -44,12 +44,10 @@ class RuneRegexManager(
 
             //Mostrar elementos ya ordenados.
             for (line in sortedRow) {
-                val text = line.text
+                val text = line.text.replace(" ","")
                 val box = line.boundingBox
                 val x = box?.left ?: 0
                 val y = box?.top ?: 0
-
-                Log.d("OCR","Texto: $text")
 
                 matchHeader = headerRegex.find(text)
 

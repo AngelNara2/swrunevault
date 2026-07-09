@@ -68,6 +68,8 @@ class TextRecognitionManager {
                 for (line in sortedByY) {
                     val currentY = line.boundingBox?.top ?: 0
 
+                    Log.d("OCR","Texto: ${line.text.replace(" ","")}")
+
                     // Último grupo creado.
                     val lastGroup = groupedLines.lastOrNull()
 
@@ -97,6 +99,7 @@ class TextRecognitionManager {
                     }
                 }
 
+                /*
                 // Mostrar resultado final.
                 for (group in groupedLines) {
 
@@ -118,6 +121,7 @@ class TextRecognitionManager {
                             box?.top ?: 0
                     }
                 }
+                */
 
                 onResult(
                     groupedLines

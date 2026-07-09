@@ -5,13 +5,13 @@ class SpanishRegexProvider :
 
     override fun runeHeader(): Regex {
         return Regex(
-            """(?:\+(?<level>\d+)\s+)?Runa\s+(?:(?<innate>\w+)\s+)?(?<set>\w+)\s+\((?<slot>\d)\)"""
+            """^.*?\+(?<level>\d+)Runa(?:(?<innate>Strong|Tenacious|Ferocious|Powerful|Sturdy|Durable|Quick|Mortal|Cruel|Resistant|Intricate))?(?<set>Energy|Fatal|Blade|Swift|Focus|Guard|Endure|Shield|Revenge|Will|Nemesis|Vampire|Destroy|Despair|Violent|Rage|Fight|Determination|Enhance|Accuracy|Tolerance|Seal|Intangible)\((?<slot>\d+)\)$"""
         )
     }
 
     override fun runeStat(): Regex {
         return Regex(
-            """^(?<anycharacter>.*)(?<stat>ATQ|DEF|HP|VEL|Tasa|Daño|RES|Precisión).+?\+?(?<value>[0-9]+)(?<percentage>\%)?( )?(\+(?<grindstone>[0-9]+)(?<percentage2>\%)?)?(\ (?<enchanted>(C)?(\()?\)))?""",
+            """^(?<anycharacter>.*)(?<stat>ATQ|DEF|HP|VEL|Tasa|Daño|RES|Precisión).+?\+?(?<value>\d+)(?<percentage>%?)(?:\+(?<grindstone>\d+)(?<percentage2>%?))?(?<enchanted>(C)?(\()?(\<)?(\))?(\>)?)?$""",
             RegexOption.IGNORE_CASE
         )
     }
