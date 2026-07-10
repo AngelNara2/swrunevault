@@ -8,10 +8,10 @@ import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
+import com.example.swrunevault.UiFactory
 import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.utils.getStars
@@ -60,28 +60,14 @@ fun createScanOverlayLeftPanel(
     }
 
     //<editor-fold desc="Imagen de la runa">
-    val imageContainer = FrameLayout(context).apply {
-        layoutParams = LinearLayout.LayoutParams(180, 180)
-        // Fondo con esquinas y borde
-        background = GradientDrawable().apply {
-            setColor(context.colorRes(R.color.background_primary))
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 16f // Esquinas redondeadas en píxeles
-        }
-    }
+    val imageRune = UiFactory.icon(
+        context,
+        context.colorRes(R.color.background_primary),
+        rune.runeSet.idRuneResource,
+        180,180,
+        dp(10), dp(10), dp(10), dp(10))
 
-    // Imagen de la runa
-    val imgObjeto = ImageView(context).apply {
-        layoutParams = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT)
-        scaleType = ImageView.ScaleType.FIT_CENTER
-        setImageResource(rune.runeSet.idRuneResource)
-        setPadding(dp(10), dp(10), dp(10), dp(10))
-    }
-    imageContainer.addView(imgObjeto)
-
-    headerContainer.addView(imageContainer)
+    headerContainer.addView(imageRune)
     //</editor-fold>
 
     //<editor-fold desc="Cabecera de la runa">
@@ -198,12 +184,12 @@ fun createScanOverlayLeftPanel(
     middleContainer.addView(rowFecha)
 
     // Línea divisoria
-    val divisor1 = android.view.View(context).apply {
-        layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, 4).apply {
-                setMargins(0, dp(8), 0, dp(8)) }
-        setBackgroundColor(context.colorRes(R.color.border))
-    }
+    val divisor1 = UiFactory.horizontalLine(
+        context,
+        context.colorRes(R.color.border),
+        4,
+        0, dp(8), 0, dp(8)
+    )
     middleContainer.addView(divisor1)
 
     // Fila: Fecha Escaneo

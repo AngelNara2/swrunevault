@@ -10,6 +10,7 @@ import com.example.swrunevault.views.scanoverlay.createScanOverlayCenterPanel
 import com.example.swrunevault.views.scanoverlay.createScanOverlayContainer
 import com.example.swrunevault.views.scanoverlay.createScanOverlayLeftPanel
 import com.example.swrunevault.views.scanoverlay.createScanOverlayRightPanel
+import com.example.swrunevault.views.scanoverlay.createScanOverlayInformation
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
 
@@ -44,7 +45,7 @@ class ScanOverlayManager(
                 context
             )
 
-        container.addView(
+        /*container.addView(
             createScanOverlayLeftPanel(
                 context,
                 rune
@@ -53,6 +54,13 @@ class ScanOverlayManager(
 
         container.addView(
             createScanOverlayCenterPanel(
+                context,
+                rune
+            )
+        )*/
+
+        container.addView(
+            createScanOverlayInformation(
                 context,
                 rune
             )
