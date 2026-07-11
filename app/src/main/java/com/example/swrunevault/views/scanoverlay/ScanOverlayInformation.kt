@@ -300,7 +300,7 @@ fun createScanOverlayInformation(
 
         // Valor actual del sub stat
         val tvSubValue = TextView(context).apply {
-            text = "${subStat.value}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            text = subStat.textValueStat()
             setTextColor(colorSubStat)
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
@@ -316,11 +316,7 @@ fun createScanOverlayInformation(
         val grindstoneValue = if((subStat.statType?.hasGrindsTone == true) and (subStat.grindstonevalue == 0)) (subStat.statType?.grindstoneMaxValue?:0) else subStat.grindstonevalue
 
         val tvGrindstone = TextView(context).apply {
-            text =
-                if(subStat.statType?.hasGrindsTone == true)
-                    "${grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
-                else
-                    "-"
+            text = subStat.textGrindstoneValue()
             setTextColor(context.colorRes(subStat.getColorByValueGrinstone()))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
@@ -335,7 +331,7 @@ fun createScanOverlayInformation(
         rowValues.addView(tvGrindstone)
 
         val tvTotal = TextView(context).apply {
-            text = "${subStat.value+grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            text = subStat.textTotalValue() //"${subStat.value+grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
             setTextColor(context.colorRes(R.color.orange))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD

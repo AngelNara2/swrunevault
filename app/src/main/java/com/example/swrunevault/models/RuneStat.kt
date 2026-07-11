@@ -25,6 +25,36 @@ data class RuneStat(
         return statType.idStatResource
     }
 
+    fun textValueStat(): String{
+       return "${value}${if(statType?.isPercentage == true) "%" else ""}"
+    }
+
+    fun textGrindstoneValue(): String{
+        if(!statType.hasGrindsTone) return "-"
+
+        var grindstoneValue = "${(if(grindstonevalue == 0) (statType.grindstoneMaxValue) else grindstonevalue)}${if(statType.isPercentage) "%" else ""}"
+
+        if((grindstonevalue != statType.grindstoneMaxValue) and (grindstonevalue != 0))
+        {
+            grindstoneValue = "$grindstoneValue (${statType.grindstoneMaxValue}${if (statType.isPercentage) "%" else ""})"
+        }
+
+        return grindstoneValue
+    }
+
+    fun textTotalValue(): String{
+        val grindstoneValue =  (if(grindstonevalue == 0) (statType.grindstoneMaxValue) else grindstonevalue)
+
+        var totalValue = "${value+grindstoneValue}${if(statType.isPercentage) "%" else ""}"
+
+        if((grindstonevalue != statType.grindstoneMaxValue) and (grindstonevalue != 0))
+        {
+            totalValue = "$totalValue (${value + statType.grindstoneMaxValue}${if (statType.isPercentage) "%" else ""})"
+        }
+
+        return totalValue
+    }
+
     fun secondaryStat(): String{
         return "${statType?.displayText} " +
                 "+${value}" +
