@@ -65,7 +65,7 @@ fun createScanOverlayLeftPanel(
         context.colorRes(R.color.background_primary),
         rune.runeSet.idRuneResource,
         180,180,
-        dp(10), dp(10), dp(10), dp(10))
+        )
 
     headerContainer.addView(imageRune)
     //</editor-fold>
@@ -184,13 +184,13 @@ fun createScanOverlayLeftPanel(
     middleContainer.addView(rowFecha)
 
     // Línea divisoria
-    val divisor1 = UiFactory.horizontalLine(
+    val horizontalLine1 = UiFactory.line(
         context,
-        context.colorRes(R.color.border),
+        LinearLayout.LayoutParams.MATCH_PARENT,
         4,
         0, dp(8), 0, dp(8)
     )
-    middleContainer.addView(divisor1)
+    middleContainer.addView(horizontalLine1)
 
     // Fila: Fecha Escaneo
     val rowHora = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }

@@ -1,15 +1,53 @@
 package com.example.swrunevault
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.example.swrunevault.extensions.colorRes
 
 object UiFactory {
 
-    fun icon(context: Context, color: Int, resId: Int, width: Int, height: Int, left: Int, top: Int, right: Int, bottom: Int): FrameLayout{
+    fun panel(context: Context, weight: Float) : FrameLayout{
+        return FrameLayout(context).apply {
+            setBackgroundColor(Color.TRANSPARENT)
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                weight
+            )
+        }
+    }
+
+    fun mainContainer(context: Context): LinearLayout{
+        return LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+            // Fondo con esquinas y borde
+            background = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    context.colorRes(
+                        R.color.background_secondary
+                    )
+                )
+                cornerRadius = 24f // Esquinas redondeadas en píxeles
+                setStroke( // Borde: grosor en px, color del borde
+                    4,
+                    context.colorRes(R.color.border)
+                )
+            }
+        }
+    }
+    fun icon(context: Context, color: Int, resId: Int, width: Int, height: Int): FrameLayout{
         return FrameLayout(context).apply {
             layoutParams = LinearLayout.LayoutParams(width, height)
             // Fondo con esquinas y borde
@@ -24,19 +62,80 @@ object UiFactory {
                     FrameLayout.LayoutParams.MATCH_PARENT)
                 scaleType = ImageView.ScaleType.FIT_CENTER
                 setImageResource(resId)
-                setPadding(left, top, right, bottom)
             })
         }
     }
 
-    fun horizontalLine(context: Context, color: Int,height: Int, left: Int, top: Int, right: Int, bottom: Int): android.view.View{
+    fun text(context: Context, showtext: String, size: Float, color: Int, weight: Float): TextView {
+        return TextView(context).apply {
+            text = showtext
+            textSize = size
+            setTextColor(color)
+            typeface = Typeface.DEFAULT_BOLD
+            gravity = Gravity.CENTER_VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                weight
+            )
+        }
+    }
+
+    fun stat(context: Context, headerText: String, headerColor:Int, resId: Int, secondText: String, secondColor:Int): LinearLayout{
+        val density = context.resources.displayMetrics.density
+        fun dp(value: Int): Int = (value * density).toInt()
+
+        val mainPropLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f)
+        }
+
+        mainPropLayout.addView(TextView(context).apply {
+            text = headerText
+            setTextColor(Color.WHITE)
+            textSize = 14f
+            typeface = Typeface.DEFAULT_BOLD
+            setPadding(0, 0, 0, dp(8))
+        })
+
+        // Contenedor horizontal para Icono + Stats del Main
+        val mainPropData = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+
+        // Icono del stat principal
+        val imgMainIcon = ImageView(context).apply {
+            setImageResource(resId)
+            layoutParams = LinearLayout.LayoutParams(50, 50)
+            scaleType = ImageView.ScaleType.FIT_CENTER
+            setColorFilter(secondColor)
+        }
+        mainPropData.addView(imgMainIcon)
+
+        mainPropData.addView(TextView(context).apply {
+            text = secondText
+            setTextColor(secondColor)
+            textSize = 13f
+            typeface = Typeface.DEFAULT_BOLD
+            setPadding(dp(4), 0, 0, 0)
+        })
+        mainPropLayout.addView(mainPropData)
+
+        return mainPropLayout
+    }
+
+    fun line(context: Context, width: Int, height: Int, left: Int, top: Int, right: Int, bottom: Int): android.view.View{
         return android.view.View(context).apply {
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
+                width,
                 height).apply {
                     setMargins(left, top, right, bottom)
                 }
-            setBackgroundColor(context.colorRes(color))
+            setBackgroundColor(context.colorRes(R.color.border))
         }
     }
 }

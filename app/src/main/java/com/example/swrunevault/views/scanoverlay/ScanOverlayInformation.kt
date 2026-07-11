@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
-import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -28,31 +27,14 @@ fun createScanOverlayInformation(
     fun dp(value: Int): Int = (value * density).toInt()
 
     // Panel principal para contener todos los elementos
-    val panel = FrameLayout(context).apply {
-        setBackgroundColor(Color.TRANSPARENT)
-        layoutParams = LinearLayout.LayoutParams(
-            0,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            3f
-        )
-        setPadding(4, 8, 4, 8)
+    val panel = UiFactory.panel(context,
+        3f).apply {
+            setPadding(4, 8, 4, 8)
     }
 
     // Contenedor Vertical principal para estructurar las secciones de arriba a abajo
-    val mainContainer = LinearLayout(context).apply {
-        orientation = LinearLayout.VERTICAL
+    val mainContainer = UiFactory.mainContainer(context).apply {
         setPadding(dp(8),dp(8),dp(8),dp(8))
-        layoutParams = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        // Fondo con esquinas y borde
-        background = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            setColor(context.colorRes(R.color.background_secondary))
-            cornerRadius = 24f // Esquinas redondeadas en píxeles
-            setStroke(4, context.colorRes(R.color.border)) // Borde: grosor en px, color del borde
-        }
     }
 
     //<editor-fold desc="Imagen e Info Principal">
@@ -66,9 +48,10 @@ fun createScanOverlayInformation(
         context,
         context.colorRes(R.color.background_primary),
         rune.runeSet.idRuneResource,
-        180,180,
-        dp(10), dp(10), dp(10), dp(10))
-
+        180,180
+        ).apply {
+            setPadding(dp(10), dp(10), dp(10), dp(10))
+        }
     headerContainer.addView(imageRune)
     //</editor-fold>
 
@@ -79,49 +62,36 @@ fun createScanOverlayInformation(
         setPadding(dp(8), 0, 0, 0)
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            1f
         )
     }
 
     // Cantidad de estrellas
-    val tvStarts = TextView(context).apply {
-        text = "★★★★★★"
-        textSize = 12f
-        setTextColor(context.colorRes(R.color.orange))
-        typeface = Typeface.DEFAULT_BOLD
-        setGravity(Gravity.CENTER_VERTICAL)
-        layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            1f
-        )
-    }
-
+    val tvStarts = UiFactory.text(context,
+        "★★★★★★",
+        12f,
+        context.colorRes(R.color.orange),
+        1f
+    )
     infoContainer.addView(tvStarts)
 
     // Set
-    val tvTitle = TextView(context).apply {
-        text = rune.runeSet.name
-        setTextColor(context.colorRes(R.color.purple))
-        textSize = 14f
-        typeface = Typeface.DEFAULT_BOLD
-        setGravity(Gravity.CENTER_VERTICAL)
-        layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            1f
-        )
-    }
+    val tvTitle = UiFactory.text(context,
+        rune.runeSet.name,
+        14f,
+        context.colorRes(R.color.purple),
+        1f
+    )
     infoContainer.addView(tvTitle)
 
     // Rareza
-    val tvTag = TextView(context).apply {
-        text = rune.rarity.name
-        setTextColor(context.colorRes(rune.rarity.colorText))
-        setBackgroundColor(context.colorRes(rune.rarity.colorBackground))
+    val tvTag = UiFactory.text(context,
+        rune.rarity.name,
+        10f,
+        context.colorRes(rune.rarity.colorText),
+        1f).apply {
         setPadding(10, 4, 10, 4)
-        textSize = 10f
-        typeface = Typeface.DEFAULT_BOLD
         background = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
             // Color de fondo del contenedor
@@ -129,134 +99,216 @@ fun createScanOverlayInformation(
             // Esquinas redondeadas en píxeles
             cornerRadius = 10f
         }
-        setGravity(Gravity.CENTER_VERTICAL)
-        layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            1f)
     }
     infoContainer.addView(tvTag)
 
     // Slot
-    val tvSlot = TextView(context).apply {
-        text = "Slot ${rune.slot}"
-        setTextColor(Color.WHITE)
-        setGravity(Gravity.CENTER_VERTICAL)
-        layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            1f
-        )
-        textSize = 10f
-    }
+    val tvSlot = UiFactory.text(context,
+        "Slot ${rune.slot}",
+        10f,
+        Color.WHITE,
+        1f
+    )
     infoContainer.addView(tvSlot)
 
     headerContainer.addView(infoContainer)
     //</editor-fold>
 
+    val verticalLine = UiFactory.line(context,
+        4,
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        16, 0, 16, 0
+    )
+    headerContainer.addView(verticalLine)
+
+    //<editor-fold desc="Propiedad principal e innate">
     val propertiesRow = LinearLayout(context).apply {
         orientation = LinearLayout.HORIZONTAL
         weightSum = 2f // Permite dividir el espacio exactamente a la mitad
+        layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+    }
+
+    // Columna Izquierda: Propiedad Principal
+    val mainStat = UiFactory.stat(context,
+        "Stat Principal",
+        Color.WHITE,
+        rune.imgMainStat(),
+        rune.primaryStat(),
+        Color.WHITE
+    )
+    propertiesRow.addView(mainStat)
+
+    if(rune.innateStat != RuneInnateStat.UNKNOWN)
+    {
+        // --- Línea Negra Divisoria Central ---
+        val verticalLine = UiFactory.line(context,
+            4,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            16, 0, 16, 0
+        )
+        propertiesRow.addView(verticalLine)
+
+        // Columna Derecha: Propiedad Innata
+        val innateStat = UiFactory.stat(context,
+            "Stat Innate",
+            Color.WHITE,
+            rune.imgInnateStat(),
+            rune.innateStat(),
+            context.colorRes(rune.getColorByInnateValue())
+            )
+        propertiesRow.addView(innateStat)
+    }
+
+    headerContainer.addView(propertiesRow)
+    //</editor-fold>
+
+    mainContainer.addView(headerContainer)
+    //</editor-fold>
+
+    // Línea divisoria
+    val horizontalLine1 = UiFactory.line(
+        context,
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        4,
+        0, dp(8), 0, dp(8)
+    )
+    mainContainer.addView(horizontalLine1)
+
+    //<editor-fold desc="SubPropiedades">
+    val subPropertiesCard = LinearLayout(context).apply {
+        orientation = LinearLayout.VERTICAL
+        background = GradientDrawable().apply {
+            setColor(context.colorRes(R.color.background_primary))
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 16f // Esquinas redondeadas en píxeles
+        }
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
     }
 
-    // Columna Izquierda: Propiedad Principal
-    val mainPropLayout = LinearLayout(context).apply {
-        orientation = LinearLayout.VERTICAL
-        layoutParams = LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,1f)
-    }
+    val lowSubStatContribution = rune.subStats.minByOrNull { it.subStatCurrentContribution() }
+    val hasSubStatEnchanted = rune.subStats.any {it.statType.isEnchanted}
 
-    mainPropLayout.addView(TextView(context).apply {
-        text = "Stat Principal"
-        setTextColor(Color.WHITE)
-        textSize = 14f
-        typeface = Typeface.DEFAULT_BOLD
-        setPadding(0, 0, 0, dp(8))
-    })
-
-    // Contenedor horizontal para Icono + Stats del Main
-    val mainPropData = LinearLayout(context).apply {
-        orientation = LinearLayout.HORIZONTAL
-        gravity = Gravity.CENTER_VERTICAL
-    }
-
-    // Icono del stat principal
-    val imgMainIcon = ImageView(context).apply {
-        setImageResource(rune.imgMainStat())
-        layoutParams = LinearLayout.LayoutParams(50, 50)
-        scaleType = ImageView.ScaleType.FIT_CENTER
-        setColorFilter(Color.WHITE)
-    }
-    mainPropData.addView(imgMainIcon)
-
-    mainPropData.addView(TextView(context).apply {
-        text = rune.primaryStat()
-        setTextColor(Color.WHITE)
-        textSize = 13f
-        typeface = Typeface.DEFAULT_BOLD
-        setPadding(dp(4), 0, 0, 0)
-    })
-    mainPropLayout.addView(mainPropData)
-
-    propertiesRow.addView(mainPropLayout)
-
-    if(rune.innateStat != RuneInnateStat.UNKNOWN)
-    {
-        // --- Línea Negra Divisoria Central ---
-        val centerVerticalLine = android.view.View(context).apply {
-            layoutParams = LinearLayout.LayoutParams(4, LinearLayout.LayoutParams.MATCH_PARENT).apply {
-                setMargins(16, 8, 16, 8)
-            }
-            setBackgroundColor(context.colorRes(R.color.border))
-        }
-        propertiesRow.addView(centerVerticalLine)
-
-        // Columna Derecha: Propiedad Innata
-        val innatePropLayout = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,1f)
-        }
-
-        innatePropLayout.addView(TextView(context).apply {
-            text = "Stat Innate"
-            setTextColor(Color.WHITE)
-            textSize = 14f
-            typeface = Typeface.DEFAULT_BOLD
-            setPadding(0, 0, 0, dp(8))
-        })
-
-        // Contenedor horizontal para Icono + Stats de la Innata
-        val innatePropData = LinearLayout(context).apply {
+    // Cargar los subStats de la runa
+    rune.subStats.forEachIndexed { index, subStat ->
+        val row = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
+            setBackgroundColor(Color.TRANSPARENT)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            setPadding(dp(8),dp(8),dp(8),dp(8))
+            weightSum = 5f
         }
-        // Icono (Escudo/HP) con fondo naranja muy claro
-        val imgInnateIcon = ImageView(context).apply {
-            setImageResource(rune.imgInnateStat())
-            layoutParams = LinearLayout.LayoutParams(50, 50)
-            scaleType = ImageView.ScaleType.FIT_CENTER
-            setColorFilter(context.colorRes(rune.getColorByInnateValue()))
-        }
-        innatePropData.addView(imgInnateIcon)
 
-        innatePropData.addView(TextView(context).apply {
-            text = rune.innateStat()
-            setTextColor(context.colorRes(rune.getColorByInnateValue()))
+        val colorSubStat =
+            if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
+                context.colorRes(R.color.light_red)
+            else
+                if(!subStat.statType.isEnchanted)
+                    Color.WHITE
+                else
+                    context.colorRes(R.color.orange)
+
+        // Icono de la estadística
+        val leftLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                2f)
+            addView(ImageView(context).apply {
+                setImageResource(subStat.imgStat())
+                layoutParams = FrameLayout.LayoutParams(50,50)
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                setColorFilter(colorSubStat)
+            })
+        }
+
+        // Nombre del sub stat
+        val tvSubName = TextView(context).apply {
+            text = subStat.statType?.displayText
+            setTextColor(colorSubStat)
+
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(dp(4), 0, 0, 0)
-        })
-        innatePropLayout.addView(innatePropData)
-        propertiesRow.addView(innatePropLayout)
+            setPadding(dp(4),0,0,0)
+        }
+        leftLayout.addView(tvSubName)
+        row.addView(leftLayout)
+
+        // Valor actual del sub stat
+        val tvSubValue = TextView(context).apply {
+            text = "${subStat.value}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            setTextColor(colorSubStat)
+            textSize = 13f
+            typeface = Typeface.DEFAULT_BOLD
+            gravity = Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+        row.addView(tvSubValue)
+
+        val grindstoneValue = if((subStat.statType?.hasGrindsTone == true) and (subStat.grindstonevalue == 0)) (subStat.statType?.grindstoneMaxValue?:0) else subStat.grindstonevalue
+
+        val tvGrindstone = TextView(context).apply {
+            text =
+                if(subStat.statType?.hasGrindsTone == true)
+                    "${grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+                else
+                    "-"
+            setTextColor(context.colorRes(subStat.getColorByValueGrinstone()))
+            textSize = 13f
+            typeface = Typeface.DEFAULT_BOLD
+            gravity = Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+
+        row.addView(tvGrindstone)
+
+        val tvTotal = TextView(context).apply {
+            text = "${subStat.value+grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            setTextColor(context.colorRes(R.color.orange))
+            textSize = 13f
+            typeface = Typeface.DEFAULT_BOLD
+            gravity = Gravity.CENTER_HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+        row.addView(tvTotal)
+
+        subPropertiesCard.addView(row)
+
+        // Agregar una mini línea divisoria gris entre cada fila, excepto en la última
+        if (index < rune.subStats.size - 1) {
+            val innerDivisor = android.view.View(context).apply {
+                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2)
+                setBackgroundColor(context.colorRes(R.color.border))
+            }
+            subPropertiesCard.addView(innerDivisor)
+        }
     }
 
-    headerContainer.addView(propertiesRow)
-
-    mainContainer.addView(headerContainer)
-    //</editor-fold>
+    mainContainer.addView(subPropertiesCard)
+    //<editor-fold>
 
     // Agregamos el contenedor al panel
     panel.addView(mainContainer)
