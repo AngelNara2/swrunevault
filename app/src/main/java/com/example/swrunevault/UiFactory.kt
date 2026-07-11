@@ -66,7 +66,14 @@ object UiFactory {
         }
     }
 
-    fun text(context: Context, showtext: String, size: Float, color: Int, weight: Float): TextView {
+    fun text(
+        context: Context,
+        showtext: String,
+        size: Float,
+        color: Int,
+        width: Int = 0,
+        height: Int = 0,
+        weight: Float = 0f): TextView {
         return TextView(context).apply {
             text = showtext
             textSize = size
@@ -74,8 +81,8 @@ object UiFactory {
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.CENTER_VERTICAL
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                width,
+                height,
                 weight
             )
         }
@@ -95,7 +102,7 @@ object UiFactory {
 
         mainPropLayout.addView(TextView(context).apply {
             text = headerText
-            setTextColor(Color.WHITE)
+            setTextColor(headerColor)
             textSize = 14f
             typeface = Typeface.DEFAULT_BOLD
             setPadding(0, 0, 0, dp(8))
@@ -138,4 +145,18 @@ object UiFactory {
             setBackgroundColor(context.colorRes(R.color.border))
         }
     }
+
+    fun row(context: Context,weightSumItems: Float): LinearLayout{
+        return LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setBackgroundColor(Color.TRANSPARENT)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            weightSum = weightSumItems
+        }
+    }
+
 }

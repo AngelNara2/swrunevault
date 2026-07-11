@@ -72,6 +72,8 @@ fun createScanOverlayInformation(
         "★★★★★★",
         12f,
         context.colorRes(R.color.orange),
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
     )
     infoContainer.addView(tvStarts)
@@ -81,6 +83,8 @@ fun createScanOverlayInformation(
         rune.runeSet.name,
         14f,
         context.colorRes(R.color.purple),
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
     )
     infoContainer.addView(tvTitle)
@@ -90,6 +94,8 @@ fun createScanOverlayInformation(
         rune.rarity.name,
         10f,
         context.colorRes(rune.rarity.colorText),
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
         1f).apply {
         setPadding(10, 4, 10, 4)
         background = GradientDrawable().apply {
@@ -107,6 +113,8 @@ fun createScanOverlayInformation(
         "Slot ${rune.slot}",
         10f,
         Color.WHITE,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
     )
     infoContainer.addView(tvSlot)
@@ -194,18 +202,64 @@ fun createScanOverlayInformation(
     val lowSubStatContribution = rune.subStats.minByOrNull { it.subStatCurrentContribution() }
     val hasSubStatEnchanted = rune.subStats.any {it.statType.isEnchanted}
 
+    val rowColumNames = UiFactory.row(context,5f).apply {
+        setPadding(dp(8),dp(8),dp(8),dp(8))
+    }
+
+    rowColumNames.addView(UiFactory.text(context,
+        "SubStat",
+        13f,
+        Color.WHITE,
+        0,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        2f
+        )
+    )
+
+    rowColumNames.addView(UiFactory.text(context,
+        "Base",
+        13f,
+        Color.WHITE,
+        0,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        1f
+        ).apply { gravity = Gravity.CENTER }
+    )
+
+    rowColumNames.addView(UiFactory.text(context,
+        "GrindStone",
+        13f,
+        Color.WHITE,
+        0,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        1f
+        ).apply { gravity = Gravity.CENTER }
+    )
+
+    rowColumNames.addView(UiFactory.text(context,
+        "Total",
+        13f,
+        Color.WHITE,
+        0,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        1f
+        ).apply { gravity = Gravity.CENTER }
+    )
+
+    subPropertiesCard.addView(rowColumNames)
+
+    val horizontalLine2 = UiFactory.line(
+        context,
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        4,
+        dp(8), 0, dp(8), 0
+    )
+    subPropertiesCard.addView(horizontalLine2)
+
     // Cargar los subStats de la runa
     rune.subStats.forEachIndexed { index, subStat ->
-        val row = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            setBackgroundColor(Color.TRANSPARENT)
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+        val rowValues = UiFactory.row(context,5f).apply {
             setPadding(dp(8),dp(8),dp(8),dp(8))
-            weightSum = 5f
         }
 
         val colorSubStat =
@@ -237,13 +291,12 @@ fun createScanOverlayInformation(
         val tvSubName = TextView(context).apply {
             text = subStat.statType?.displayText
             setTextColor(colorSubStat)
-
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(dp(4),0,0,0)
+            setPadding(dp(10),0,0,0)
         }
         leftLayout.addView(tvSubName)
-        row.addView(leftLayout)
+        rowValues.addView(leftLayout)
 
         // Valor actual del sub stat
         val tvSubValue = TextView(context).apply {
@@ -258,7 +311,7 @@ fun createScanOverlayInformation(
                 1f
             )
         }
-        row.addView(tvSubValue)
+        rowValues.addView(tvSubValue)
 
         val grindstoneValue = if((subStat.statType?.hasGrindsTone == true) and (subStat.grindstonevalue == 0)) (subStat.statType?.grindstoneMaxValue?:0) else subStat.grindstonevalue
 
@@ -279,7 +332,7 @@ fun createScanOverlayInformation(
             )
         }
 
-        row.addView(tvGrindstone)
+        rowValues.addView(tvGrindstone)
 
         val tvTotal = TextView(context).apply {
             text = "${subStat.value+grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
@@ -293,17 +346,19 @@ fun createScanOverlayInformation(
                 1f
             )
         }
-        row.addView(tvTotal)
+        rowValues.addView(tvTotal)
 
-        subPropertiesCard.addView(row)
+        subPropertiesCard.addView(rowValues)
 
         // Agregar una mini línea divisoria gris entre cada fila, excepto en la última
         if (index < rune.subStats.size - 1) {
-            val innerDivisor = android.view.View(context).apply {
-                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2)
-                setBackgroundColor(context.colorRes(R.color.border))
-            }
-            subPropertiesCard.addView(innerDivisor)
+            val horizontalLine3 = UiFactory.line(
+                context,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                4,
+                dp(8), 0, dp(8), 0
+            )
+            subPropertiesCard.addView(horizontalLine3)
         }
     }
 
