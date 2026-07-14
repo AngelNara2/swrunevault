@@ -47,21 +47,22 @@ object UiFactory {
             }
         }
     }
-    fun icon(context: Context, color: Int, resId: Int, width: Int, height: Int): FrameLayout{
+    fun icon(context: Context,resId: Int, width: Int, height: Int, color_background: Int = Color.TRANSPARENT, color_filter: Int = Color.TRANSPARENT ): FrameLayout{
         return FrameLayout(context).apply {
             layoutParams = LinearLayout.LayoutParams(width, height)
             // Fondo con esquinas y borde
             background = GradientDrawable().apply {
-                setColor(color)
+                setColor(color_background)
                 shape = GradientDrawable.RECTANGLE
                 cornerRadius = 16f // Esquinas redondeadas en píxeles
             }
             addView(ImageView(context).apply {
+                setImageResource(resId)
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                setColorFilter(color_filter)
                 layoutParams = FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.MATCH_PARENT)
-                scaleType = ImageView.ScaleType.FIT_CENTER
-                setImageResource(resId)
             })
         }
     }
@@ -146,7 +147,7 @@ object UiFactory {
         }
     }
 
-    fun row(context: Context,weightSumItems: Float): LinearLayout{
+    fun row(context: Context,weightSumItems: Float = 0f): LinearLayout{
         return LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL

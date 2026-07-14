@@ -60,14 +60,14 @@ fun createScanOverlayLeftPanel(
     }
 
     //<editor-fold desc="Imagen de la runa">
-    val imageRune = UiFactory.icon(
+    /*val imageRune = UiFactory.icon(
         context,
         context.colorRes(R.color.background_primary),
         rune.runeSet.idRuneResource,
         180,180,
         )
 
-    headerContainer.addView(imageRune)
+    headerContainer.addView(imageRune)*/
     //</editor-fold>
 
     //<editor-fold desc="Cabecera de la runa">

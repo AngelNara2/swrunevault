@@ -7,7 +7,6 @@ import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
@@ -45,9 +44,10 @@ fun createScanOverlayInformation(
     //<editor-fold desc="Imagen de la runa">
     val imageRune = UiFactory.icon(
         context,
-        context.colorRes(R.color.background_primary),
         rune.runeSet.idRuneResource,
-        180,180
+        180,
+        180,
+        context.colorRes(R.color.background_primary),
         ).apply {
             setPadding(dp(10), dp(10), dp(10), dp(10))
         }
@@ -284,7 +284,24 @@ fun createScanOverlayInformation(
                     context.colorRes(R.color.orange)
 
         // Fila del SubStat
-        val leftLayout = LinearLayout(context).apply {
+        val rowSubStat = UiFactory.row(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                2f)
+        }
+
+        val iconoSub = UiFactory.icon(
+            context,
+            subStat.imgStat(),
+            50,
+            50,
+            color_filter = colorSubStat,
+        )
+
+        rowSubStat.addView(iconoSub)
+
+        /*val leftLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             layoutParams = LinearLayout.LayoutParams(
@@ -297,7 +314,7 @@ fun createScanOverlayInformation(
                 scaleType = ImageView.ScaleType.FIT_CENTER
                 setColorFilter(colorSubStat)
             })
-        }
+        }*/
 
         // Nombre
         val tvSubName = TextView(context).apply {
@@ -307,8 +324,8 @@ fun createScanOverlayInformation(
             typeface = Typeface.DEFAULT_BOLD
             setPadding(dp(10),0,0,0)
         }
-        leftLayout.addView(tvSubName)
-        rowValues.addView(leftLayout)
+        rowSubStat.addView(tvSubName)
+        rowValues.addView(rowSubStat)
 
         // Valor actual
         val tvSubValue = TextView(context).apply {
