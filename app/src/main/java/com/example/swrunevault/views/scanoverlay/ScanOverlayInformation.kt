@@ -313,14 +313,47 @@ fun createScanOverlayInformation(
         }
         rowValues.addView(tvSubValue)
 
-        val grindstoneValue = if((subStat.statType?.hasGrindsTone == true) and (subStat.grindstonevalue == 0)) (subStat.statType?.grindstoneMaxValue?:0) else subStat.grindstonevalue
+        val rowGrindstoneValues = UiFactory.row(context,0f).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
 
         val tvGrindstone = TextView(context).apply {
             text = subStat.textGrindstoneValue()
             setTextColor(context.colorRes(subStat.getColorByValueGrinstone()))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            gravity = Gravity.CENTER
+            gravity = if(subStat.statType.hasGrindsTone) Gravity.END else Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+        rowGrindstoneValues.addView(tvGrindstone)
+
+        if(subStat.statType.hasGrindsTone){
+            val tvGrindstoneMaxValue = TextView(context).apply {
+                text = subStat.textGrindstoneMaxValue()
+                setTextColor(context.colorRes(R.color.green))
+                textSize = 13f
+                typeface = Typeface.DEFAULT_BOLD
+                gravity = Gravity.START
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
+            }
+            rowGrindstoneValues.addView(tvGrindstoneMaxValue)
+        }
+
+        rowValues.addView(rowGrindstoneValues)
+
+        val rowTotalValues = UiFactory.row(context,0f).apply {
             layoutParams = LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -328,21 +361,37 @@ fun createScanOverlayInformation(
             )
         }
 
-        rowValues.addView(tvGrindstone)
-
         val tvTotal = TextView(context).apply {
-            text = subStat.textTotalValue() //"${subStat.value+grindstoneValue}${if(subStat.statType?.isPercentage == true) "%" else ""}"
+            text = subStat.textTotalValue()
             setTextColor(context.colorRes(R.color.orange))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            gravity = Gravity.CENTER_HORIZONTAL
+            gravity = if(subStat.statType.hasGrindsTone) Gravity.END else Gravity.CENTER
             layoutParams = LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 1f
             )
         }
-        rowValues.addView(tvTotal)
+        rowTotalValues.addView(tvTotal)
+
+        if(subStat.statType.hasGrindsTone){
+            val tvTotalMaxValue = TextView(context).apply {
+                text = subStat.textTotalMaxValue()
+                setTextColor(context.colorRes(R.color.green))
+                textSize = 13f
+                typeface = Typeface.DEFAULT_BOLD
+                gravity = Gravity.START
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
+            }
+            rowTotalValues.addView(tvTotalMaxValue)
+        }
+
+        rowValues.addView(rowTotalValues)
 
         subPropertiesCard.addView(rowValues)
 
