@@ -27,8 +27,7 @@ fun createScanOverlayInformation(
     fun dp(value: Int): Int = (value * density).toInt()
 
     // Panel principal para contener todos los elementos
-    val panel = UiFactory.panel(context,
-        3f).apply {
+    val panel = UiFactory.panel(context, 3f).apply {
             setPadding(4, 8, 4, 8)
     }
 
@@ -151,7 +150,7 @@ fun createScanOverlayInformation(
 
     if(rune.innateStat != RuneInnateStat.UNKNOWN)
     {
-        // --- Línea Negra Divisoria Central ---
+        // Línea Negra Divisoria Central
         val verticalLine = UiFactory.line(context,
             4,
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -199,13 +198,18 @@ fun createScanOverlayInformation(
         )
     }
 
+    // SubStat con la menor contribución de la runa
     val lowSubStatContribution = rune.subStats.minByOrNull { it.subStatCurrentContribution() }
+
+    // La runa tiene una propiedad que viene una gema
     val hasSubStatEnchanted = rune.subStats.any {it.statType.isEnchanted}
 
+    //<editor-fold desc="Encabezados">
     val rowColumNames = UiFactory.row(context,5f).apply {
         setPadding(dp(8),dp(8),dp(8),dp(8))
     }
 
+    // SubStat
     rowColumNames.addView(UiFactory.text(context,
         "SubStat",
         13f,
@@ -213,9 +217,10 @@ fun createScanOverlayInformation(
         0,
         LinearLayout.LayoutParams.WRAP_CONTENT,
         2f
-        )
+    )
     )
 
+    // Base
     rowColumNames.addView(UiFactory.text(context,
         "Base",
         13f,
@@ -223,9 +228,10 @@ fun createScanOverlayInformation(
         0,
         LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
-        ).apply { gravity = Gravity.CENTER }
+    ).apply { gravity = Gravity.CENTER }
     )
 
+    // GrindStone
     rowColumNames.addView(UiFactory.text(context,
         "GrindStone",
         13f,
@@ -233,9 +239,10 @@ fun createScanOverlayInformation(
         0,
         LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
-        ).apply { gravity = Gravity.CENTER }
+    ).apply { gravity = Gravity.CENTER }
     )
 
+    // Total
     rowColumNames.addView(UiFactory.text(context,
         "Total",
         13f,
@@ -243,10 +250,11 @@ fun createScanOverlayInformation(
         0,
         LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
-        ).apply { gravity = Gravity.CENTER }
+    ).apply { gravity = Gravity.CENTER }
     )
 
     subPropertiesCard.addView(rowColumNames)
+    //</editor-fold>
 
     val horizontalLine2 = UiFactory.line(
         context,
@@ -262,16 +270,20 @@ fun createScanOverlayInformation(
             setPadding(dp(8),dp(8),dp(8),dp(8))
         }
 
+        // Color que va a tener el icono y SubStat
         val colorSubStat =
+            // Si el SubStat es el más bajo y ninguna propiedad proviene de una gema, será rojo
             if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
                 context.colorRes(R.color.light_red)
             else
+                // Si el SubStat no proviene de una gema, será blanco
                 if(!subStat.statType.isEnchanted)
                     Color.WHITE
+                // En caso contrario será naranja, indicando que proviene de una gema
                 else
                     context.colorRes(R.color.orange)
 
-        // Icono de la estadística
+        // Fila del SubStat
         val leftLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
@@ -287,7 +299,7 @@ fun createScanOverlayInformation(
             })
         }
 
-        // Nombre del sub stat
+        // Nombre
         val tvSubName = TextView(context).apply {
             text = subStat.statType?.displayText
             setTextColor(colorSubStat)
@@ -298,7 +310,7 @@ fun createScanOverlayInformation(
         leftLayout.addView(tvSubName)
         rowValues.addView(leftLayout)
 
-        // Valor actual del sub stat
+        // Valor actual
         val tvSubValue = TextView(context).apply {
             text = subStat.textValueStat()
             setTextColor(colorSubStat)
@@ -313,8 +325,10 @@ fun createScanOverlayInformation(
         }
         rowValues.addView(tvSubValue)
 
+        // Indica si es necesario mostrar los valores máximos si su valor es menor
+        val showMaxValue =  subStat.hasGrindstone() and !subStat.hasMaxGrindstoneValue()
 
-
+        // Fila que contiene el valor de su Grindstone actual y su maximo posible
         val rowGrindstoneValues = UiFactory.row(context,0f).apply {
             layoutParams = LinearLayout.LayoutParams(
                 0,
@@ -323,8 +337,7 @@ fun createScanOverlayInformation(
             )
         }
 
-        val showMaxValue =  subStat.hasGrindstone() and !subStat.hasMaxGrindstoneValue()
-
+        // Valor del Grindstone obtenido o posible de obtener
         val tvGrindstone = TextView(context).apply {
             text = subStat.textGrindstoneValue()
             setTextColor(context.colorRes(subStat.getColorByValueGrinstone()))
@@ -340,6 +353,7 @@ fun createScanOverlayInformation(
         rowGrindstoneValues.addView(tvGrindstone)
 
         if(showMaxValue){
+            // Valor maximo del Grindstone obtenido o posible de obtener
             val tvGrindstoneMaxValue = TextView(context).apply {
                 text = subStat.textGrindstoneMaxValue()
                 setTextColor(context.colorRes(R.color.green))
@@ -357,6 +371,7 @@ fun createScanOverlayInformation(
 
         rowValues.addView(rowGrindstoneValues)
 
+        // Fila que contiene el valor de su Total actual y su maximo posible
         val rowTotalValues = UiFactory.row(context,0f).apply {
             layoutParams = LinearLayout.LayoutParams(
                 0,
@@ -365,6 +380,7 @@ fun createScanOverlayInformation(
             )
         }
 
+        // Valor del Total obtenido actual
         val tvTotal = TextView(context).apply {
             text = subStat.textTotalValue()
             setTextColor(context.colorRes(R.color.orange))
@@ -379,6 +395,7 @@ fun createScanOverlayInformation(
         }
         rowTotalValues.addView(tvTotal)
 
+        // Valor total maximo posible de obtener
         if(showMaxValue){
             val tvTotalMaxValue = TextView(context).apply {
                 text = subStat.textTotalMaxValue()
@@ -412,7 +429,7 @@ fun createScanOverlayInformation(
     }
 
     mainContainer.addView(subPropertiesCard)
-    //<editor-fold>
+    //</editor-fold>
 
     // Agregamos el contenedor al panel
     panel.addView(mainContainer)
