@@ -4,15 +4,12 @@ import android.content.Context
 import android.graphics.PixelFormat
 import android.view.WindowManager
 import android.widget.FrameLayout
-import androidx.core.graphics.toColorInt
-import com.example.swrunevault.models.Rune
-import com.example.swrunevault.views.scanoverlay.createScanOverlayCenterPanel
-import com.example.swrunevault.views.scanoverlay.createScanOverlayContainer
-import com.example.swrunevault.views.scanoverlay.createScanOverlayLeftPanel
-import com.example.swrunevault.views.scanoverlay.createScanOverlayRightPanel
-import com.example.swrunevault.views.scanoverlay.createScanOverlayInformation
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
+import com.example.swrunevault.models.Rune
+import com.example.swrunevault.views.scanoverlay.createScanOverlayContainer
+import com.example.swrunevault.views.scanoverlay.createScanOverlayInformation
+import com.example.swrunevault.views.scanoverlay.createScanOverlayRightPanel
 
 class ScanOverlayManager(
     private val context: Context
@@ -62,7 +59,9 @@ class ScanOverlayManager(
         container.addView(
             createScanOverlayInformation(
                 context,
-                rune
+                rune,
+                onClose,
+                ::remove
             )
         )
 

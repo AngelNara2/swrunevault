@@ -8,7 +8,6 @@ import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
@@ -22,7 +21,9 @@ import com.example.swrunevault.utils.getStars
 @SuppressLint("SetTextI18n")
 fun createScanOverlayInformation(
         context: Context,
-        rune: Rune
+        rune: Rune,
+        onClose: () -> Unit,
+        onRemove: () -> Unit
 ): FrameLayout {
     // FUNCIÓN AUXILIAR: Convierte valores DP a Píxeles reales según la pantalla del dispositivo
     val density = context.resources.displayMetrics.density
@@ -546,7 +547,73 @@ fun createScanOverlayInformation(
     )
     footerContainer.addView(verticalLine2)
 
+    //<editor-fold desc="Botones de acción">
+    val columnSelectorLocation = UiFactory.column(context, weight=1f)
 
+    val actionRow = LinearLayout(context).apply {
+        orientation = LinearLayout.HORIZONTAL
+        weightSum = 2f
+        layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+    }
+
+    // Botón Izquierdo: Volver atrás
+    val btnBack = UiFactory.button(context,
+        R.drawable.action_back,
+        "Volver",
+        13f,
+        context.colorRes(R.color.dark_purple),
+        context.colorRes(R.color.light_purple)
+        ).apply {
+        setOnClickListener {
+            onClose()
+            onRemove()
+        }
+    }
+    actionRow.addView(btnBack)
+
+    // Espacio responsivo entre botones
+    actionRow.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(dp(4), 1) })
+
+    // Botón Derecho: Editar Runa
+    val btnEdit = UiFactory.button(context,
+        R.drawable.action_edit,
+        "Editar",
+        13f,
+        context.colorRes(R.color.dark_cyan),
+        context.colorRes(R.color.light_cyan)
+    ).apply {
+        setOnClickListener {
+
+        }
+    }
+    actionRow.addView(btnEdit)
+
+    columnSelectorLocation.addView(actionRow)
+
+    // Espaciador antes del botón de guardar
+    columnSelectorLocation.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(4)) })
+
+    // Botón Inferior: Guardar
+    val btnSave = UiFactory.button(context,
+        R.drawable.action_save,
+        "Guardar",
+        13f,
+        context.colorRes(R.color.dark_green),
+        context.colorRes(R.color.light_green)
+    ).apply {
+        layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        setOnClickListener {
+
+        }
+    }
+    columnSelectorLocation.addView(btnSave)
+
+
+    footerContainer.addView(columnSelectorLocation)
+    //</editor-fold>
 
     // Agregamos el contenedor al panel
     panel.addView(mainContainer)

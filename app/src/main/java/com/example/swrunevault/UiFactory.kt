@@ -177,5 +177,44 @@ object UiFactory {
         }
     }
 
+    fun button(context: Context, idIcon: Int, showText: String, size: Float, primaryColor: Int, secondaryColor: Int): LinearLayout{
+        val density = context.resources.displayMetrics.density
+        fun dp(value: Int): Int = (value * density).toInt()
+
+        val btn = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
+            background = GradientDrawable().apply {
+                setColor(secondaryColor)
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 16f // Esquinas redondeadas en píxeles
+            }
+            setPadding(dp(8), dp(8), dp(8), dp(8))
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            isClickable = true
+            isFocusable = true
+        }
+        btn.addView(ImageView(context).apply {
+            setImageResource(idIcon)
+            layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
+            scaleType = ImageView.ScaleType.FIT_CENTER
+            setColorFilter(primaryColor)
+        })
+        val txtEscanearContainer = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+        txtEscanearContainer.addView(
+            TextView(context).apply {
+                text = showText;
+                setTextColor(primaryColor);
+                typeface = Typeface.DEFAULT_BOLD;
+                textSize = size
+                setPadding(dp(4),0,0,0)
+            }
+        )
+        btn.addView(txtEscanearContainer)
+
+        return btn
+    }
 
 }
