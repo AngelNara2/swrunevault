@@ -160,4 +160,22 @@ object UiFactory {
         }
     }
 
+    fun column(context: Context, color_backgorund: Int = Color.TRANSPARENT, weight: Float = 0f): LinearLayout{
+        return LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(Color.TRANSPARENT)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                weight
+            )
+            background = GradientDrawable().apply {
+                setColor(color_backgorund)
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 16f // Esquinas redondeadas en píxeles
+            }
+        }
+    }
+
+
 }

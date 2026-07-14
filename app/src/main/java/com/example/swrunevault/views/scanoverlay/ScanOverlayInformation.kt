@@ -6,7 +6,9 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
+import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
@@ -14,6 +16,7 @@ import com.example.swrunevault.UiFactory
 import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.models.RuneInnateStat
+import com.example.swrunevault.utils.getStars
 
 
 @SuppressLint("SetTextI18n")
@@ -67,7 +70,7 @@ fun createScanOverlayInformation(
     }
 
     // Cantidad de estrellas
-    val tvStarts = UiFactory.text(context,
+    val tvStars = UiFactory.text(context,
         "★★★★★★",
         12f,
         context.colorRes(R.color.orange),
@@ -75,7 +78,7 @@ fun createScanOverlayInformation(
         LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
     )
-    infoContainer.addView(tvStarts)
+    infoContainer.addView(tvStars)
 
     // Set
     val tvTitle = UiFactory.text(context,
@@ -256,14 +259,6 @@ fun createScanOverlayInformation(
     subPropertiesCard.addView(rowColumNames)
     //</editor-fold>
 
-    val horizontalLine2 = UiFactory.line(
-        context,
-        LinearLayout.LayoutParams.MATCH_PARENT,
-        4,
-        dp(8), 0, dp(8), 0
-    )
-    subPropertiesCard.addView(horizontalLine2)
-
     // Cargar los subStats de la runa
     rune.subStats.forEachIndexed { index, subStat ->
         val rowValues = UiFactory.row(context,5f).apply {
@@ -283,7 +278,7 @@ fun createScanOverlayInformation(
                 else
                     context.colorRes(R.color.orange)
 
-        // Fila del SubStat
+        //<editor-fold desc="Fila icono y nombre">
         val rowSubStat = UiFactory.row(context).apply {
             layoutParams = LinearLayout.LayoutParams(
                 0,
@@ -291,6 +286,7 @@ fun createScanOverlayInformation(
                 2f)
         }
 
+        // Icono
         val iconoSub = UiFactory.icon(
             context,
             subStat.imgStat(),
@@ -298,23 +294,7 @@ fun createScanOverlayInformation(
             50,
             color_filter = colorSubStat,
         )
-
         rowSubStat.addView(iconoSub)
-
-        /*val leftLayout = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            layoutParams = LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                2f)
-            addView(ImageView(context).apply {
-                setImageResource(subStat.imgStat())
-                layoutParams = FrameLayout.LayoutParams(50,50)
-                scaleType = ImageView.ScaleType.FIT_CENTER
-                setColorFilter(colorSubStat)
-            })
-        }*/
 
         // Nombre
         val tvSubName = TextView(context).apply {
@@ -325,7 +305,9 @@ fun createScanOverlayInformation(
             setPadding(dp(10),0,0,0)
         }
         rowSubStat.addView(tvSubName)
+
         rowValues.addView(rowSubStat)
+        //</editor-fold>
 
         // Valor actual
         val tvSubValue = TextView(context).apply {
@@ -447,6 +429,124 @@ fun createScanOverlayInformation(
 
     mainContainer.addView(subPropertiesCard)
     //</editor-fold>
+
+    // Línea divisoria
+    val horizontalLine2 = UiFactory.line(
+        context,
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        4,
+        0, dp(8), 0, dp(8)
+    )
+
+    mainContainer.addView(horizontalLine2)
+
+    val footerContainer = UiFactory.row(context)
+
+    //<editor-fold desc="Selector de Estrellas">
+    val columnSelectorStar = UiFactory.column(
+        context,
+        context.colorRes(R.color.background_primary),
+        1f).apply {
+        setPadding(dp(8), dp(8), dp(8), dp(8))
+    }
+
+    val lbStars = UiFactory.text(context,
+        "Estrellas",
+        13f,
+        Color.WHITE,
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT
+    )
+    columnSelectorStar.addView(lbStars)
+
+    // Fila de botones de estrellas
+    val rowBotones = UiFactory.row(context).apply {
+        layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply { setMargins(0, dp(8), 0, 0) }
+    }
+
+    // Texto informativo final de cálculos
+
+    val tvCalInfo = UiFactory.text(context,
+        "(Los cálculos se realizan como 6★)",
+        12f,
+        Color.WHITE
+    ).apply {
+        gravity = Gravity.CENTER
+        layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply { setMargins(0, 16, 0, 0) }
+    }
+
+    // Lista para controlar los estados visuales de los botones
+    val listaBotones = ArrayList<Button>()
+
+    // Función interna para actualizar laUI de las estrellas superiores de forma dinámica
+    fun actualizarEstrellasUI(cantidad: Int) {
+        tvStars.text = getStars(cantidad)
+
+        tvCalInfo.text = "(Los cálculos se realizan como $cantidad★)"
+
+        // Cambiar estados de los botones (el seleccionado se vuelve morado)
+        listaBotones.forEachIndexed { index, button ->
+            button.background = GradientDrawable().apply {
+                setColor(
+                    if(index + 1 == cantidad) context.colorRes(R.color.orange) else context.colorRes(R.color.background_primary)
+                )
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 16f // Esquinas redondeadas en píxeles
+            }
+
+            button.setTextColor(
+                if(index + 1 == cantidad) Color.BLACK else Color.WHITE
+            )
+        }
+    }
+
+    // Crear dinámicamente los 6 botones
+    for (i in 1..6) {
+        val btn = Button(context, null, android.R.attr.button).apply {
+            text = "${i}★"
+            gravity = Gravity.CENTER
+            textSize = 12f
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                50,
+                1f).
+            apply {
+                //setMargins(4, 4, 4, 4)
+            }
+            setOnClickListener {
+                actualizarEstrellasUI(i)
+            }
+        }
+        listaBotones.add(btn)
+        rowBotones.addView(btn)
+    }
+
+    columnSelectorStar.addView(rowBotones)
+    columnSelectorStar.addView(tvCalInfo)
+
+    footerContainer.addView(columnSelectorStar)
+
+    // Estado inicial por defecto: 6 Estrellas
+    actualizarEstrellasUI(6)
+
+    mainContainer.addView(footerContainer)
+    //</editor-fold>
+
+    // Línea Negra Divisoria Central
+    val verticalLine2 = UiFactory.line(context,
+        4,
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        16, 0, 16, 0
+    )
+    footerContainer.addView(verticalLine2)
+
+
 
     // Agregamos el contenedor al panel
     panel.addView(mainContainer)
