@@ -313,6 +313,8 @@ fun createScanOverlayInformation(
         }
         rowValues.addView(tvSubValue)
 
+
+
         val rowGrindstoneValues = UiFactory.row(context,0f).apply {
             layoutParams = LinearLayout.LayoutParams(
                 0,
@@ -321,12 +323,14 @@ fun createScanOverlayInformation(
             )
         }
 
+        val showMaxValue =  subStat.hasGrindstone() and !subStat.hasMaxGrindstoneValue()
+
         val tvGrindstone = TextView(context).apply {
             text = subStat.textGrindstoneValue()
             setTextColor(context.colorRes(subStat.getColorByValueGrinstone()))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            gravity = if(subStat.statType.hasGrindsTone) Gravity.END else Gravity.CENTER
+            gravity = if(showMaxValue) Gravity.END else Gravity.CENTER
             layoutParams = LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -335,7 +339,7 @@ fun createScanOverlayInformation(
         }
         rowGrindstoneValues.addView(tvGrindstone)
 
-        if(subStat.statType.hasGrindsTone){
+        if(showMaxValue){
             val tvGrindstoneMaxValue = TextView(context).apply {
                 text = subStat.textGrindstoneMaxValue()
                 setTextColor(context.colorRes(R.color.green))
@@ -366,7 +370,7 @@ fun createScanOverlayInformation(
             setTextColor(context.colorRes(R.color.orange))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            gravity = if(subStat.statType.hasGrindsTone) Gravity.END else Gravity.CENTER
+            gravity = if(showMaxValue) Gravity.END else Gravity.CENTER
             layoutParams = LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -375,7 +379,7 @@ fun createScanOverlayInformation(
         }
         rowTotalValues.addView(tvTotal)
 
-        if(subStat.statType.hasGrindsTone){
+        if(showMaxValue){
             val tvTotalMaxValue = TextView(context).apply {
                 text = subStat.textTotalMaxValue()
                 setTextColor(context.colorRes(R.color.green))

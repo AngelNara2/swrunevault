@@ -29,6 +29,14 @@ data class RuneStat(
        return "${value}${if(statType?.isPercentage == true) "%" else ""}"
     }
 
+    fun hasGrindstone(): Boolean{
+        return statType.hasGrindsTone
+    }
+
+    fun hasMaxGrindstoneValue(): Boolean{
+        return grindstonevalue == statType.grindstoneMaxValue
+    }
+
     fun textGrindstoneValue(): String{
         if(!statType.hasGrindsTone) return "-"
 
