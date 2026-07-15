@@ -11,7 +11,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
-import com.example.swrunevault.UiFactory
+import com.example.swrunevault.controls.UiFactory
 import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.utils.getStars
@@ -188,6 +188,7 @@ fun createScanOverlayLeftPanel(
         context,
         LinearLayout.LayoutParams.MATCH_PARENT,
         4,
+        context.colorRes(R.color.border),
         0, dp(8), 0, dp(8)
     )
     middleContainer.addView(horizontalLine1)

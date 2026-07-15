@@ -1,19 +1,21 @@
-package com.example.swrunevault
+package com.example.swrunevault.controls
 
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
 
 object UiFactory {
 
-    fun panel(context: Context, weight: Float) : FrameLayout{
+    fun panel(context: Context, weight: Float) : FrameLayout {
         return FrameLayout(context).apply {
             setBackgroundColor(Color.TRANSPARENT)
             layoutParams = LinearLayout.LayoutParams(
@@ -24,7 +26,7 @@ object UiFactory {
         }
     }
 
-    fun mainContainer(context: Context): LinearLayout{
+    fun mainContainer(context: Context): LinearLayout {
         return LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             layoutParams = FrameLayout.LayoutParams(
@@ -47,7 +49,7 @@ object UiFactory {
             }
         }
     }
-    fun icon(context: Context,resId: Int, width: Int, height: Int, color_background: Int = Color.TRANSPARENT, color_filter: Int = Color.TRANSPARENT ): FrameLayout{
+    fun icon(context: Context, resId: Int, width: Int, height: Int, color_background: Int = Color.TRANSPARENT, color_filter: Int = Color.TRANSPARENT ): FrameLayout {
         return FrameLayout(context).apply {
             layoutParams = LinearLayout.LayoutParams(width, height)
             // Fondo con esquinas y borde
@@ -89,7 +91,7 @@ object UiFactory {
         }
     }
 
-    fun stat(context: Context, headerText: String, headerColor:Int, resId: Int, secondText: String, secondColor:Int): LinearLayout{
+    fun stat(context: Context, headerText: String, headerColor:Int, resId: Int, secondText: String, secondColor:Int): LinearLayout {
         val density = context.resources.displayMetrics.density
         fun dp(value: Int): Int = (value * density).toInt()
 
@@ -136,18 +138,18 @@ object UiFactory {
         return mainPropLayout
     }
 
-    fun line(context: Context, width: Int, height: Int, left: Int, top: Int, right: Int, bottom: Int): android.view.View{
-        return android.view.View(context).apply {
+    fun line(context: Context, width: Int, height: Int,color: Int = Color.BLACK , left: Int, top: Int, right: Int, bottom: Int): View{
+        return View(context).apply {
             layoutParams = LinearLayout.LayoutParams(
                 width,
                 height).apply {
                     setMargins(left, top, right, bottom)
                 }
-            setBackgroundColor(context.colorRes(R.color.border))
+            setBackgroundColor(color)
         }
     }
 
-    fun row(context: Context,weightSumItems: Float = 0f): LinearLayout{
+    fun row(context: Context, weightSumItems: Float = 0f): LinearLayout {
         return LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
@@ -160,7 +162,7 @@ object UiFactory {
         }
     }
 
-    fun column(context: Context, color_backgorund: Int = Color.TRANSPARENT, weight: Float = 0f): LinearLayout{
+    fun column(context: Context, color_backgorund: Int = Color.TRANSPARENT, weight: Float = 0f): LinearLayout {
         return LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundColor(Color.TRANSPARENT)
@@ -177,44 +179,72 @@ object UiFactory {
         }
     }
 
-    fun button(context: Context, idIcon: Int, showText: String, size: Float, primaryColor: Int, secondaryColor: Int): LinearLayout{
+    fun button(
+        context: Context,
+        idIcon: Int,
+        iconColor: Int = Color.BLACK,
+        showText: String,
+        size: Float,
+        primaryColor: Int,
+        secondaryColor: Int,
+        shadowSizeText: Float = 0f,
+        shadowColorText: Int = Color.TRANSPARENT,
+        gradientBackground: IntArray = intArrayOf()
+    ): LinearLayout {
         val density = context.resources.displayMetrics.density
         fun dp(value: Int): Int = (value * density).toInt()
 
         val btn = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
-            background = GradientDrawable().apply {
-                setColor(secondaryColor)
+            background = GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                gradientBackground
+            ).apply {
+                if(gradientBackground.count() == 0) {setColor(secondaryColor)}
                 shape = GradientDrawable.RECTANGLE
-                cornerRadius = 16f // Esquinas redondeadas en píxeles
+                cornerRadius = 16f
             }
             setPadding(dp(8), dp(8), dp(8), dp(8))
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
             isClickable = true
             isFocusable = true
         }
-        btn.addView(ImageView(context).apply {
-            setImageResource(idIcon)
-            layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
-            scaleType = ImageView.ScaleType.FIT_CENTER
-            setColorFilter(primaryColor)
-        })
-        val txtEscanearContainer = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-        }
-        txtEscanearContainer.addView(
-            TextView(context).apply {
-                text = showText;
-                setTextColor(primaryColor);
-                typeface = Typeface.DEFAULT_BOLD;
-                textSize = size
-                setPadding(dp(4),0,0,0)
+
+        btn.addView(
+            ImageView(context).apply {
+                setImageResource(idIcon)
+                layoutParams = LinearLayout.LayoutParams(dp(22), dp(22))
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                setColorFilter(iconColor)
             }
         )
+
+        btn.addView(line(context,
+            4,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            Color.TRANSPARENT,
+            2, 0, 2, 0
+        ))
+
+        val txtEscanearContainer = LinearLayout(context).apply {orientation = LinearLayout.VERTICAL}
+
+        txtEscanearContainer.addView(
+            StrokeTextView(context).apply {
+                text = showText
+                textSize = size
+                setTextColor(primaryColor)
+                strokeColor = shadowColorText
+                strokeWidth = shadowSizeText
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            }
+        )
+
         btn.addView(txtEscanearContainer)
 
         return btn
     }
-
 }

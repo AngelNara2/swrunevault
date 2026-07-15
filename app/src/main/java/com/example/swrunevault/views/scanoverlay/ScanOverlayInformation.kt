@@ -11,7 +11,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
-import com.example.swrunevault.UiFactory
+import com.example.swrunevault.controls.UiFactory
 import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.models.RuneInnateStat
@@ -128,6 +128,7 @@ fun createScanOverlayInformation(
     val verticalLine = UiFactory.line(context,
         4,
         LinearLayout.LayoutParams.MATCH_PARENT,
+        context.colorRes(R.color.border),
         16, 0, 16, 0
     )
     headerContainer.addView(verticalLine)
@@ -158,6 +159,7 @@ fun createScanOverlayInformation(
         val verticalLine = UiFactory.line(context,
             4,
             LinearLayout.LayoutParams.MATCH_PARENT,
+            context.colorRes(R.color.border),
             16, 0, 16, 0
         )
         propertiesRow.addView(verticalLine)
@@ -184,6 +186,7 @@ fun createScanOverlayInformation(
         context,
         LinearLayout.LayoutParams.MATCH_PARENT,
         4,
+        context.colorRes(R.color.border),
         0, dp(8), 0, dp(8)
     )
     mainContainer.addView(horizontalLine1)
@@ -422,6 +425,7 @@ fun createScanOverlayInformation(
                 context,
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 4,
+                context.colorRes(R.color.border),
                 dp(8), 0, dp(8), 0
             )
             subPropertiesCard.addView(horizontalLine3)
@@ -436,6 +440,7 @@ fun createScanOverlayInformation(
         context,
         LinearLayout.LayoutParams.MATCH_PARENT,
         4,
+        context.colorRes(R.color.border),
         0, dp(8), 0, dp(8)
     )
 
@@ -543,6 +548,7 @@ fun createScanOverlayInformation(
     val verticalLine2 = UiFactory.line(context,
         4,
         LinearLayout.LayoutParams.MATCH_PARENT,
+        context.colorRes(R.color.border),
         16, 0, 16, 0
     )
     footerContainer.addView(verticalLine2)
@@ -550,45 +556,47 @@ fun createScanOverlayInformation(
     //<editor-fold desc="Botones de acción">
     val columnSelectorLocation = UiFactory.column(context, weight=1f)
 
-    val actionRow = LinearLayout(context).apply {
-        orientation = LinearLayout.HORIZONTAL
-        weightSum = 2f
-        layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-    }
+    val rowActionButtons = UiFactory.row(context,2f)
 
     // Botón Izquierdo: Volver atrás
     val btnBack = UiFactory.button(context,
         R.drawable.action_back,
+        context.colorRes(R.color.button_dark_text),
         "Volver",
         13f,
-        context.colorRes(R.color.dark_purple),
-        context.colorRes(R.color.light_purple)
+        context.colorRes(R.color.button_dark_text),
+        context.colorRes(R.color.button_dark_background),
+        2f,
+        context.colorRes(R.color.button_dark_text)
         ).apply {
         setOnClickListener {
             onClose()
             onRemove()
         }
     }
-    actionRow.addView(btnBack)
+    rowActionButtons.addView(btnBack)
 
     // Espacio responsivo entre botones
-    actionRow.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(dp(4), 1) })
+    rowActionButtons.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(dp(4), 1) })
 
     // Botón Derecho: Editar Runa
     val btnEdit = UiFactory.button(context,
         R.drawable.action_edit,
+        context.colorRes(R.color.button_dark_text),
         "Editar",
         13f,
-        context.colorRes(R.color.dark_cyan),
-        context.colorRes(R.color.light_cyan)
+        context.colorRes(R.color.button_dark_text),
+        context.colorRes(R.color.button_dark_background),
+        2f,
+        context.colorRes(R.color.button_dark_text),
     ).apply {
         setOnClickListener {
 
         }
     }
-    actionRow.addView(btnEdit)
+    rowActionButtons.addView(btnEdit)
 
-    columnSelectorLocation.addView(actionRow)
+    columnSelectorLocation.addView(rowActionButtons)
 
     // Espaciador antes del botón de guardar
     columnSelectorLocation.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(4)) })
@@ -596,21 +604,28 @@ fun createScanOverlayInformation(
     // Botón Inferior: Guardar
     val btnSave = UiFactory.button(context,
         R.drawable.action_save,
+        context.colorRes(R.color.background_primary),
         "Guardar",
         13f,
-        context.colorRes(R.color.dark_green),
-        context.colorRes(R.color.light_green)
+        context.colorRes(R.color.button_light_text),
+        context.colorRes(R.color.button_light_background),
+        8f,
+        context.colorRes(R.color.dark_border),
+        intArrayOf(
+            context.colorRes(R.color.button_light_background),
+            context.colorRes(R.color.border)
+        )
     ).apply {
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
+
         setOnClickListener {
 
         }
     }
     columnSelectorLocation.addView(btnSave)
-
 
     footerContainer.addView(columnSelectorLocation)
     //</editor-fold>

@@ -5,6 +5,7 @@
     <color name="background_primary">#271B0D</color>
     <color name="background_secondary">#19150C</color>
     <color name="border">#996B1C</color>
+    <color name="dark_border">#6b4a13</color>
 
     <!-- Rarity -->
     <color name="rarity_normal_primary">#564D49</color>
@@ -24,6 +25,13 @@
 
     <color name="rarity_unknown_primary">#000000</color>
     <color name="rarity_unknown_secondary">#FFFFFF</color>
+
+    <!-- Buttons -->
+    <color name="button_light_background">#d8b168</color>
+    <color name="button_light_text">#e2c690</color>
+
+    <color name="button_dark_background">#5f412c</color>
+    <color name="button_dark_text">#f1d48e</color>
 
     <!-- Common -->
     <color name="black">#000000</color>
