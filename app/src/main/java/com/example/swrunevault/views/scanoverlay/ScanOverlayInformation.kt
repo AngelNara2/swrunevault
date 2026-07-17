@@ -375,8 +375,10 @@ fun createScanOverlayInformation(
 
         // Valor del Total obtenido actual
         val tvTotal = TextView(context).apply {
-            text = subStat.textTotalValue()
-            setTextColor(context.colorRes(R.color.orange))
+            text = subStat.textTotalValue(showMaxValue)
+            setTextColor(context.colorRes(
+                if(showMaxValue) R.color.orange else R.color.green
+            ))
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             gravity = if(showMaxValue) Gravity.END else Gravity.CENTER

@@ -49,8 +49,10 @@ data class RuneStat(
         return " (${statType.grindstoneMaxValue}${if (statType.isPercentage) "%" else ""})"
     }
 
-    fun textTotalValue(): String{
-        return "${value+grindstonevalue}${if(statType.isPercentage) "%" else ""}"
+    fun textTotalValue(useMaxGrinstone: Boolean = false): String{
+        val grindstoneValue = if(!useMaxGrinstone) statType.grindstoneMaxValue else grindstonevalue
+
+        return "${value+grindstoneValue}${if(statType.isPercentage) "%" else ""}"
     }
 
     fun textTotalMaxValue(): String{
