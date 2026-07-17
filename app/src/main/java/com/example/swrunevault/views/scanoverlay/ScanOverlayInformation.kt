@@ -609,7 +609,6 @@ fun createScanOverlayInformation(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-
         setOnClickListener {
 
         }

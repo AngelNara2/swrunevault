@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
@@ -246,5 +247,57 @@ object UiFactory {
         btn.addView(txtEscanearContainer)
 
         return btn
+    }
+
+    fun progressbar(
+        context: Context,
+        showText: String,
+        sizeText: Float,
+        percentage: Double,
+        sizePercentage: Float,
+        color: Int,
+        sizeBar: Int
+    ): LinearLayout{
+        val card = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            background = GradientDrawable().apply {
+                setColor(context.colorRes(R.color.background_primary))
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 16f // Esquinas redondeadas en píxeles
+            }
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        }
+
+        val header = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL;
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        header.addView(
+            TextView(context).apply {
+                text = showText
+                setTextColor(Color.WHITE)
+                textSize = sizeText
+                typeface = Typeface.DEFAULT_BOLD
+            }
+        )
+        card.addView(header)
+
+        val value = TextView(context).apply {
+            text = "${percentage}%"
+            setTextColor(color)
+            textSize = sizePercentage
+            typeface = Typeface.DEFAULT_BOLD
+        }
+        card.addView(value)
+
+        val progress = ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,sizeBar )
+            max = 100
+            progress = percentage.toInt()
+            progressDrawable.setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN)
+        }
+        card.addView(progress)
+
+        return card
     }
 }
