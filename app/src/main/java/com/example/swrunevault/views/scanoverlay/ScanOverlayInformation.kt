@@ -319,7 +319,7 @@ fun createScanOverlayInformation(
         rowValues.addView(tvSubValue)
 
         // Indica si es necesario mostrar los valores máximos si su valor es menor
-        val showMaxValue =  subStat.hasGrindstone() and !subStat.hasMaxGrindstoneValue()
+        val showMaxValue =  subStat.hasGrindstone() and !subStat.hasMaxGrindstoneValue() and (subStat.grindstonevalue != 0)
 
         // Fila que contiene el valor de su Grindstone actual y su maximo posible
         val rowGrindstoneValues = UiFactory.row(context,0f).apply {
