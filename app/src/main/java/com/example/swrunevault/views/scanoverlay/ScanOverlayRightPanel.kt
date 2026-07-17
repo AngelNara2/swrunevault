@@ -101,20 +101,23 @@ fun createScanOverlayRightPanel(
     // Espaciador adaptativo entre tarjetas
     mainContainer.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(12)) })
 
-    val actualCard = UiFactory.progressbar(
-        context,
-        "Eficiencia Actual",
-        14f,
-        rune.currentEfficiency(),
-        24f,
-        context.colorRes(R.color.purple),
-        dp(6)
-    ).apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
-    mainContainer.addView(actualCard)
+    val hasGrindstone = rune.subStats.any {it.grindstonevalue != 0}
 
-    // Espaciador adaptativo entre tarjetas
-    mainContainer.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(12)) })
+    if(hasGrindstone){
+        val actualCard = UiFactory.progressbar(
+            context,
+            "Eficiencia Actual",
+            14f,
+            rune.currentEfficiency(),
+            24f,
+            context.colorRes(R.color.purple),
+            dp(6)
+        ).apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
+        mainContainer.addView(actualCard)
 
+        // Espaciador adaptativo entre tarjetas
+        mainContainer.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(12)) })
+    }
 
     val maxCard = UiFactory.progressbar(
         context,
