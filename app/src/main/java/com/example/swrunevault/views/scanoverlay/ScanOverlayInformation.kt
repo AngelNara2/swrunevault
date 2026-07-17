@@ -14,7 +14,6 @@ import com.example.swrunevault.R
 import com.example.swrunevault.controls.UiFactory
 import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
-import com.example.swrunevault.models.RuneInnateStat
 import com.example.swrunevault.utils.getStars
 
 
@@ -52,9 +51,7 @@ fun createScanOverlayInformation(
         180,
         180,
         context.colorRes(R.color.background_primary),
-        ).apply {
-            setPadding(dp(10), dp(10), dp(10), dp(10))
-        }
+        ).apply {setPadding(dp(10), dp(10), dp(10), dp(10))}
     headerContainer.addView(imageRune)
     //</editor-fold>
 
@@ -153,27 +150,24 @@ fun createScanOverlayInformation(
     )
     propertiesRow.addView(mainStat)
 
-    if(rune.innateStat != RuneInnateStat.UNKNOWN)
-    {
-        // Línea Negra Divisoria Central
-        val verticalLine = UiFactory.line(context,
+    // Línea Negra Divisoria Central
+    val verticalLine2 = UiFactory.line(context,
             4,
             LinearLayout.LayoutParams.MATCH_PARENT,
             context.colorRes(R.color.border),
             16, 0, 16, 0
         )
-        propertiesRow.addView(verticalLine)
+    propertiesRow.addView(verticalLine2)
 
-        // Columna Derecha: Propiedad Innata
-        val innateStat = UiFactory.stat(context,
-            "Stat Innate",
-            Color.WHITE,
-            rune.imgInnateStat(),
-            rune.innateStat(),
-            context.colorRes(rune.getColorByInnateValue())
-            )
-        propertiesRow.addView(innateStat)
-    }
+    // Columna Derecha: Propiedad Innata
+    val innateStat = UiFactory.stat(context,
+        "Stat Innate",
+        Color.WHITE,
+        rune.imgInnateStat(),
+        rune.innateStat(),
+        context.colorRes(rune.getColorByInnateValue())
+    )
+    propertiesRow.addView(innateStat)
 
     headerContainer.addView(propertiesRow)
     //</editor-fold>
@@ -224,8 +218,7 @@ fun createScanOverlayInformation(
         0,
         LinearLayout.LayoutParams.WRAP_CONTENT,
         2f
-    )
-    )
+    ))
 
     // Base
     rowColumNames.addView(UiFactory.text(context,
@@ -235,8 +228,7 @@ fun createScanOverlayInformation(
         0,
         LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
-    ).apply { gravity = Gravity.CENTER }
-    )
+    ).apply { gravity = Gravity.CENTER })
 
     // GrindStone
     rowColumNames.addView(UiFactory.text(context,
@@ -246,8 +238,7 @@ fun createScanOverlayInformation(
         0,
         LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
-    ).apply { gravity = Gravity.CENTER }
-    )
+    ).apply { gravity = Gravity.CENTER })
 
     // Total
     rowColumNames.addView(UiFactory.text(context,
@@ -257,8 +248,7 @@ fun createScanOverlayInformation(
         0,
         LinearLayout.LayoutParams.WRAP_CONTENT,
         1f
-    ).apply { gravity = Gravity.CENTER }
-    )
+    ).apply { gravity = Gravity.CENTER })
 
     subPropertiesCard.addView(rowColumNames)
     //</editor-fold>
@@ -443,7 +433,6 @@ fun createScanOverlayInformation(
         context.colorRes(R.color.border),
         0, dp(8), 0, dp(8)
     )
-
     mainContainer.addView(horizontalLine2)
 
     val footerContainer = UiFactory.row(context)
@@ -545,13 +534,13 @@ fun createScanOverlayInformation(
     //</editor-fold>
 
     // Línea Negra Divisoria Central
-    val verticalLine2 = UiFactory.line(context,
+    val verticalLine3 = UiFactory.line(context,
         4,
         LinearLayout.LayoutParams.MATCH_PARENT,
         context.colorRes(R.color.border),
         16, 0, 16, 0
     )
-    footerContainer.addView(verticalLine2)
+    footerContainer.addView(verticalLine3)
 
     //<editor-fold desc="Botones de acción">
     val columnSelectorLocation = UiFactory.column(context, weight=1f)

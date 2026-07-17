@@ -1,6 +1,5 @@
 package com.example.swrunevault.models
 
-import android.util.Log
 import com.example.swrunevault.R
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -73,31 +72,28 @@ data class Rune(
     }
 
     fun innateStat(): String{
-        if(innateStat != RuneInnateStat.UNKNOWN){
-            return "${innateStat?.runeStat?.statType?.displayText} " +
-                    "${innateStat?.runeStat?.value}" +
-                    if (innateStat?.statType?.isPercentage == true) "%" else ""
-        }
-        return ""
+        if(innateStat == RuneInnateStat.UNKNOWN){return "N/A"}
+
+        var innateText = "${innateStat?.runeStat?.statType?.displayText} " +
+                "${innateStat?.runeStat?.value}" +
+                if (innateStat?.statType?.isPercentage == true) "%" else ""
+
+        innateText += " (${innateStat.maxValue}${if(innateStat?.statType?.isPercentage == true) "%" else ""})"
+
+        return  innateText
     }
 
     fun getColorByInnateValue(): Int
     {
-        Log.d("COLOR_INNATE","Innate valor: ${innateStat.runeStat.value}")
+        if(innateStat == RuneInnateStat.UNKNOWN){return R.color.white}
 
         val minValue = innateStat.minValue
         val maxValue = innateStat.maxValue
-
-        Log.d("COLOR_INNATE","Minimo: $minValue")
-        Log.d("COLOR_INNATE","Maximo: $maxValue")
 
         if (innateStat.runeStat.value <= minValue) return R.color.red // El valor más bajo
         if (innateStat.runeStat.value >= maxValue) return R.color.green // El valor más alto
 
         val midpoint = (minValue + maxValue) / 2
-
-        Log.d("COLOR_INNATE","Medio: $midpoint")
-
         return when {
             innateStat.runeStat.value < midpoint -> R.color.orange // Orange
             innateStat.runeStat.value > midpoint -> R.color.yellow // Yellow
@@ -106,6 +102,8 @@ data class Rune(
     }
 
     fun imgInnateStat(): Int {
+        if(innateStat == RuneInnateStat.UNKNOWN){return 0}
+
         return innateStat.statType.idStatResource
     }
 
