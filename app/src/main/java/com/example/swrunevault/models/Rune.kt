@@ -15,6 +15,7 @@ data class Rune(
     // Cantidad de estrellas.
     var stars: RuneGrade = RuneGrade.SIX,
 
+    // rareza de la runa
     var rarity: RuneRarity = RuneRarity.UNKNOWN,
 
     // Nivel de la runa.
@@ -29,11 +30,12 @@ data class Rune(
     // Propiedades secundarias.
     var subStats: MutableList<RuneStat> = mutableListOf(),
 
+    // Fecha que del momento que se escaneó la runa
     var scanDateTime: LocalDateTime = LocalDateTime.now()
 ){
     fun titleName(): String{
         return (if(level == 0) "" else "+ $level ") +
-                (if(innateStat == RuneInnateStat.UNKNOWN) "" else "${innateStat?.title} ")+
+                (if(innateStat == RuneInnateStat.UNKNOWN) "" else "${innateStat.title} ")+
                 (if(runeSet == RuneSet.UNKNOWN) "" else "$runeSet ") +
                 "(${slot})"
     }
@@ -51,9 +53,9 @@ data class Rune(
     }
 
     fun primaryStat(): String{
-        return "${mainStat?.statType?.displayText} " +
-                "+${mainStat?.value}" +
-                if(mainStat?.statType?.isPercentage==true) "%" else ""
+        return "${mainStat.statType.displayText} " +
+                "+${mainStat.value}" +
+                if(mainStat.statType.isPercentage) "%" else ""
     }
 
     fun imgMainStat(): Int{
@@ -63,7 +65,7 @@ data class Rune(
     fun primaryStatMaxValue(): Double? {
         val maxValue = RuneMainStats
             .getByStatType(
-                mainStat?.statType
+                mainStat.statType
             )?.getMaxValue(
                 stars
             )
@@ -74,11 +76,11 @@ data class Rune(
     fun innateStat(): String{
         if(innateStat == RuneInnateStat.UNKNOWN){return "N/A"}
 
-        var innateText = "${innateStat?.runeStat?.statType?.displayText} " +
-                "${innateStat?.runeStat?.value}" +
-                if (innateStat?.statType?.isPercentage == true) "%" else ""
+        var innateText = "${innateStat.runeStat.statType.displayText} " +
+                "${innateStat.runeStat.value}" +
+                if (innateStat.statType.isPercentage) "%" else ""
 
-        innateText += " (${innateStat.maxValue}${if(innateStat?.statType?.isPercentage == true) "%" else ""})"
+        innateText += " (${innateStat.maxValue}${if(innateStat.statType.isPercentage) "%" else ""})"
 
         return  innateText
     }
@@ -108,14 +110,14 @@ data class Rune(
     }
 
     fun innateStatMaxValue(): Int{
-        return innateStat?.maxValue ?: 0
+        return innateStat.maxValue
     }
 
     fun innateContribution(): Double{
-        val innateStatValue = innateStat?.runeStat?.value
-        val innateStatValueMax = innateStat?.maxValue
+        val innateStatValue = innateStat.runeStat.value.toDouble()
+        val innateStatValueMax = innateStat.maxValue.toDouble()
 
-        val contribution: Double = (innateStatValue?.toDouble() ?: 0.0) / (innateStatValueMax?.toDouble() ?: 0.0)
+        val contribution: Double = (innateStatValue) / (innateStatValueMax)
 
         return "%.3f".format(contribution).toDouble()
     }
@@ -129,11 +131,11 @@ data class Rune(
             totalContribution += stat.subStatCurrentContribution()
         }
 
-        if(innateStat?.statType != RuneStatType.UNKNOWN){
-            val innateStatValue = innateStat?.runeStat?.value
-            val innateStatValueMax = innateStat?.maxValue
+        if(innateStat.statType != RuneStatType.UNKNOWN){
+            val innateStatValue = innateStat.runeStat.value
+            val innateStatValueMax = innateStat.maxValue
 
-            val innateContribution: Double = (innateStatValue?.toDouble() ?: 0.0) / (innateStatValueMax?.toDouble() ?: 0.0)
+            val innateContribution: Double = (innateStatValue.toDouble()) / (innateStatValueMax.toDouble())
 
             totalContribution += innateContribution
         }
@@ -150,11 +152,11 @@ data class Rune(
             totalContribution += stat.subStatMaxContribution()
         }
 
-        if(innateStat?.statType != RuneStatType.UNKNOWN){
-            val innateStatValue = innateStat?.runeStat?.value
-            val innateStatValueMax = innateStat?.maxValue
+        if(innateStat.statType != RuneStatType.UNKNOWN){
+            val innateStatValue = innateStat.runeStat.value.toDouble()
+            val innateStatValueMax = innateStat.maxValue.toDouble()
 
-            val innateContribution: Double = (innateStatValue?.toDouble() ?: 0.0) / (innateStatValueMax?.toDouble() ?: 0.0)
+            val innateContribution: Double = (innateStatValue) / (innateStatValueMax)
 
             totalContribution += innateContribution
         }
@@ -167,7 +169,7 @@ data class Rune(
 
         var theoreticalMaximum = 2.8
 
-        if(innateStat?.statType != RuneStatType.UNKNOWN){
+        if(innateStat.statType != RuneStatType.UNKNOWN){
             theoreticalMaximum = 3.0
         }
 
@@ -181,7 +183,7 @@ data class Rune(
 
         var theoreticalMaximum = 2.8
 
-        if(innateStat?.statType != RuneStatType.UNKNOWN){
+        if(innateStat.statType != RuneStatType.UNKNOWN){
             theoreticalMaximum = 3.0
         }
 
