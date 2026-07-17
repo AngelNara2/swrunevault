@@ -85,8 +85,7 @@ data class Rune(
         return  innateText
     }
 
-    fun getColorByInnateValue(): Int
-    {
+    fun getColorByInnateValue(): Int {
         if(innateStat == RuneInnateStat.UNKNOWN){return R.color.white}
 
         val minValue = innateStat.minValue
@@ -122,6 +121,22 @@ data class Rune(
         return "%.3f".format(contribution).toDouble()
     }
 
+    fun subStatBaseContributionTotal(): Double{
+        var totalContribution: Double = 0.0
+
+        for (stat in subStats){
+            stat.runeGrade(stars)
+
+            totalContribution += stat.subStatBaseContribution()
+        }
+
+        if(innateStat.statType != RuneStatType.UNKNOWN){
+            totalContribution += innateContribution()
+        }
+
+        return "%.3f".format(totalContribution).toDouble()
+    }
+
     fun subStatCurrentContributionTotal(): Double{
         var totalContribution: Double = 0.0
 
@@ -132,12 +147,7 @@ data class Rune(
         }
 
         if(innateStat.statType != RuneStatType.UNKNOWN){
-            val innateStatValue = innateStat.runeStat.value
-            val innateStatValueMax = innateStat.maxValue
-
-            val innateContribution: Double = (innateStatValue.toDouble()) / (innateStatValueMax.toDouble())
-
-            totalContribution += innateContribution
+            totalContribution += innateContribution()
         }
 
         return "%.3f".format(totalContribution).toDouble()
@@ -153,15 +163,24 @@ data class Rune(
         }
 
         if(innateStat.statType != RuneStatType.UNKNOWN){
-            val innateStatValue = innateStat.runeStat.value.toDouble()
-            val innateStatValueMax = innateStat.maxValue.toDouble()
-
-            val innateContribution: Double = (innateStatValue) / (innateStatValueMax)
-
-            totalContribution += innateContribution
+            totalContribution += innateContribution()
         }
 
         return "%.3f".format(totalContribution).toDouble()
+    }
+
+    fun baseEfficiency(): Double {
+        var efficiency = 0.0
+
+        var theoreticalMaximum = 2.8
+
+        if(innateStat.statType != RuneStatType.UNKNOWN){
+            theoreticalMaximum = 3.0
+        }
+
+        efficiency = (subStatBaseContributionTotal() / theoreticalMaximum) * 100
+
+        return "%.2f".format(efficiency).toDouble()
     }
 
     fun currentEfficiency(): Double {
@@ -177,6 +196,7 @@ data class Rune(
 
         return "%.2f".format(efficiency).toDouble()
     }
+
 
     fun maxEfficiency(): Double {
         var efficiency = 0.0

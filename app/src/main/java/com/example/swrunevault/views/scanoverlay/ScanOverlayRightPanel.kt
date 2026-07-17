@@ -91,7 +91,7 @@ fun createScanOverlayRightPanel(
         context,
         "Eficiencia Base",
         14f,
-        rune.currentEfficiency(),
+        rune.baseEfficiency(),
         24f,
         context.colorRes(R.color.white),
         dp(6)
@@ -110,7 +110,7 @@ fun createScanOverlayRightPanel(
             14f,
             rune.currentEfficiency(),
             24f,
-            context.colorRes(R.color.purple),
+            context.colorRes(R.color.orange),
             dp(6)
         ).apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
         mainContainer.addView(actualCard)
@@ -125,7 +125,7 @@ fun createScanOverlayRightPanel(
         14f,
         rune.maxEfficiency(),
         24f,
-        context.colorRes(R.color.orange),
+        context.colorRes(R.color.green),
         dp(6)
     ).apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
     mainContainer.addView(maxCard)

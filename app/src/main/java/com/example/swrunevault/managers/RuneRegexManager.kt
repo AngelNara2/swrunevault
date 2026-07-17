@@ -152,11 +152,13 @@ class RuneRegexManager(
             }
 
             Log.d("RUNE_OBJECT","====================")
+            Log.d("RUNE_OBJECT","Contribucion total base ${rune.subStatBaseContributionTotal()}")
             Log.d("RUNE_OBJECT","Contribucion total actual ${rune.subStatCurrentContributionTotal()}")
             Log.d("RUNE_OBJECT","Contribucion total maxima ${rune.subStatMaxContributionTotal()}")
 
             Log.d("RUNE_OBJECT","====================")
-            Log.d("RUNE_OBJECT","Eficiencia actual ${rune.currentEfficiency()}")
+            Log.d("RUNE_OBJECT","Eficiencia base ${rune.baseEfficiency()}")
+            Log.d("RUNE_OBJECT","Eficiencia base ${rune.currentEfficiency()}")
             Log.d("RUNE_OBJECT","Eficiencia maxima ${rune.maxEfficiency()}")
         }
 
