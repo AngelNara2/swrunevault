@@ -103,12 +103,17 @@ fun createScanOverlayRightPanel(
 
     val hasGrindstone = rune.subStats.any {it.grindstonevalue != 0}
 
-    if(hasGrindstone){
+    val currentEfficiency = rune.currentEfficiency()
+    val maxEfficiency = rune.maxEfficiency()
+
+    val isMaxEfficiency = currentEfficiency == maxEfficiency
+
+    if(hasGrindstone and !isMaxEfficiency){
         val actualCard = UiFactory.progressbar(
             context,
             "Eficiencia Actual",
             14f,
-            rune.currentEfficiency(),
+            currentEfficiency,
             24f,
             context.colorRes(R.color.orange),
             dp(6)
@@ -123,7 +128,7 @@ fun createScanOverlayRightPanel(
         context,
         "Eficiencia Máxima",
         14f,
-        rune.maxEfficiency(),
+        maxEfficiency,
         24f,
         context.colorRes(R.color.green),
         dp(6)
