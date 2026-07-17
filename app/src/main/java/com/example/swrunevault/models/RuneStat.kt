@@ -26,7 +26,7 @@ data class RuneStat(
     }
 
     fun textValueStat(): String{
-       return "${value}${if(statType?.isPercentage == true) "%" else ""}"
+       return "${value}${if(statType.isPercentage) "%" else ""}"
     }
 
     fun hasGrindstone(): Boolean{
@@ -40,9 +40,7 @@ data class RuneStat(
     fun textGrindstoneValue(): String{
         if(!statType.hasGrindsTone) return "-"
 
-        var grindstoneValue = "${(if(grindstonevalue == 0) (statType.grindstoneMaxValue) else grindstonevalue)}${if(statType.isPercentage) "%" else ""}"
-
-        return grindstoneValue
+        return "${(if(grindstonevalue == 0) (statType.grindstoneMaxValue) else grindstonevalue)}${if(statType.isPercentage) "%" else ""}"
     }
 
     fun textGrindstoneMaxValue(): String{
@@ -60,25 +58,15 @@ data class RuneStat(
     }
 
     fun secondaryStat(): String{
-        return "${statType?.displayText} " +
+        return "${statType.displayText} " +
                 "+${value}" +
-                (
-                        if (statType?.isPercentage== true)
-                            "%"
-                        else
-                            ""
-                        ) +
+                (if (statType.isPercentage) "%" else "") +
                 if(grindstonevalue != 0)
-                    "+${grindstonevalue}" + (
-                            if (statType?.isPercentage== true)
-                                "%"
-                            else
-                                ""
-                            )
+                    "+${grindstonevalue}" + (if (statType.isPercentage) "%" else "")
                 else ""
     }
 
-    fun subStatMaxValue(): Int{
+    fun subStatMaxValue(): Double{
         if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
 
         val maxValue = RuneSubStats
@@ -88,14 +76,14 @@ data class RuneStat(
                 stars
             )
 
-        return maxValue?.times(5)?:0
+        return (maxValue?.times(5)?:0).toDouble()
     }
 
-    fun subStatGrindStoneValue(): Int{
-        return value + grindstonevalue
+    fun subStatGrindStoneValue(): Double{
+        return (value + grindstonevalue).toDouble()
     }
 
-    fun subStatMaxIncrementValue(): Int{
+    fun subStatMaxIncrementValue(): Double{
         if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
 
         val maxValue = RuneSubStats
@@ -105,13 +93,13 @@ data class RuneStat(
                 stars
             )
 
-        return (maxValue?.times(5)?:0) + (statType?.grindstoneMaxValue ?: 0)
+        return ((maxValue?.times(5)?:0) + (statType.grindstoneMaxValue)).toDouble()
     }
 
     fun subStatCurrentContribution(): Double{
         if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
 
-        val contribution =  value / subStatMaxValue().toDouble()
+        val contribution =  value / subStatMaxValue()
 
         return "%.3f".format(contribution).toDouble()
     }
@@ -119,24 +107,24 @@ data class RuneStat(
     fun subStatGrindStoneContribution(): Double{
         if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
 
-        val contribution: Double = (subStatGrindStoneValue()).toDouble() / (subStatMaxIncrementValue().toDouble() + grindstonevalue)
+        val contribution: Double = (subStatGrindStoneValue()) / (subStatMaxIncrementValue() + grindstonevalue)
         return "%.3f".format(contribution).toDouble()
     }
 
     fun subStatMaxContribution(): Double{
         if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
 
-        val value = value
-        val increment = statType?.grindstoneMaxValue ?: 0
-        val contribution: Double = (value + increment).toDouble() / (subStatMaxIncrementValue().toDouble())
+        val value = value.toDouble()
+        val increment = statType.grindstoneMaxValue.toDouble()
+        val contribution: Double = (value + increment) / (subStatMaxIncrementValue())
         return "%.3f".format(contribution).toDouble()
     }
 
     fun getColorByValueGrinstone(): Int {
-        if ((grindstonevalue == 0) and (statType?.hasGrindsTone == true)) return R.color.gray // No tiene implementada una Grindstone
+        if ((grindstonevalue == 0) and (statType.hasGrindsTone)) return R.color.gray // No tiene implementada una Grindstone
 
-        val minValue = statType?.grindstoneMinValue?: 0
-        val maxValue = statType?.grindstoneMaxValue?: 0
+        val minValue = statType.grindstoneMinValue?: 0
+        val maxValue = statType.grindstoneMaxValue?: 0
 
         if (grindstonevalue <= minValue) return R.color.red // El valor más bajo
         if (grindstonevalue >= maxValue) return R.color.green // El valor más alto
