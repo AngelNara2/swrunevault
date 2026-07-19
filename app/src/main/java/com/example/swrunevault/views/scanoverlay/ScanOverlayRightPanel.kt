@@ -18,9 +18,7 @@ import com.example.swrunevault.models.Rune
 @SuppressLint("SetTextI18n")
 fun createScanOverlayRightPanel(
     context: Context,
-    rune: Rune,
-    onClose: () -> Unit,
-    onRemove: () -> Unit
+    rune: Rune
 ): FrameLayout {
 
     // FUNCIÓN AUXILIAR: Convierte valores DP a Píxeles reales según la pantalla del dispositivo
