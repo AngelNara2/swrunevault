@@ -42,20 +42,6 @@ class ScanOverlayManager(
                 context
             )
 
-        /*container.addView(
-            createScanOverlayLeftPanel(
-                context,
-                rune
-            )
-        )
-
-        container.addView(
-            createScanOverlayCenterPanel(
-                context,
-                rune
-            )
-        )*/
-
         container.addView(
             createScanOverlayInformation(
                 context,
