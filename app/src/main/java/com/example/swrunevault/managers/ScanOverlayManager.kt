@@ -7,6 +7,7 @@ import android.graphics.PixelFormat
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.FrameLayout
@@ -95,6 +96,10 @@ class ScanOverlayManager(
         }
         overlayView = null
     }
+
+    private var baseCard: ProgressStatView? = null
+    private var actualCard: ProgressStatView? = null
+    private var maxCard: ProgressStatView? = null
 
     @SuppressLint("SetTextI18n")
     fun createScanOverlayInformation(
@@ -220,13 +225,12 @@ class ScanOverlayManager(
         }
 
         // Columna Izquierda: Propiedad Principal
-        val mainStat = UiFactory.stat(context,
-            "Stat Principal",
-            Color.WHITE,
-            rune.imgMainStat(),
-            rune.primaryStat(),
-            Color.WHITE
-        )
+        val mainStat = StatView(context).apply {
+            headerText = "Stat Principal"
+            secondText = rune.primaryStat()
+            secondColor =Color.WHITE
+            iconRes = rune.imgMainStat()
+        }
         propertiesRow.addView(mainStat)
 
         // Línea Negra Divisoria Central
@@ -241,15 +245,10 @@ class ScanOverlayManager(
         // Columna Derecha: Propiedad Innata
         val innateStat = StatView(context).apply {
             headerText = "Stat Innate"
-            headerColor = Color.WHITE
             secondText = rune.innateStat()
             secondColor = context.colorRes(rune.getColorByInnateValue())
             iconRes = rune.imgInnateStat()
         }
-
-        /*innateStat.setHeader("Stat Innate",Color.WHITE)
-        innateStat.setSecond(rune.innateStat(),context.colorRes(rune.getColorByInnateValue()))
-        innateStat.setIcon(rune.imgInnateStat())*/
         propertiesRow.addView(innateStat)
 
         headerContainer.addView(propertiesRow)
@@ -665,7 +664,7 @@ class ScanOverlayManager(
             context.colorRes(R.color.button_dark_text),
         ).apply {
             setOnClickListener {
-                baseCard?.percentage = 100.0
+
             }
         }
         rowActionButtons.addView(btnEdit)
@@ -709,44 +708,23 @@ class ScanOverlayManager(
         return panel
     }
 
-    private var baseCard: ProgressStatView? = null
-
     @SuppressLint("SetTextI18n")
     fun createScanOverlayRightPanel(
         context: Context,
         rune: Rune
     ): FrameLayout {
-
         // FUNCIÓN AUXILIAR: Convierte valores DP a Píxeles reales según la pantalla del dispositivo
         val density = context.resources.displayMetrics.density
         fun dp(value: Int): Int = (value * density).toInt()
 
         // Panel principal para contener todos los elementos
-        val panel = FrameLayout(context).apply {
-            setBackgroundColor(Color.TRANSPARENT)
-            layoutParams = LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                1f
-            )
+        val panel = UiFactory.panel(context, 1f).apply {
             setPadding(4, 8, 8, 8)
         }
 
         // Contenedor Vertical principal para estructurar las secciones de arriba a abajo
-        val mainContainer = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
+        val mainContainer = UiFactory.mainContainer(context).apply {
             setPadding(dp(8),dp(8),dp(8),dp(8))
-            layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
-            // Fondo con esquinas y borde
-            background = GradientDrawable().apply {
-                shape = GradientDrawable.RECTANGLE
-                setColor(context.colorRes(R.color.background_secondary))
-                cornerRadius = 24f // Esquinas redondeadas en píxeles
-                setStroke(4, context.colorRes(R.color.border)) // Borde: grosor en px, color del borde
-            }
         }
 
         val titleContainer = LinearLayout(context).apply {
@@ -773,27 +751,23 @@ class ScanOverlayManager(
         mainContainer.addView(titleContainer)
 
         // Línea divisoria debajo del título
-        val topDivisor = android.view.View(context).apply {
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(1)).apply {
-                setMargins(0, dp(8), 0, dp(8))
-            }
-            setBackgroundColor(context.colorRes(R.color.border))
-        }
-        mainContainer.addView(topDivisor)
+        val horizontalLine = UiFactory.line(
+            context,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            4,
+            context.colorRes(R.color.border),
+            0, dp(8), 0, 0
+        )
+        mainContainer.addView(horizontalLine)
 
         baseCard = ProgressStatView(context).apply {
             title = "Eficiencia Base"
             percentage = rune.baseEfficiency()
             progressColor = Color.WHITE
-            titleSize = 14f
-            percentageSize = 24f
             barHeight = dp(6)
         }.apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
 
         mainContainer.addView(baseCard)
-
-        // Espaciador adaptativo entre tarjetas
-        mainContainer.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(12)) })
 
         val hasGrindstone = rune.subStats.any {it.grindstonevalue != 0}
 
@@ -802,31 +776,23 @@ class ScanOverlayManager(
 
         val isMaxEfficiency = currentEfficiency == maxEfficiency
 
-        if(hasGrindstone and !isMaxEfficiency){
-            val actualCard = UiFactory.progressbar(
-                context,
-                "Eficiencia Actual",
-                14f,
-                currentEfficiency,
-                24f,
-                context.colorRes(R.color.orange),
-                dp(6)
-            ).apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
-            mainContainer.addView(actualCard)
-
-            // Espaciador adaptativo entre tarjetas
-            mainContainer.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(12)) })
+        actualCard = ProgressStatView(context).apply {
+            title = "Eficiencia Actual"
+            percentage = currentEfficiency
+            progressColor = context.colorRes(R.color.orange)
+            barHeight = dp(6)
+        }.apply {
+            setPadding(dp(8), dp(8), dp(8), dp(8))
+            visibility =  if(hasGrindstone and !isMaxEfficiency) View.VISIBLE else View.GONE
         }
+        mainContainer.addView(actualCard)
 
-        val maxCard = UiFactory.progressbar(
-            context,
-            "Eficiencia Máxima",
-            14f,
-            maxEfficiency,
-            24f,
-            context.colorRes(R.color.green),
-            dp(6)
-        ).apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
+        maxCard = ProgressStatView(context).apply {
+            title = "Eficiencia Máxima"
+            percentage = maxEfficiency
+            progressColor = context.colorRes(R.color.green)
+            barHeight = dp(6)
+        }.apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
         mainContainer.addView(maxCard)
 
         panel.addView(mainContainer)

@@ -1,5 +1,6 @@
 package com.example.swrunevault.controls
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
@@ -11,11 +12,13 @@ import android.widget.TextView
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
 
-
 class ProgressStatView(context: Context) : LinearLayout(context) {
     private val titleText: TextView
     private val percentageText: TextView
     private val progressBar: ProgressBar
+
+    private fun dp(value: Int): Int =
+        (value * resources.displayMetrics.density).toInt()
 
     init {
         orientation = VERTICAL
@@ -29,7 +32,9 @@ class ProgressStatView(context: Context) : LinearLayout(context) {
         layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
-        )
+        ).apply {
+            setMargins(0,dp(12),0,0)
+        }
 
         val header = LinearLayout(context).apply {
             orientation = HORIZONTAL
@@ -38,7 +43,7 @@ class ProgressStatView(context: Context) : LinearLayout(context) {
 
         titleText = TextView(context).apply {
             setTextColor(Color.WHITE)
-            textSize = 16f
+            textSize = 14f
             typeface = Typeface.DEFAULT_BOLD
         }
 
@@ -46,7 +51,7 @@ class ProgressStatView(context: Context) : LinearLayout(context) {
         addView(header)
 
         percentageText = TextView(context).apply {
-            textSize = 20f
+            textSize = 24f
             typeface = Typeface.DEFAULT_BOLD
         }
 
@@ -74,6 +79,7 @@ class ProgressStatView(context: Context) : LinearLayout(context) {
         }
 
     var percentage: Double = 0.0
+        @SuppressLint("SetTextI18n")
         set(value) {
             field = value
             percentageText.text = "${value}%"
@@ -90,20 +96,7 @@ class ProgressStatView(context: Context) : LinearLayout(context) {
             )
         }
 
-    var titleSize: Float
-        get() = titleText.textSize
-        set(value) {
-            titleText.textSize = value
-        }
-
-    var percentageSize: Float
-        get() = percentageText.textSize
-        set(value) {
-            percentageText.textSize = value
-        }
-
-    var barHeight: Int
-        get() = progressBar.layoutParams.height
+    var barHeight: Int = progressBar.layoutParams.height
         set(value) {
             progressBar.layoutParams =
                 LayoutParams(LayoutParams.MATCH_PARENT, value)

@@ -29,6 +29,7 @@ class StatView(context: Context) : LinearLayout(context) {
         headerTextView = TextView(context).apply {
             textSize = 14f
             typeface = Typeface.DEFAULT_BOLD
+            setTextColor(Color.WHITE)
             setPadding(0, 0, 0, dp(8))
         }
 
@@ -60,12 +61,6 @@ class StatView(context: Context) : LinearLayout(context) {
         get() = headerTextView.text.toString()
         set(value) {
             headerTextView.text = value
-        }
-
-    var headerColor: Int = Color.WHITE
-        set(value) {
-            field = value
-            headerTextView.setTextColor(value)
         }
 
     var secondText: String

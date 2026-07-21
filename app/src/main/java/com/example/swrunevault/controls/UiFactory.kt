@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
@@ -90,53 +89,6 @@ object UiFactory {
                 weight
             )
         }
-    }
-
-    fun stat(context: Context, headerText: String, headerColor:Int, resId: Int, secondText: String, secondColor:Int): LinearLayout {
-        val density = context.resources.displayMetrics.density
-        fun dp(value: Int): Int = (value * density).toInt()
-
-        val mainPropLayout = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f)
-        }
-
-        mainPropLayout.addView(TextView(context).apply {
-            text = headerText
-            setTextColor(headerColor)
-            textSize = 14f
-            typeface = Typeface.DEFAULT_BOLD
-            setPadding(0, 0, 0, dp(8))
-        })
-
-        // Contenedor horizontal para Icono + Stats del Main
-        val mainPropData = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-        }
-
-        // Icono del stat principal
-        val imgMainIcon = ImageView(context).apply {
-            setImageResource(resId)
-            layoutParams = LinearLayout.LayoutParams(50, 50)
-            scaleType = ImageView.ScaleType.FIT_CENTER
-            setColorFilter(secondColor)
-        }
-        mainPropData.addView(imgMainIcon)
-
-        mainPropData.addView(TextView(context).apply {
-            text = secondText
-            setTextColor(secondColor)
-            textSize = 13f
-            typeface = Typeface.DEFAULT_BOLD
-            setPadding(dp(4), 0, 0, 0)
-        })
-        mainPropLayout.addView(mainPropData)
-
-        return mainPropLayout
     }
 
     fun line(context: Context, width: Int, height: Int,color: Int = Color.BLACK , left: Int, top: Int, right: Int, bottom: Int): View{
@@ -247,57 +199,5 @@ object UiFactory {
         btn.addView(txtEscanearContainer)
 
         return btn
-    }
-
-    fun progressbar(
-        context: Context,
-        showText: String,
-        sizeText: Float,
-        percentage: Double,
-        sizePercentage: Float,
-        color: Int,
-        sizeBar: Int
-    ): LinearLayout{
-        val card = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            background = GradientDrawable().apply {
-                setColor(context.colorRes(R.color.background_primary))
-                shape = GradientDrawable.RECTANGLE
-                cornerRadius = 16f // Esquinas redondeadas en píxeles
-            }
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        }
-
-        val header = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL;
-            gravity = Gravity.CENTER_VERTICAL
-        }
-        header.addView(
-            TextView(context).apply {
-                text = showText
-                setTextColor(Color.WHITE)
-                textSize = sizeText
-                typeface = Typeface.DEFAULT_BOLD
-            }
-        )
-        card.addView(header)
-
-        val value = TextView(context).apply {
-            text = "${percentage}%"
-            setTextColor(color)
-            textSize = sizePercentage
-            typeface = Typeface.DEFAULT_BOLD
-        }
-        card.addView(value)
-
-        val progress = ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,sizeBar )
-            max = 100
-            progress = percentage.toInt()
-            progressDrawable.setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN)
-        }
-        card.addView(progress)
-
-        return card
     }
 }
