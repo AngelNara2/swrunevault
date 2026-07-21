@@ -217,15 +217,6 @@ class ScanOverlayManager(
         })
 
         //<editor-fold desc="Propiedad principal e innate">
-        val propertiesRow = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            weightSum = 2f // Permite dividir el espacio exactamente a la mitad
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-        }
-
         // Columna Izquierda: Propiedad Principal
         val mainStat = StatView(context).apply {
             headerText = "Stat Principal"
@@ -233,7 +224,7 @@ class ScanOverlayManager(
             secondColor =Color.WHITE
             iconRes = rune.imgMainStat()
         }
-        propertiesRow.addView(mainStat)
+        headerContainer.addView(mainStat)
 
         // Línea Divisoria Central
         headerContainer.addView(DividerView(context).apply {
@@ -250,9 +241,7 @@ class ScanOverlayManager(
             secondColor = context.colorRes(rune.getColorByInnateValue())
             iconRes = rune.imgInnateStat()
         }
-        propertiesRow.addView(innateStat)
-
-        headerContainer.addView(propertiesRow)
+        headerContainer.addView(innateStat)
         //</editor-fold>
 
         mainContainer.addView(headerContainer)
@@ -373,7 +362,7 @@ class ScanOverlayManager(
 
             // Nombre
             val tvSubName = TextView(context).apply {
-                text = subStat.statType?.displayText
+                text = subStat.statType.displayText
                 setTextColor(colorSubStat)
                 textSize = 13f
                 typeface = Typeface.DEFAULT_BOLD
@@ -546,13 +535,12 @@ class ScanOverlayManager(
         val tvCalInfo = UiFactory.text(context,
             "(Los cálculos se realizan como 6★)",
             12f,
-            Color.WHITE
+            Color.WHITE,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            top = 16
         ).apply {
             gravity = Gravity.CENTER
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply { setMargins(0, 16, 0, 0) }
         }
 
         // Lista para controlar los estados visuales de los botones

@@ -29,6 +29,7 @@ class StatView(context: Context) : LinearLayout(context) {
         headerTextView = TextView(context).apply {
             textSize = 14f
             typeface = Typeface.DEFAULT_BOLD
+            gravity = Gravity.CENTER
             setTextColor(Color.WHITE)
             setPadding(0, 0, 0, dp(8))
         }
@@ -37,7 +38,7 @@ class StatView(context: Context) : LinearLayout(context) {
 
         val dataLayout = LinearLayout(context).apply {
             orientation = HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
+            gravity = Gravity.CENTER
         }
 
         iconView = ImageView(context).apply {

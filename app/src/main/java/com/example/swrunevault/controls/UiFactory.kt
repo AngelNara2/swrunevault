@@ -76,7 +76,11 @@ object UiFactory {
         color: Int,
         width: Int = 0,
         height: Int = 0,
-        weight: Float = 0f): TextView {
+        weight: Float = 0f,
+        left: Int = 0,
+        top: Int = 0,
+        right: Int = 0,
+        bottom: Int = 0): TextView {
         return TextView(context).apply {
             text = showtext
             textSize = size
@@ -87,7 +91,7 @@ object UiFactory {
                 width,
                 height,
                 weight
-            )
+            ).apply { setMargins(left, top, right, bottom) }
         }
     }
 
