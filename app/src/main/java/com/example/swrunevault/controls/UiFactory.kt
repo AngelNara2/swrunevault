@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -49,6 +48,7 @@ object UiFactory {
             }
         }
     }
+
     fun icon(context: Context, resId: Int, width: Int, height: Int, color_background: Int = Color.TRANSPARENT, color_filter: Int = Color.TRANSPARENT ): FrameLayout {
         return FrameLayout(context).apply {
             layoutParams = LinearLayout.LayoutParams(width, height)
@@ -88,17 +88,6 @@ object UiFactory {
                 height,
                 weight
             )
-        }
-    }
-
-    fun line(context: Context, width: Int, height: Int,color: Int = Color.BLACK , left: Int, top: Int, right: Int, bottom: Int): View{
-        return View(context).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                width,
-                height).apply {
-                    setMargins(left, top, right, bottom)
-                }
-            setBackgroundColor(color)
         }
     }
 
@@ -173,12 +162,12 @@ object UiFactory {
             }
         )
 
-        btn.addView(line(context,
-            4,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            Color.TRANSPARENT,
-            2, 0, 2, 0
-        ))
+        btn.addView(DividerView(context).apply {
+            setup(LineOrientation.VERTICAL, 4, Color.TRANSPARENT,
+                left = 2,
+                right = 2
+            )
+        })
 
         val txtEscanearContainer = LinearLayout(context).apply {orientation = LinearLayout.VERTICAL}
 

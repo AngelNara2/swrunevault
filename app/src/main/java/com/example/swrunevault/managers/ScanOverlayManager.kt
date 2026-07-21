@@ -15,6 +15,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
+import com.example.swrunevault.controls.DividerView
+import com.example.swrunevault.controls.LineOrientation
 import com.example.swrunevault.controls.ProgressStatView
 import com.example.swrunevault.controls.StatView
 import com.example.swrunevault.controls.UiFactory
@@ -206,13 +208,13 @@ class ScanOverlayManager(
         headerContainer.addView(infoContainer)
         //</editor-fold>
 
-        val verticalLine = UiFactory.line(context,
-            4,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            context.colorRes(R.color.border),
-            16, 0, 16, 0
-        )
-        headerContainer.addView(verticalLine)
+        // Linea vertical
+        headerContainer.addView(DividerView(context).apply {
+            setup(LineOrientation.VERTICAL, 4, context.colorRes(R.color.border),
+                left = 16,
+                right = 16
+            )
+        })
 
         //<editor-fold desc="Propiedad principal e innate">
         val propertiesRow = LinearLayout(context).apply {
@@ -233,14 +235,13 @@ class ScanOverlayManager(
         }
         propertiesRow.addView(mainStat)
 
-        // Línea Negra Divisoria Central
-        val verticalLine2 = UiFactory.line(context,
-            4,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            context.colorRes(R.color.border),
-            16, 0, 16, 0
-        )
-        propertiesRow.addView(verticalLine2)
+        // Línea Divisoria Central
+        headerContainer.addView(DividerView(context).apply {
+            setup(LineOrientation.VERTICAL, 4, context.colorRes(R.color.border),
+                left = 16,
+                right = 16
+            )
+        })
 
         // Columna Derecha: Propiedad Innata
         val innateStat = StatView(context).apply {
@@ -258,14 +259,12 @@ class ScanOverlayManager(
         //</editor-fold>
 
         // Línea divisoria
-        val horizontalLine1 = UiFactory.line(
-            context,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            4,
-            context.colorRes(R.color.border),
-            0, dp(8), 0, dp(8)
-        )
-        mainContainer.addView(horizontalLine1)
+        mainContainer.addView(DividerView(context).apply {
+            setup(LineOrientation.HORIZONTAL, 4, context.colorRes(R.color.border),
+                top = 8,
+                bottom = 8
+            )
+        })
 
         //<editor-fold desc="SubPropiedades">
         val subPropertiesCard = LinearLayout(context).apply {
@@ -495,14 +494,12 @@ class ScanOverlayManager(
 
             // Agregar una mini línea divisoria gris entre cada fila, excepto en la última
             if (index < rune.subStats.size - 1) {
-                val horizontalLine3 = UiFactory.line(
-                    context,
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    4,
-                    context.colorRes(R.color.border),
-                    dp(8), 0, dp(8), 0
-                )
-                subPropertiesCard.addView(horizontalLine3)
+                subPropertiesCard.addView(DividerView(context).apply {
+                    setup(LineOrientation.HORIZONTAL, 4, context.colorRes(R.color.border),
+                        top = 8,
+                        bottom = 8
+                    )
+                })
             }
         }
 
@@ -510,14 +507,12 @@ class ScanOverlayManager(
         //</editor-fold>
 
         // Línea divisoria
-        val horizontalLine2 = UiFactory.line(
-            context,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            4,
-            context.colorRes(R.color.border),
-            0, dp(8), 0, dp(8)
-        )
-        mainContainer.addView(horizontalLine2)
+        mainContainer.addView(DividerView(context).apply {
+            setup(LineOrientation.HORIZONTAL, 4, context.colorRes(R.color.border),
+                top = 8,
+                bottom = 8
+            )
+        })
 
         val footerContainer = UiFactory.row(context)
 
@@ -617,14 +612,13 @@ class ScanOverlayManager(
         mainContainer.addView(footerContainer)
         //</editor-fold>
 
-        // Línea Negra Divisoria Central
-        val verticalLine3 = UiFactory.line(context,
-            4,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            context.colorRes(R.color.border),
-            16, 0, 16, 0
-        )
-        footerContainer.addView(verticalLine3)
+        // Línea Divisoria Central
+        footerContainer.addView(DividerView(context).apply {
+            setup(LineOrientation.VERTICAL, 4, context.colorRes(R.color.border),
+                left = 16,
+                right = 16
+            )
+        })
 
         //<editor-fold desc="Botones de acción">
         val columnSelectorLocation = UiFactory.column(context, weight=1f)
@@ -751,14 +745,12 @@ class ScanOverlayManager(
         mainContainer.addView(titleContainer)
 
         // Línea divisoria debajo del título
-        val horizontalLine = UiFactory.line(
-            context,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            4,
-            context.colorRes(R.color.border),
-            0, dp(8), 0, 0
-        )
-        mainContainer.addView(horizontalLine)
+        mainContainer.addView(DividerView(context).apply {
+            setup(LineOrientation.HORIZONTAL, 4, context.colorRes(R.color.border),
+                top = 8,
+                bottom = 8
+            )
+        })
 
         baseCard = ProgressStatView(context).apply {
             title = "Eficiencia Base"
