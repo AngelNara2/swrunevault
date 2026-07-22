@@ -15,6 +15,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.example.swrunevault.R
 import com.example.swrunevault.controls.DividerView
 import com.example.swrunevault.controls.LineOrientation
@@ -105,6 +106,7 @@ class ScanOverlayManager(
     private var actualCard: ProgressStatView? = null
     private var maxCard: ProgressStatView? = null
 
+    private var isEditable: Boolean = false
     @SuppressLint("SetTextI18n")
     fun createScanOverlayInformation(
         context: Context,
@@ -356,7 +358,10 @@ class ScanOverlayManager(
                 maxTotal = subStat.textTotalMaxValue()
             }.apply {
                 setOnClickListener {
-                    Log.d("Tap","Tap en: ${nameStat}")
+                    if(isEditable){
+                        Log.d("Tap","Tap en: ${nameStat}")
+                        nameStat = "Tap here"
+                    }
                 }
             }
 
@@ -506,6 +511,7 @@ class ScanOverlayManager(
             context.colorRes(R.color.button_dark_text)
         ).apply {
             setOnClickListener {
+                isEditable = false
                 onClose()
                 onRemove()
             }
@@ -527,9 +533,11 @@ class ScanOverlayManager(
             context.colorRes(R.color.button_dark_text),
         ).apply {
             setOnClickListener {
-
+                isEditable = true
+                Toast.makeText(context, "Edición habilitada", Toast.LENGTH_SHORT).show()
             }
         }
+
         rowActionButtons.addView(btnEdit)
 
         columnSelectorLocation.addView(rowActionButtons)
