@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.PixelFormat
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -19,6 +20,7 @@ import com.example.swrunevault.controls.DividerView
 import com.example.swrunevault.controls.LineOrientation
 import com.example.swrunevault.controls.ProgressStatView
 import com.example.swrunevault.controls.StatView
+import com.example.swrunevault.controls.SubStatView
 import com.example.swrunevault.controls.UiFactory
 import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
@@ -325,12 +327,8 @@ class ScanOverlayManager(
 
         // Cargar los subStats de la runa
         rune.subStats.forEachIndexed { index, subStat ->
-            val rowValues = UiFactory.row(context,5f).apply {
-                setPadding(dp(8),dp(8),dp(8),dp(8))
-            }
-
             // Color que va a tener el icono y SubStat
-            val colorSubStat =
+            val color =
                 // Si el SubStat es el más bajo y ninguna propiedad proviene de una gema, será rojo
                 if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
                     context.colorRes(R.color.light_red)
@@ -342,144 +340,27 @@ class ScanOverlayManager(
                     else
                         context.colorRes(R.color.orange)
 
-            //<editor-fold desc="Fila icono y nombre">
-            val rowSubStat = UiFactory.row(context).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    2f)
-            }
-
-            // Icono
-            val iconoSub = UiFactory.icon(
-                context,
-                subStat.imgStat(),
-                50,
-                50,
-                color_filter = colorSubStat,
-            )
-            rowSubStat.addView(iconoSub)
-
-            // Nombre
-            val tvSubName = TextView(context).apply {
-                text = subStat.statType.displayText
-                setTextColor(colorSubStat)
-                textSize = 13f
-                typeface = Typeface.DEFAULT_BOLD
-                setPadding(dp(10),0,0,0)
-            }
-            rowSubStat.addView(tvSubName)
-
-            rowValues.addView(rowSubStat)
-            //</editor-fold>
-
-            // Valor actual
-            val tvSubValue = TextView(context).apply {
-                text = subStat.textValueStat()
-                setTextColor(colorSubStat)
-                textSize = 13f
-                typeface = Typeface.DEFAULT_BOLD
-                gravity = Gravity.CENTER
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
-            }
-            rowValues.addView(tvSubValue)
-
             // Indica si es necesario mostrar los valores máximos si su valor es menor
             val showMaxValue =  subStat.hasGrindstone() and !subStat.hasMaxGrindstoneValue() and (subStat.grindstonevalue != 0)
 
-            // Fila que contiene el valor de su Grindstone actual y su maximo posible
-            val rowGrindstoneValues = UiFactory.row(context,0f).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
-            }
-
-            // Valor del Grindstone obtenido o posible de obtener
-            val tvGrindstone = TextView(context).apply {
-                text = subStat.textGrindstoneValue()
-                setTextColor(context.colorRes(subStat.getColorByValueGrinstone()))
-                textSize = 13f
-                typeface = Typeface.DEFAULT_BOLD
-                gravity = if(showMaxValue) Gravity.END else Gravity.CENTER
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
-            }
-            rowGrindstoneValues.addView(tvGrindstone)
-
-            if(showMaxValue){
-                // Valor maximo del Grindstone obtenido o posible de obtener
-                val tvGrindstoneMaxValue = TextView(context).apply {
-                    text = subStat.textGrindstoneMaxValue()
-                    setTextColor(context.colorRes(R.color.green))
-                    textSize = 13f
-                    typeface = Typeface.DEFAULT_BOLD
-                    gravity = Gravity.START
-                    layoutParams = LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1f
-                    )
+            val rowSubStat = SubStatView(context).apply {
+                iconRes = subStat.imgStat()
+                nameStat = subStat.statType.displayText
+                valueStat = subStat.textValueStat()
+                colorSubStat = color
+                currentGrindstone = subStat.textGrindstoneValue()
+                colorGrinstone = context.colorRes(subStat.getColorByValueGrinstone())
+                currentTotal = subStat.textTotalValue(showMaxValue)
+                visibleMaxValue = showMaxValue
+                maxGrindstone = subStat.textGrindstoneMaxValue()
+                maxTotal = subStat.textTotalMaxValue()
+            }.apply {
+                setOnClickListener {
+                    Log.d("Tap","Tap en: ${nameStat}")
                 }
-                rowGrindstoneValues.addView(tvGrindstoneMaxValue)
             }
 
-            rowValues.addView(rowGrindstoneValues)
-
-            // Fila que contiene el valor de su Total actual y su maximo posible
-            val rowTotalValues = UiFactory.row(context,0f).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
-            }
-
-            // Valor del Total obtenido actual
-            val tvTotal = TextView(context).apply {
-                text = subStat.textTotalValue(showMaxValue)
-                setTextColor(context.colorRes(
-                    if(showMaxValue) R.color.orange else R.color.green
-                ))
-                textSize = 13f
-                typeface = Typeface.DEFAULT_BOLD
-                gravity = if(showMaxValue) Gravity.END else Gravity.CENTER
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
-            }
-            rowTotalValues.addView(tvTotal)
-
-            // Valor total maximo posible de obtener
-            if(showMaxValue){
-                val tvTotalMaxValue = TextView(context).apply {
-                    text = subStat.textTotalMaxValue()
-                    setTextColor(context.colorRes(R.color.green))
-                    textSize = 13f
-                    typeface = Typeface.DEFAULT_BOLD
-                    gravity = Gravity.START
-                    layoutParams = LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1f
-                    )
-                }
-                rowTotalValues.addView(tvTotalMaxValue)
-            }
-
-            rowValues.addView(rowTotalValues)
-
-            subPropertiesCard.addView(rowValues)
+            subPropertiesCard.addView(rowSubStat)
 
             // Agregar una mini línea divisoria gris entre cada fila, excepto en la última
             if (index < rune.subStats.size - 1) {
