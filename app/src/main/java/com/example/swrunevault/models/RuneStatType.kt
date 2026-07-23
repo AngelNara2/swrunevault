@@ -19,7 +19,9 @@ enum class RuneStatType(
 
     var displayText: String = "",
 
-    var isEnchanted: Boolean = false
+    var isEnchanted: Boolean = false,
+
+    var slots: IntArray
 ) {
     // Nombre mostrado de la propiedad en En | Es
     UNKNOWN(
@@ -28,7 +30,8 @@ enum class RuneStatType(
         false,
         0 ,
         0,
-        R.drawable.substat_atk
+        R.drawable.substat_atk,
+        slots = intArrayOf(0)
     ),
 
     HP(
@@ -37,7 +40,8 @@ enum class RuneStatType(
         true,
         430,
         550,
-        R.drawable.substat_hp
+        R.drawable.substat_hp,
+        slots = intArrayOf(1,2,3,4,6)
         ),
 
     HP_PERCENT(
@@ -46,7 +50,8 @@ enum class RuneStatType(
         true,
         5,
         10,
-        R.drawable.substat_hp
+        R.drawable.substat_hp,
+        slots = intArrayOf(1,2,3,4,5,6)
     ),
 
     ATK(
@@ -55,7 +60,8 @@ enum class RuneStatType(
         true,
         18 ,
         30,
-        R.drawable.substat_atk
+        R.drawable.substat_atk,
+        slots = intArrayOf(2,4,5,6)
     ),
 
     ATK_PERCENT(
@@ -64,7 +70,8 @@ enum class RuneStatType(
         true,
         5,
         10,
-        R.drawable.substat_atk
+        R.drawable.substat_atk,
+        slots = intArrayOf(1,2,4,5,6)
     ),
 
     DEF(
@@ -73,7 +80,8 @@ enum class RuneStatType(
         true,
         18,
         30,
-        R.drawable.substat_def
+        R.drawable.substat_def,
+        slots = intArrayOf(2,4,5,6)
     ),
 
     DEF_PERCENT(
@@ -82,7 +90,8 @@ enum class RuneStatType(
         true,
         5,
         10,
-        R.drawable.substat_def
+        R.drawable.substat_def,
+        slots = intArrayOf(2,3,4,5,6)
     ),
 
     SPD(
@@ -91,7 +100,8 @@ enum class RuneStatType(
         true,
         4,
         5,
-        R.drawable.substat_spd
+        R.drawable.substat_spd,
+        slots = intArrayOf(1,2,3,4,5,6)
     ),
 
     CRIT_RATE(
@@ -100,7 +110,8 @@ enum class RuneStatType(
         false,
         0 ,
         0,
-        R.drawable.substat_crirate
+        R.drawable.substat_crirate,
+        slots = intArrayOf(1,2,3,4,5,6)
     ),
     CRIT_DAMAGE(
         "CRI Dmg|Daño CRÍ",
@@ -108,7 +119,8 @@ enum class RuneStatType(
         false,
         0 ,
         0,
-        R.drawable.substat_cridmg
+        R.drawable.substat_cridmg,
+        slots = intArrayOf(1,2,3,4,5,6)
     ),
 
     ACCURACY(
@@ -117,7 +129,8 @@ enum class RuneStatType(
         false,
         0 ,
         0,
-        R.drawable.substat_acc
+        R.drawable.substat_acc,
+        slots = intArrayOf(1,2,3,4,5,6)
     ),
 
     RESISTANCE(
@@ -126,7 +139,8 @@ enum class RuneStatType(
         false,
         0,
         0,
-        R.drawable.substat_res
+        R.drawable.substat_res,
+        slots = intArrayOf(1,2,3,4,5,6)
     );
 
     companion object {
@@ -157,6 +171,4 @@ enum class RuneStatType(
                 .firstOrNull { it.contains(searchTerm, ignoreCase = true) }
         }
     }
-
-
 }

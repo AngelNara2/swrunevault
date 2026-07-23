@@ -25,6 +25,7 @@ import com.example.swrunevault.controls.SubStatView
 import com.example.swrunevault.controls.UiFactory
 import com.example.swrunevault.extensions.colorRes
 import com.example.swrunevault.models.Rune
+import com.example.swrunevault.models.RuneStatType
 import com.example.swrunevault.utils.getStars
 import com.example.swrunevault.views.scanoverlay.createScanOverlayContainer
 
@@ -331,6 +332,10 @@ class ScanOverlayManager(
         // SubStat que proviene de una gema
         val enchantedSubStat = rune.subStats.firstOrNull{it.statType.isEnchanted}
 
+        // SubStats disponibles para esta runa por su slot
+        val filteredSubStats: List<RuneStatType> =
+            RuneStatType.entries.filter { it.slots.contains(rune.slot) } - rune.subStats.map { it.statType }
+
         // Cargar los subStats de la runa
         rune.subStats.forEachIndexed { index, subStat ->
             // Color que va a tener el icono y SubStat
@@ -372,6 +377,7 @@ class ScanOverlayManager(
                 maxGrindstone = subStat.textGrindstoneMaxValue()
                 maxTotal = subStat.textTotalMaxValue()
                 imEditable = isEditable
+                availableSubStats = (filteredSubStats + subStat.statType)
             }.apply {
                 setOnClickListener {
                     if (!editMode) return@setOnClickListener
@@ -379,7 +385,7 @@ class ScanOverlayManager(
                     if (!imEditable) return@setOnClickListener
 
                     Log.d("Tap","Tap en: ${nameStat}")
-                    nameStat = "Tap here"
+                    Log.d("Tap","SubStats disponibles: ${availableSubStats}")
                 }
             }
 

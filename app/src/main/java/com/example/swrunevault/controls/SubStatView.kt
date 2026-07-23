@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
+import com.example.swrunevault.models.RuneStatType
 
 class SubStatView(context: Context) : LinearLayout(context) {
     private val iconView: ImageView
@@ -198,4 +199,9 @@ class SubStatView(context: Context) : LinearLayout(context) {
                 gravity = direction
             }
         }
+
+    private var _availableSubStats: List<RuneStatType> = emptyList()
+    var availableSubStats: List<RuneStatType>
+        get() = _availableSubStats
+        set(value) {_availableSubStats = value}
 }
