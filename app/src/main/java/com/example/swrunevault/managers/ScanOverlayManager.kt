@@ -9,9 +9,11 @@ import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -38,7 +40,11 @@ class ScanOverlayManager(
             Context.WINDOW_SERVICE
         ) as WindowManager
 
-    private var overlayView: FrameLayout? = null
+    private var overlayView: FrameLayout = FrameLayout(context).apply {
+        setBackgroundColor(
+            context.colorRes(R.color.background_primary)
+        )
+    }
 
     fun show(
         rune: Rune,
@@ -47,12 +53,12 @@ class ScanOverlayManager(
         remove()
 
         // Fondo fullscreen
-        overlayView =
+       /* overlayView =
             FrameLayout(context).apply {
                 setBackgroundColor(
                     context.colorRes(R.color.background_primary)
                 )
-            }
+            }*/
 
         val container =
             createScanOverlayContainer(
@@ -95,12 +101,12 @@ class ScanOverlayManager(
     }
 
     fun remove() {
-        overlayView?.let {
+        overlayView.let {
             if (it.parent != null) {
                 windowManager.removeView(it)
             }
         }
-        overlayView = null
+        //overlayView = null
     }
 
     private var baseCard: ProgressStatView? = null
@@ -386,6 +392,10 @@ class ScanOverlayManager(
 
                     Log.d("Tap","Tap en: ${nameStat}")
                     Log.d("Tap","SubStats disponibles: ${availableSubStats}")
+
+                    showAttributeSelector(overlayView) { selectedValue ->
+                        Log.d("Tap","Seleccionado: ${selectedValue}")
+                    }
                 }
             }
 
@@ -691,5 +701,96 @@ class ScanOverlayManager(
         panel.addView(mainContainer)
 
         return panel
+    }
+
+    fun showAttributeSelector(containerFrameLayout: FrameLayout, onSelected: (String) -> Unit) {
+        val context = containerFrameLayout.context
+
+        // Contenedor principal de la ventana
+        val dialogLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER
+            setPadding(dp(context, 16), dp(context, 16), dp(context, 16), dp(context, 16))
+
+            // Fondo
+            background = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(Color.parseColor("#2B1D0C")) // Marrón oscuro
+                setStroke(dp(context, 2), Color.parseColor("#C59B27")) // Borde dorado
+                cornerRadius = dp(context, 12).toFloat()
+            }
+
+            // Layout params para centrarlo dentro del FrameLayout
+            layoutParams = FrameLayout.LayoutParams(
+                dp(context, 300),
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                gravity = Gravity.CENTER
+            }
+
+            // Consumir clics para que no traspasen al fondo
+            isClickable = true
+            isFocusable = true
+        }
+
+        // GridLayout de 2 columnas para las opciones
+        val gridLayout = GridLayout(context).apply {
+            columnCount = 2
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+
+        // Lista de opciones a mostrar
+        val options = listOf(
+            "Todo", "VEL",
+            "HP +", "HP %",
+            "ATQ +", "ATQ %",
+            "DEF +", "DEF %",
+            "Tasa CRí", "Daño CRí",
+            "RES", "Precisión"
+        )
+
+        // Crear los TextViews y añadirlos al GridLayout
+        for (text in options) {
+            val textView = TextView(context).apply {
+                this.text = text
+                setTextColor(Color.parseColor("#E1C699"))
+                textSize = 16f
+                setTypeface(null, android.graphics.Typeface.BOLD)
+                gravity = Gravity.CENTER
+                setPadding(dp(context, 12), dp(context, 12), dp(context, 12), dp(context, 12))
+
+                // Selector de feedback al tocar (efecto ripple nativo si está disponible)
+                val outValue = android.util.TypedValue()
+                context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
+                setBackgroundResource(outValue.resourceId)
+
+                // Configurar el click para retornar el valor y cerrar el diálogo
+                setOnClickListener {
+                    onSelected(text)
+                    containerFrameLayout.removeView(dialogLayout)
+                }
+
+                // Distribuir el ancho equitativamente entre las 2 columnas
+                layoutParams = GridLayout.LayoutParams().apply {
+                    width = 0
+                    height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                    setMargins(dp(context, 4), dp(context, 4), dp(context, 4), dp(context, 4))
+                }
+            }
+            gridLayout.addView(textView)
+        }
+
+        // Ensamblar vistas
+        dialogLayout.addView(gridLayout)
+        containerFrameLayout.addView(dialogLayout)
+    }
+
+    // Función auxiliar para convertir Dp a Px de forma segura
+    private fun dp(context: Context, dp: Int): Int {
+        return (dp * context.resources.displayMetrics.density).toInt()
     }
 }
