@@ -171,6 +171,11 @@ class SubStatView(context: Context) : LinearLayout(context) {
             totalMaxView.text = value
         }
 
+    private var _imEditable: Boolean = false
+    var imEditable: Boolean
+        get() = _imEditable
+        set(value) {_imEditable = value}
+
     private var visibility: Boolean = false
     var visibleMaxValue: Boolean
         get() = visibility

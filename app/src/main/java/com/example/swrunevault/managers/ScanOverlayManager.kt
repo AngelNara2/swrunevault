@@ -106,7 +106,8 @@ class ScanOverlayManager(
     private var actualCard: ProgressStatView? = null
     private var maxCard: ProgressStatView? = null
 
-    private var isEditable: Boolean = false
+    private var editMode: Boolean = false
+
     @SuppressLint("SetTextI18n")
     fun createScanOverlayInformation(
         context: Context,
@@ -273,12 +274,6 @@ class ScanOverlayManager(
             )
         }
 
-        // SubStat con la menor contribución de la runa
-        val lowSubStatContribution = rune.subStats.minByOrNull { it.subStatCurrentContribution() }
-
-        // La runa tiene una propiedad que viene una gema
-        val hasSubStatEnchanted = rune.subStats.any {it.statType.isEnchanted}
-
         //<editor-fold desc="Encabezados">
         val rowColumNames = UiFactory.row(context,5f).apply {
             setPadding(dp(8),dp(8),dp(8),dp(8))
@@ -327,6 +322,15 @@ class ScanOverlayManager(
         subPropertiesCard.addView(rowColumNames)
         //</editor-fold>
 
+        // SubStat con la menor contribución de la runa
+        val lowSubStatContribution = rune.subStats.minByOrNull { it.subStatCurrentContribution() }
+
+        // La runa tiene una propiedad que viene una gema
+        val hasSubStatEnchanted = rune.subStats.any {it.statType.isEnchanted}
+
+        // SubStat que proviene de una gema
+        val enchantedSubStat = rune.subStats.firstOrNull{it.statType.isEnchanted}
+
         // Cargar los subStats de la runa
         rune.subStats.forEachIndexed { index, subStat ->
             // Color que va a tener el icono y SubStat
@@ -335,12 +339,23 @@ class ScanOverlayManager(
                 if((subStat == lowSubStatContribution) and (!hasSubStatEnchanted))
                     context.colorRes(R.color.light_red)
                 else
-                // Si el SubStat no proviene de una gema, será blanco
+                    // Si el SubStat no proviene de una gema, será blanco
                     if(!subStat.statType.isEnchanted)
                         Color.WHITE
                     // En caso contrario será naranja, indicando que proviene de una gema
                     else
                         context.colorRes(R.color.orange)
+
+            val isEditable =
+                // Si la runa no tiene aplicado un Enchanted sera editable el SubStat
+                if(!hasSubStatEnchanted)
+                    true
+                else
+                    // Si el tipo del SubStat que proviene de una gema es igual al SubStat
+                    if (enchantedSubStat?.statType == subStat.statType)
+                        true
+                    else
+                        false
 
             // Indica si es necesario mostrar los valores máximos si su valor es menor
             val showMaxValue =  subStat.hasGrindstone() and !subStat.hasMaxGrindstoneValue() and (subStat.grindstonevalue != 0)
@@ -356,12 +371,15 @@ class ScanOverlayManager(
                 visibleMaxValue = showMaxValue
                 maxGrindstone = subStat.textGrindstoneMaxValue()
                 maxTotal = subStat.textTotalMaxValue()
+                imEditable = isEditable
             }.apply {
                 setOnClickListener {
-                    if(isEditable){
-                        Log.d("Tap","Tap en: ${nameStat}")
-                        nameStat = "Tap here"
-                    }
+                    if (!editMode) return@setOnClickListener
+
+                    if (!imEditable) return@setOnClickListener
+
+                    Log.d("Tap","Tap en: ${nameStat}")
+                    nameStat = "Tap here"
                 }
             }
 
@@ -511,7 +529,7 @@ class ScanOverlayManager(
             context.colorRes(R.color.button_dark_text)
         ).apply {
             setOnClickListener {
-                isEditable = false
+                editMode = false
                 onClose()
                 onRemove()
             }
@@ -533,7 +551,7 @@ class ScanOverlayManager(
             context.colorRes(R.color.button_dark_text),
         ).apply {
             setOnClickListener {
-                isEditable = true
+                editMode = true
                 Toast.makeText(context, "Edición habilitada", Toast.LENGTH_SHORT).show()
             }
         }
