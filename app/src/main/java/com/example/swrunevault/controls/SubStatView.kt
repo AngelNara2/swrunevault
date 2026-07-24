@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
+import com.example.swrunevault.models.RuneStat
 import com.example.swrunevault.models.RuneStatType
 
 class SubStatView(context: Context) : LinearLayout(context) {
@@ -112,70 +113,12 @@ class SubStatView(context: Context) : LinearLayout(context) {
         rowTotal.addView(totalMaxView)
         addView(rowTotal)
     }
-
-    var iconRes: Int
-        get() = 0
+    private var _indexSubStat: Int = 0
+    var indexSubStat: Int
+        get() = _indexSubStat
         set(value) {
-            iconView.setImageResource(value)
+            _indexSubStat = value
         }
-
-    var nameStat: String
-        get() = nameView.text.toString()
-        set(value){
-            nameView.text = value
-
-        }
-
-    var valueStat: String
-        get() = valueView.text.toString()
-        set(value) {
-            valueView.text = value
-        }
-
-    var colorSubStat: Int
-        get() = 0
-        set(value) {
-            iconView.apply { setColorFilter(value) }
-            nameView.apply { setTextColor(value) }
-            valueView.apply { setTextColor(value) }
-        }
-
-    var currentGrindstone: String
-        get() = grindstoneView.text.toString()
-        set(value) {
-            grindstoneView.text = value
-        }
-
-    var colorGrinstone: Int
-        get() = 0
-        set(value) {
-            grindstoneView.apply {
-                setTextColor( value)
-            }
-        }
-
-    var maxGrindstone: String
-        get() = grindstoneMaxView.text.toString()
-        set(value) {
-            grindstoneMaxView.text = value
-        }
-
-    var currentTotal: String
-        get() = totalView.text.toString()
-        set(value) {
-            totalView.text = value
-        }
-
-    var maxTotal: String
-        get() = ""
-        set(value) {
-            totalMaxView.text = value
-        }
-
-    private var _imEditable: Boolean = false
-    var imEditable: Boolean
-        get() = _imEditable
-        set(value) {_imEditable = value}
 
     private var visibility: Boolean = false
     var visibleMaxValue: Boolean
@@ -199,6 +142,47 @@ class SubStatView(context: Context) : LinearLayout(context) {
                 gravity = direction
             }
         }
+
+    private lateinit var _subStat: RuneStat
+    var runeStat: RuneStat
+        get() = _subStat
+        set(value) {
+            _subStat = value
+
+            iconView.setImageResource(_subStat.imgStat())
+            nameView.text = _subStat.statType.displayText
+            valueView.text = _subStat.textValueStat()
+            grindstoneView.text = _subStat.textGrindstoneValue()
+            grindstoneView.apply {
+                setTextColor(context.colorRes(_subStat.getColorByValueGrinstone()))
+            }
+            totalView.text = _subStat.textTotalValue(visibility)
+
+            grindstoneMaxView.text = _subStat.textGrindstoneMaxValue()
+            totalMaxView.text = _subStat.textTotalMaxValue()
+        }
+
+    var nameStat: String
+        get() = nameView.text.toString()
+        set(value){
+            nameView.text = value
+
+        }
+
+    var colorSubStat: Int
+        get() = 0
+        set(value) {
+            iconView.apply { setColorFilter(value) }
+            nameView.apply { setTextColor(value) }
+            valueView.apply { setTextColor(value) }
+        }
+
+    private var _imEditable: Boolean = false
+    var imEditable: Boolean
+        get() = _imEditable
+        set(value) {_imEditable = value}
+
+
 
     private var _availableSubStats: List<RuneStatType> = emptyList()
     var availableSubStats: List<RuneStatType>

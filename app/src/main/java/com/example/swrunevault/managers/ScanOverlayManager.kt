@@ -372,16 +372,10 @@ class ScanOverlayManager(
             val showMaxValue =  subStat.hasGrindstone() and !subStat.hasMaxGrindstoneValue() and (subStat.grindstonevalue != 0)
 
             val rowSubStat = SubStatView(context).apply {
-                iconRes = subStat.imgStat()
-                nameStat = subStat.statType.displayText
-                valueStat = subStat.textValueStat()
-                colorSubStat = color
-                currentGrindstone = subStat.textGrindstoneValue()
-                colorGrinstone = context.colorRes(subStat.getColorByValueGrinstone())
-                currentTotal = subStat.textTotalValue(showMaxValue)
+                indexSubStat = index
                 visibleMaxValue = showMaxValue
-                maxGrindstone = subStat.textGrindstoneMaxValue()
-                maxTotal = subStat.textTotalMaxValue()
+                runeStat = subStat
+                colorSubStat = color
                 imEditable = isEditable
                 availableSubStats = (filteredSubStats + subStat.statType)
             }.apply {
@@ -394,8 +388,24 @@ class ScanOverlayManager(
                     Log.d("Tap","SubStats disponibles: ${availableSubStats}")
 
                     showAttributeSelector(overlayView, availableSubStats) { selectedValue ->
+                        if(selectedValue == RuneStatType.UNKNOWN) return@showAttributeSelector
+
                         Log.d("Tap","Seleccionado: ${selectedValue}")
                         Log.d("Tap","Seleccionado: ${selectedValue.enchantedMaxValue}")
+
+                        if (subStat.statType != selectedValue) subStat.grindstonevalue = 0
+
+                        subStat.statType = selectedValue
+                        subStat.value = selectedValue.enchantedMaxValue
+                        //subStat.grindstonevalue = 0
+
+                        runeStat = subStat
+                        colorSubStat =  context.colorRes(R.color.orange)
+
+                        baseCard?.percentage = rune.baseEfficiency()
+                        actualCard?.percentage = rune.currentEfficiency()
+                        actualCard.apply { visibility = View.VISIBLE }
+                        maxCard?.percentage = rune.maxEfficiency()
                     }
                 }
             }
@@ -775,6 +785,9 @@ class ScanOverlayManager(
 
                 // Configurar el click para retornar el valor y cerrar el diálogo
                 setOnClickListener {
+                    statType.displayText = statName
+                        .replace(" %","")
+                        .replace(" +","")
                     onSelected(statType)
                     containerFrameLayout.removeView(dialogLayout)
                 }

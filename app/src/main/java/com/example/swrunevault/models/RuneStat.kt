@@ -6,13 +6,13 @@ import com.example.swrunevault.exceptions.RuneNotFoundException
 // Estadística de una runa.
 data class RuneStat(
     // Tipo de estadística.
-    val statType: RuneStatType = RuneStatType.UNKNOWN,
+    var statType: RuneStatType = RuneStatType.UNKNOWN,
 
     // Valor actual.
-    val value: Int,
+    var value: Int = 0,
 
     // Valor incrementado por el uso de una grindstone
-    val grindstonevalue: Int,
+    var grindstonevalue: Int = 0,
 
     // Grado de la runa para los calculos
     private var stars: RuneGrade = RuneGrade.ZERO
