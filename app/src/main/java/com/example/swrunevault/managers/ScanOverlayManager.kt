@@ -393,8 +393,9 @@ class ScanOverlayManager(
                     Log.d("Tap","Tap en: ${nameStat}")
                     Log.d("Tap","SubStats disponibles: ${availableSubStats}")
 
-                    showAttributeSelector(overlayView) { selectedValue ->
+                    showAttributeSelector(overlayView, availableSubStats) { selectedValue ->
                         Log.d("Tap","Seleccionado: ${selectedValue}")
+                        Log.d("Tap","Seleccionado: ${selectedValue.enchantedMaxValue}")
                     }
                 }
             }
@@ -703,7 +704,7 @@ class ScanOverlayManager(
         return panel
     }
 
-    fun showAttributeSelector(containerFrameLayout: FrameLayout, onSelected: (String) -> Unit) {
+    fun showAttributeSelector(containerFrameLayout: FrameLayout,availableSubStats: List<RuneStatType>, onSelected: (RuneStatType) -> Unit) {
         val context = containerFrameLayout.context
 
         // Contenedor principal de la ventana
@@ -715,8 +716,8 @@ class ScanOverlayManager(
             // Fondo
             background = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
-                setColor(Color.parseColor("#2B1D0C")) // Marrón oscuro
-                setStroke(dp(context, 2), Color.parseColor("#C59B27")) // Borde dorado
+                setColor(context.colorRes(R.color.background_secondary))
+                setStroke(4, context.colorRes(R.color.border))
                 cornerRadius = dp(context, 12).toFloat()
             }
 
@@ -744,21 +745,26 @@ class ScanOverlayManager(
 
         // Lista de opciones a mostrar
         val options = listOf(
-            "Todo", "VEL",
-            "HP +", "HP %",
-            "ATQ +", "ATQ %",
-            "DEF +", "DEF %",
-            "Tasa CRí", "Daño CRí",
-            "RES", "Precisión"
+            "VEL" to RuneStatType.SPD,
+            "HP +" to RuneStatType.HP,
+            "HP %" to RuneStatType.HP_PERCENT,
+            "ATQ +" to RuneStatType.ATK,
+            "ATQ %" to RuneStatType.ATK_PERCENT,
+            "DEF +" to RuneStatType.DEF,
+            "DEF %" to RuneStatType.DEF_PERCENT,
+            "Tasa CRí" to RuneStatType.CRIT_RATE,
+            "Daño CRí" to RuneStatType.CRIT_DAMAGE,
+            "RES" to RuneStatType.RESISTANCE,
+            "Precisión" to RuneStatType.ACCURACY,
+            "X" to RuneStatType.UNKNOWN
         )
 
-        // Crear los TextViews y añadirlos al GridLayout
-        for (text in options) {
+        options.forEach { (statName, statType) ->
             val textView = TextView(context).apply {
-                this.text = text
-                setTextColor(Color.parseColor("#E1C699"))
+                this.text = statName
+                setTextColor(context.colorRes(R.color.button_dark_text))
                 textSize = 16f
-                setTypeface(null, android.graphics.Typeface.BOLD)
+                setTypeface(null, Typeface.BOLD)
                 gravity = Gravity.CENTER
                 setPadding(dp(context, 12), dp(context, 12), dp(context, 12), dp(context, 12))
 
@@ -769,7 +775,7 @@ class ScanOverlayManager(
 
                 // Configurar el click para retornar el valor y cerrar el diálogo
                 setOnClickListener {
-                    onSelected(text)
+                    onSelected(statType)
                     containerFrameLayout.removeView(dialogLayout)
                 }
 

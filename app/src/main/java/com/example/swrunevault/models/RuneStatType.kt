@@ -15,6 +15,8 @@ enum class RuneStatType(
 
     val grindstoneMaxValue: Int,
 
+    val enchantedMaxValue: Int,
+
     val idStatResource: Int,
 
     var displayText: String = "",
@@ -30,6 +32,7 @@ enum class RuneStatType(
         false,
         0 ,
         0,
+        0,
         R.drawable.substat_atk,
         slots = intArrayOf(0)
     ),
@@ -40,6 +43,7 @@ enum class RuneStatType(
         true,
         430,
         550,
+        580,
         R.drawable.substat_hp,
         slots = intArrayOf(1,2,3,4,6)
         ),
@@ -50,6 +54,7 @@ enum class RuneStatType(
         true,
         5,
         10,
+        13,
         R.drawable.substat_hp,
         slots = intArrayOf(1,2,3,4,5,6)
     ),
@@ -58,8 +63,9 @@ enum class RuneStatType(
         "ATK|ATQ",
         false,
         true,
-        18 ,
+        18,
         30,
+        40,
         R.drawable.substat_atk,
         slots = intArrayOf(2,4,5,6)
     ),
@@ -70,6 +76,7 @@ enum class RuneStatType(
         true,
         5,
         10,
+        13,
         R.drawable.substat_atk,
         slots = intArrayOf(1,2,4,5,6)
     ),
@@ -80,6 +87,7 @@ enum class RuneStatType(
         true,
         18,
         30,
+        40,
         R.drawable.substat_def,
         slots = intArrayOf(2,4,5,6)
     ),
@@ -90,6 +98,7 @@ enum class RuneStatType(
         true,
         5,
         10,
+        13,
         R.drawable.substat_def,
         slots = intArrayOf(2,3,4,5,6)
     ),
@@ -100,6 +109,7 @@ enum class RuneStatType(
         true,
         4,
         5,
+        10,
         R.drawable.substat_spd,
         slots = intArrayOf(1,2,3,4,5,6)
     ),
@@ -110,6 +120,7 @@ enum class RuneStatType(
         false,
         0 ,
         0,
+        9,
         R.drawable.substat_crirate,
         slots = intArrayOf(1,2,3,4,5,6)
     ),
@@ -119,6 +130,7 @@ enum class RuneStatType(
         false,
         0 ,
         0,
+        10,
         R.drawable.substat_cridmg,
         slots = intArrayOf(1,2,3,4,5,6)
     ),
@@ -129,6 +141,7 @@ enum class RuneStatType(
         false,
         0 ,
         0,
+        11,
         R.drawable.substat_acc,
         slots = intArrayOf(1,2,3,4,5,6)
     ),
@@ -139,6 +152,7 @@ enum class RuneStatType(
         false,
         0,
         0,
+        11,
         R.drawable.substat_res,
         slots = intArrayOf(1,2,3,4,5,6)
     );
