@@ -120,46 +120,43 @@ class SubStatView(context: Context) : LinearLayout(context) {
             _indexSubStat = value
         }
 
-    private var visibility: Boolean = false
-    var visibleMaxValue: Boolean
-        get() = visibility
-        set(value) {
-            visibility = value
-
-            val visible: Int = if(value) VISIBLE else GONE
-
-            grindstoneMaxView.apply { visibility = visible }
-            totalMaxView.apply { visibility = visible }
-
-            val direction: Int =  if(value) Gravity.END else Gravity.CENTER
-
-            grindstoneView.apply{ gravity = direction }
-
-            totalView.apply{
-                setTextColor(context.colorRes(
-                    if(value) R.color.orange else R.color.green
-                ))
-                gravity = direction
-            }
-        }
-
     private lateinit var _subStat: RuneStat
     var runeStat: RuneStat
         get() = _subStat
         set(value) {
             _subStat = value
 
+            val showMaxValue =  _subStat.hasGrindstone() and !_subStat.hasMaxGrindstoneValue() and (_subStat.grindstonevalue != 0)
+            val direction: Int =  if(showMaxValue) Gravity.END else Gravity.CENTER
+            val visible: Int = if(showMaxValue) VISIBLE else GONE
+
             iconView.setImageResource(_subStat.imgStat())
             nameView.text = _subStat.statType.displayText
             valueView.text = _subStat.textValueStat()
-            grindstoneView.text = _subStat.textGrindstoneValue()
-            grindstoneView.apply {
-                setTextColor(context.colorRes(_subStat.getColorByValueGrinstone()))
-            }
-            totalView.text = _subStat.textTotalValue(visibility)
 
-            grindstoneMaxView.text = _subStat.textGrindstoneMaxValue()
-            totalMaxView.text = _subStat.textTotalMaxValue()
+            grindstoneView.apply {
+                text = _subStat.textGrindstoneValue()
+                setTextColor(context.colorRes(_subStat.getColorByValueGrinstone()))
+                gravity = direction
+            }
+
+            totalView.apply {
+                text = _subStat.textTotalValue(showMaxValue)
+                setTextColor(context.colorRes(
+                    if(showMaxValue) R.color.orange else R.color.green
+                ))
+                gravity = direction
+            }
+
+            grindstoneMaxView.apply {
+                text = _subStat.textGrindstoneMaxValue()
+                visibility = visible
+            }
+
+            totalMaxView.apply {
+                text = _subStat.textTotalMaxValue()
+                visibility = visible
+            }
         }
 
     var nameStat: String

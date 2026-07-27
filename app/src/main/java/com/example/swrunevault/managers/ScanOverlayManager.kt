@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.PixelFormat
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -51,14 +50,6 @@ class ScanOverlayManager(
         onClose: () -> Unit
     ) {
         remove()
-
-        // Fondo fullscreen
-       /* overlayView =
-            FrameLayout(context).apply {
-                setBackgroundColor(
-                    context.colorRes(R.color.background_primary)
-                )
-            }*/
 
         val container =
             createScanOverlayContainer(
@@ -340,7 +331,10 @@ class ScanOverlayManager(
 
         // SubStats disponibles para esta runa por su slot
         val filteredSubStats: List<RuneStatType> =
-            RuneStatType.entries.filter { it.slots.contains(rune.slot) } - rune.subStats.map { it.statType }
+            (RuneStatType.entries
+                .filter { it.slots.contains(rune.slot) } -
+                    rune.subStats.map { it.statType } -
+                    rune.innateStat.statType)
 
         // Cargar los subStats de la runa
         rune.subStats.forEachIndexed { index, subStat ->
@@ -369,11 +363,8 @@ class ScanOverlayManager(
                         false
 
             // Indica si es necesario mostrar los valores máximos si su valor es menor
-            val showMaxValue =  subStat.hasGrindstone() and !subStat.hasMaxGrindstoneValue() and (subStat.grindstonevalue != 0)
-
             val rowSubStat = SubStatView(context).apply {
                 indexSubStat = index
-                visibleMaxValue = showMaxValue
                 runeStat = subStat
                 colorSubStat = color
                 imEditable = isEditable
@@ -384,27 +375,23 @@ class ScanOverlayManager(
 
                     if (!imEditable) return@setOnClickListener
 
-                    Log.d("Tap","Tap en: ${nameStat}")
-                    Log.d("Tap","SubStats disponibles: ${availableSubStats}")
+                    showAttributeSelector(overlayView, (availableSubStats + RuneStatType.UNKNOWN)) { selectedValue ->
 
-                    showAttributeSelector(overlayView, availableSubStats) { selectedValue ->
                         if(selectedValue == RuneStatType.UNKNOWN) return@showAttributeSelector
 
-                        Log.d("Tap","Seleccionado: ${selectedValue}")
-                        Log.d("Tap","Seleccionado: ${selectedValue.enchantedMaxValue}")
-
-                        if (subStat.statType != selectedValue) subStat.grindstonevalue = 0
+                        if (subStat.statType != selectedValue){ subStat.grindstonevalue = 0 }
 
                         subStat.statType = selectedValue
                         subStat.value = selectedValue.enchantedMaxValue
-                        //subStat.grindstonevalue = 0
 
                         runeStat = subStat
                         colorSubStat =  context.colorRes(R.color.orange)
 
                         baseCard?.percentage = rune.baseEfficiency()
                         actualCard?.percentage = rune.currentEfficiency()
-                        actualCard.apply { visibility = View.VISIBLE }
+                        actualCard.apply {
+                            visibility = View.VISIBLE
+                        }
                         maxCard?.percentage = rune.maxEfficiency()
                     }
                 }
@@ -675,7 +662,7 @@ class ScanOverlayManager(
         })
 
         baseCard = ProgressStatView(context).apply {
-            title = "Eficiencia Base"
+            title = "Base"
             percentage = rune.baseEfficiency()
             progressColor = Color.WHITE
             barHeight = dp(6)
@@ -691,7 +678,7 @@ class ScanOverlayManager(
         val isMaxEfficiency = currentEfficiency == maxEfficiency
 
         actualCard = ProgressStatView(context).apply {
-            title = "Eficiencia Actual"
+            title = "Actual"
             percentage = currentEfficiency
             progressColor = context.colorRes(R.color.orange)
             barHeight = dp(6)
@@ -702,7 +689,7 @@ class ScanOverlayManager(
         mainContainer.addView(actualCard)
 
         maxCard = ProgressStatView(context).apply {
-            title = "Eficiencia Máxima"
+            title = "Máxima"
             percentage = maxEfficiency
             progressColor = context.colorRes(R.color.green)
             barHeight = dp(6)
@@ -772,7 +759,13 @@ class ScanOverlayManager(
         options.forEach { (statName, statType) ->
             val textView = TextView(context).apply {
                 this.text = statName
-                setTextColor(context.colorRes(R.color.button_dark_text))
+                setTextColor(
+                    context.colorRes(
+                        if(availableSubStats.contains(statType))
+                            R.color.button_dark_text
+                        else R.color.button_dark_background
+                    )
+                )
                 textSize = 16f
                 setTypeface(null, Typeface.BOLD)
                 gravity = Gravity.CENTER
@@ -785,6 +778,8 @@ class ScanOverlayManager(
 
                 // Configurar el click para retornar el valor y cerrar el diálogo
                 setOnClickListener {
+                    if (!availableSubStats.contains(statType)) return@setOnClickListener
+
                     statType.displayText = statName
                         .replace(" %","")
                         .replace(" +","")
