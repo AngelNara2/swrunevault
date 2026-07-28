@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.swrunevault.R
+import com.example.swrunevault.controls.ButtonView
 import com.example.swrunevault.controls.DividerView
 import com.example.swrunevault.controls.LineOrientation
 import com.example.swrunevault.controls.ProgressStatView
@@ -333,8 +334,9 @@ class ScanOverlayManager(
         val filteredSubStats: List<RuneStatType> =
             (RuneStatType.entries
                 .filter { it.slots.contains(rune.slot) } -
-                    rune.subStats.map { it.statType } -
-                    rune.innateStat.statType)
+                    rune.subStats.map { it.statType }.toSet() -
+                    rune.innateStat.statType +
+                    RuneStatType.UNKNOWN)
 
         // Cargar los subStats de la runa
         rune.subStats.forEachIndexed { index, subStat ->
@@ -375,7 +377,7 @@ class ScanOverlayManager(
 
                     if (!imEditable) return@setOnClickListener
 
-                    showAttributeSelector(overlayView, (availableSubStats + RuneStatType.UNKNOWN)) { selectedValue ->
+                    showAttributeSelector(overlayView, availableSubStats) { selectedValue ->
 
                         if(selectedValue == RuneStatType.UNKNOWN) return@showAttributeSelector
 
@@ -532,16 +534,16 @@ class ScanOverlayManager(
         val rowActionButtons = UiFactory.row(context,2f)
 
         // Botón Izquierdo: Volver atrás
-        val btnBack = UiFactory.button(context,
-            R.drawable.action_back,
-            context.colorRes(R.color.button_dark_text),
-            "Volver",
-            13f,
-            context.colorRes(R.color.button_dark_text),
-            context.colorRes(R.color.button_dark_background),
-            2f,
-            context.colorRes(R.color.button_dark_text)
-        ).apply {
+        val btnBack = ButtonView(context).apply{
+            idIcon = R.drawable.action_back
+            iconColor = context.colorRes(R.color.button_dark_text)
+            showText = "Volver"
+            size = 13f
+            primaryColor = context.colorRes(R.color.button_dark_text)
+            secondaryColor = context.colorRes(R.color.button_dark_background)
+            shadowSizeText = 2f
+            shadowColorText = context.colorRes(R.color.button_dark_text)
+        }.apply {
             setOnClickListener {
                 editMode = false
                 onClose()
@@ -554,16 +556,16 @@ class ScanOverlayManager(
         rowActionButtons.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(dp(4), 1) })
 
         // Botón Derecho: Editar Runa
-        val btnEdit = UiFactory.button(context,
-            R.drawable.action_edit,
-            context.colorRes(R.color.button_dark_text),
-            "Editar",
-            13f,
-            context.colorRes(R.color.button_dark_text),
-            context.colorRes(R.color.button_dark_background),
-            2f,
-            context.colorRes(R.color.button_dark_text),
-        ).apply {
+        val btnEdit = ButtonView(context).apply{
+            idIcon = R.drawable.action_edit
+            iconColor = context.colorRes(R.color.button_dark_text)
+            showText = "Editar"
+            size = 13f
+            primaryColor = context.colorRes(R.color.button_dark_text)
+            secondaryColor = context.colorRes(R.color.button_dark_background)
+            shadowSizeText = 2f
+            shadowColorText = context.colorRes(R.color.button_dark_text)
+        }.apply {
             setOnClickListener {
                 editMode = true
                 Toast.makeText(context, "Edición habilitada", Toast.LENGTH_SHORT).show()
@@ -578,24 +580,20 @@ class ScanOverlayManager(
         columnSelectorLocation.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(4)) })
 
         // Botón Inferior: Guardar
-        val btnSave = UiFactory.button(context,
-            R.drawable.action_save,
-            context.colorRes(R.color.background_primary),
-            "Guardar",
-            13f,
-            context.colorRes(R.color.button_light_text),
-            context.colorRes(R.color.button_light_background),
-            8f,
-            context.colorRes(R.color.dark_border),
-            intArrayOf(
+        val btnSave = ButtonView(context).apply {
+            idIcon = R.drawable.action_save
+            iconColor = context.colorRes(R.color.background_primary)
+            showText = "Guardar"
+            size = 13f
+            primaryColor = context.colorRes(R.color.button_light_text)
+            secondaryColor = context.colorRes(R.color.button_light_background)
+            shadowSizeText = 8f
+            shadowColorText = context.colorRes(R.color.dark_border)
+            gradientBackground = intArrayOf(
                 context.colorRes(R.color.button_light_background),
                 context.colorRes(R.color.border)
             )
-        ).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+        }.apply {
             setOnClickListener {
 
             }
