@@ -72,7 +72,7 @@ class ScanOverlayManager(
             )
         )
 
-        overlayView?.addView(
+        overlayView.addView(
             container
         )
 
@@ -552,7 +552,7 @@ class ScanOverlayManager(
         rowActionButtons.addView(btnBack)
 
         // Espacio responsivo entre botones
-        rowActionButtons.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(dp(4), 1) })
+        rowActionButtons.addView(View(context).apply { layoutParams = LinearLayout.LayoutParams(dp(4), 1) })
 
         // Botón Derecho: Editar Runa
         val btnEdit = ButtonView(context).apply{
@@ -584,7 +584,7 @@ class ScanOverlayManager(
         columnSelectorLocation.addView(rowActionButtons)
 
         // Espaciador antes del botón de guardar
-        columnSelectorLocation.addView(android.view.View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(4)) })
+        columnSelectorLocation.addView(View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(4)) })
 
         // Botón Inferior: Guardar
         val btnSave = ButtonView(context).apply {
