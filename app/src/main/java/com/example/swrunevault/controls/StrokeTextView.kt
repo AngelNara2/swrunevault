@@ -14,6 +14,10 @@ class StrokeTextView @JvmOverloads constructor(
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     var strokeColor = Color.BLACK
+        set(value) {
+            field = value
+            invalidate()
+        }
     var strokeWidth = 5f
 
     override fun onDraw(canvas: Canvas) {

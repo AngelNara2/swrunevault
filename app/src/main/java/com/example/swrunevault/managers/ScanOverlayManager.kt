@@ -16,7 +16,6 @@ import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.example.swrunevault.R
 import com.example.swrunevault.controls.ButtonView
 import com.example.swrunevault.controls.DividerView
@@ -568,7 +567,15 @@ class ScanOverlayManager(
         }.apply {
             setOnClickListener {
                 editMode = true
-                Toast.makeText(context, "Edición habilitada", Toast.LENGTH_SHORT).show()
+
+                iconColor = context.colorRes(R.color.background_primary)
+                shadowSizeText = 8f
+                shadowColorText = context.colorRes(R.color.dark_border)
+
+                gradientBackground = intArrayOf(
+                    context.colorRes(R.color.button_light_background),
+                    context.colorRes(R.color.border)
+                )
             }
         }
 
