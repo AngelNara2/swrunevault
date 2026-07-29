@@ -11,14 +11,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
+import com.example.swrunevault.extensions.dp
 
 class ProgressStatView(context: Context) : LinearLayout(context) {
     private val titleText: TextView
     private val percentageText: TextView
     private val progressBar: ProgressBar
-
-    private fun dp(value: Int): Int =
-        (value * resources.displayMetrics.density).toInt()
 
     init {
         orientation = VERTICAL
@@ -33,7 +31,7 @@ class ProgressStatView(context: Context) : LinearLayout(context) {
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
         ).apply {
-            setMargins(0,dp(12),0,0)
+            setMargins(0,12.dp(context),0,0)
         }
 
         val header = LinearLayout(context).apply {

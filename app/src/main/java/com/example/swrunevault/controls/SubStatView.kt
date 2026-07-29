@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.swrunevault.R
 import com.example.swrunevault.extensions.colorRes
+import com.example.swrunevault.extensions.dp
 import com.example.swrunevault.models.RuneStat
 import com.example.swrunevault.models.RuneStatType
 
@@ -26,9 +27,6 @@ class SubStatView(context: Context) : LinearLayout(context) {
     private val totalView: TextView
 
     private val totalMaxView: TextView
-
-    private fun dp(value: Int): Int =
-        (value * resources.displayMetrics.density).toInt()
 
     private fun row(context: Context, weight: Float): LinearLayout {
         return LinearLayout(context).apply {
@@ -64,7 +62,7 @@ class SubStatView(context: Context) : LinearLayout(context) {
             LayoutParams.WRAP_CONTENT
         )
         weightSum = 5f
-        setPadding(dp(8),dp(8),dp(8),dp(8))
+        setPadding(8.dp(context),8.dp(context),8.dp(context),8.dp(context))
 
         val rowSubStat = row(context,2f)
 
@@ -76,7 +74,7 @@ class SubStatView(context: Context) : LinearLayout(context) {
         nameView = TextView(context).apply {
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(dp(10),0,0,0)
+            setPadding(10.dp(context),0,0,0)
         }
 
         valueView = textView(context).apply { gravity = Gravity.CENTER }

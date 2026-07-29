@@ -25,6 +25,7 @@ import com.example.swrunevault.controls.StatView
 import com.example.swrunevault.controls.SubStatView
 import com.example.swrunevault.controls.UiFactory
 import com.example.swrunevault.extensions.colorRes
+import com.example.swrunevault.extensions.dp
 import com.example.swrunevault.models.Rune
 import com.example.swrunevault.models.RuneStatType
 import com.example.swrunevault.utils.getStars
@@ -113,10 +114,6 @@ class ScanOverlayManager(
         onClose: () -> Unit,
         onRemove: () -> Unit
     ): FrameLayout {
-        // FUNCIÓN AUXILIAR: Convierte valores DP a Píxeles reales según la pantalla del dispositivo
-        val density = context.resources.displayMetrics.density
-        fun dp(value: Int): Int = (value * density).toInt()
-
         // Panel principal para contener todos los elementos
         val panel = UiFactory.panel(context, 3f).apply {
             setPadding(4, 8, 4, 8)
@@ -124,7 +121,7 @@ class ScanOverlayManager(
 
         // Contenedor Vertical principal para estructurar las secciones de arriba a abajo
         val mainContainer = UiFactory.mainContainer(context).apply {
-            setPadding(dp(8),dp(8),dp(8),dp(8))
+            setPadding(8.dp(context),8.dp(context),8.dp(context),8.dp(context))
         }
 
         //<editor-fold desc="Imagen e Info Principal">
@@ -140,7 +137,9 @@ class ScanOverlayManager(
             180,
             180,
             context.colorRes(R.color.background_primary),
-        ).apply {setPadding(dp(10), dp(10), dp(10), dp(10))}
+        ).apply {
+            setPadding(10.dp(context),10.dp(context),10.dp(context),10.dp(context))
+        }
         headerContainer.addView(imageRune)
         //</editor-fold>
 
@@ -148,7 +147,7 @@ class ScanOverlayManager(
         val infoContainer = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             weightSum = 4f // Para dividir el espacio en 4
-            setPadding(dp(8), 0, 0, 0)
+            setPadding(8.dp(context), 0, 0, 0)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -274,7 +273,7 @@ class ScanOverlayManager(
 
         //<editor-fold desc="Encabezados">
         val rowColumNames = UiFactory.row(context,5f).apply {
-            setPadding(dp(8),dp(8),dp(8),dp(8))
+            setPadding(8.dp(context),8.dp(context),8.dp(context),8.dp(context))
         }
 
         // SubStat
@@ -429,7 +428,7 @@ class ScanOverlayManager(
             context,
             context.colorRes(R.color.background_primary),
             1f).apply {
-            setPadding(dp(8), dp(8), dp(8), dp(8))
+            setPadding(8.dp(context), 8.dp(context), 8.dp(context), 8.dp(context))
         }
 
         val lbStars = UiFactory.text(context,
@@ -446,7 +445,7 @@ class ScanOverlayManager(
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply { setMargins(0, dp(8), 0, 0) }
+            ).apply { setMargins(0, 8.dp(context), 0, 0) }
         }
 
         // Texto informativo final de cálculos
@@ -552,7 +551,7 @@ class ScanOverlayManager(
         rowActionButtons.addView(btnBack)
 
         // Espacio responsivo entre botones
-        rowActionButtons.addView(View(context).apply { layoutParams = LinearLayout.LayoutParams(dp(4), 1) })
+        rowActionButtons.addView(View(context).apply { layoutParams = LinearLayout.LayoutParams(4.dp(context), 1) })
 
         // Botón Derecho: Editar Runa
         val btnEdit = ButtonView(context).apply{
@@ -584,7 +583,7 @@ class ScanOverlayManager(
         columnSelectorLocation.addView(rowActionButtons)
 
         // Espaciador antes del botón de guardar
-        columnSelectorLocation.addView(View(context).apply { layoutParams = LinearLayout.LayoutParams(1, dp(4)) })
+        columnSelectorLocation.addView(View(context).apply { layoutParams = LinearLayout.LayoutParams(1, 4.dp(context)) })
 
         // Botón Inferior: Guardar
         val btnSave = ButtonView(context).apply {
@@ -621,10 +620,6 @@ class ScanOverlayManager(
         context: Context,
         rune: Rune
     ): FrameLayout {
-        // FUNCIÓN AUXILIAR: Convierte valores DP a Píxeles reales según la pantalla del dispositivo
-        val density = context.resources.displayMetrics.density
-        fun dp(value: Int): Int = (value * density).toInt()
-
         // Panel principal para contener todos los elementos
         val panel = UiFactory.panel(context, 1f).apply {
             setPadding(4, 8, 8, 8)
@@ -632,7 +627,7 @@ class ScanOverlayManager(
 
         // Contenedor Vertical principal para estructurar las secciones de arriba a abajo
         val mainContainer = UiFactory.mainContainer(context).apply {
-            setPadding(dp(8),dp(8),dp(8),dp(8))
+            setPadding(8.dp(context),8.dp(context),8.dp(context),8.dp(context))
         }
 
         val titleContainer = LinearLayout(context).apply {
@@ -653,7 +648,7 @@ class ScanOverlayManager(
             setTextColor(Color.WHITE)
             textSize = 15f // Las fuentes en Android ya se auto-escalan de forma nativa (SP)
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(dp(4),0,0,0)
+            setPadding(4.dp(context),0,0,0)
         }
         titleContainer.addView(tvSectionTitle)
         mainContainer.addView(titleContainer)
@@ -670,8 +665,8 @@ class ScanOverlayManager(
             title = "Base"
             percentage = rune.baseEfficiency()
             progressColor = Color.WHITE
-            barHeight = dp(6)
-        }.apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
+            barHeight = 6.dp(context)
+        }.apply { setPadding(8.dp(context), 8.dp(context), 8.dp(context), 8.dp(context)) }
 
         mainContainer.addView(baseCard)
 
@@ -686,9 +681,9 @@ class ScanOverlayManager(
             title = "Actual"
             percentage = currentEfficiency
             progressColor = context.colorRes(R.color.orange)
-            barHeight = dp(6)
+            barHeight = 6.dp(context)
         }.apply {
-            setPadding(dp(8), dp(8), dp(8), dp(8))
+            setPadding(8.dp(context), 8.dp(context), 8.dp(context), 8.dp(context))
             visibility =  if(hasGrindstone and !isMaxEfficiency) View.VISIBLE else View.GONE
         }
         mainContainer.addView(actualCard)
@@ -697,8 +692,8 @@ class ScanOverlayManager(
             title = "Máxima"
             percentage = maxEfficiency
             progressColor = context.colorRes(R.color.green)
-            barHeight = dp(6)
-        }.apply { setPadding(dp(8), dp(8), dp(8), dp(8)) }
+            barHeight = 6.dp(context)
+        }.apply { setPadding(8.dp(context), 8.dp(context), 8.dp(context), 8.dp(context)) }
         mainContainer.addView(maxCard)
 
         panel.addView(mainContainer)
@@ -713,19 +708,19 @@ class ScanOverlayManager(
         val dialogLayout = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER
-            setPadding(dp(context, 16), dp(context, 16), dp(context, 16), dp(context, 16))
+            setPadding( 16.dp(context), 16.dp(context), 16.dp(context), 16.dp(context))
 
             // Fondo
             background = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
                 setColor(context.colorRes(R.color.background_secondary))
                 setStroke(4, context.colorRes(R.color.border))
-                cornerRadius = dp(context, 12).toFloat()
+                cornerRadius = 12.dp(context).toFloat()
             }
 
             // Layout params para centrarlo dentro del FrameLayout
             layoutParams = FrameLayout.LayoutParams(
-                dp(context, 300),
+                300.dp(context),
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ).apply {
                 gravity = Gravity.CENTER
@@ -774,7 +769,7 @@ class ScanOverlayManager(
                 textSize = 16f
                 setTypeface(null, Typeface.BOLD)
                 gravity = Gravity.CENTER
-                setPadding(dp(context, 12), dp(context, 12), dp(context, 12), dp(context, 12))
+                setPadding(12.dp(context), 12.dp(context), 12.dp(context), 12.dp(context))
 
                 // Selector de feedback al tocar (efecto ripple nativo si está disponible)
                 val outValue = android.util.TypedValue()
@@ -797,7 +792,7 @@ class ScanOverlayManager(
                     width = 0
                     height = ViewGroup.LayoutParams.WRAP_CONTENT
                     columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                    setMargins(dp(context, 4), dp(context, 4), dp(context, 4), dp(context, 4))
+                    setMargins(4.dp(context), 4.dp(context), 4.dp(context), 4.dp(context))
                 }
             }
             gridLayout.addView(textView)
@@ -806,10 +801,5 @@ class ScanOverlayManager(
         // Ensamblar vistas
         dialogLayout.addView(gridLayout)
         containerFrameLayout.addView(dialogLayout)
-    }
-
-    // Función auxiliar para convertir Dp a Px de forma segura
-    private fun dp(context: Context, dp: Int): Int {
-        return (dp * context.resources.displayMetrics.density).toInt()
     }
 }

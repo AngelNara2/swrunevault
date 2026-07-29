@@ -7,15 +7,13 @@ import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.example.swrunevault.extensions.dp
 
 class StatView(context: Context) : LinearLayout(context) {
 
     private val headerTextView: TextView
     private val iconView: ImageView
     private val secondTextView: TextView
-
-    private fun dp(value: Int): Int =
-        (value * resources.displayMetrics.density).toInt()
 
     init {
         orientation = VERTICAL
@@ -31,7 +29,7 @@ class StatView(context: Context) : LinearLayout(context) {
             typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.CENTER
             setTextColor(Color.WHITE)
-            setPadding(0, 0, 0, dp(8))
+            setPadding(0, 0, 0, 8.dp(context))
         }
 
         addView(headerTextView)
@@ -49,7 +47,7 @@ class StatView(context: Context) : LinearLayout(context) {
         secondTextView = TextView(context).apply {
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(dp(4), 0, 0, 0)
+            setPadding(4.dp(context), 0, 0, 0)
         }
 
         dataLayout.addView(iconView)

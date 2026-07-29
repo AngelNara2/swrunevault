@@ -6,13 +6,14 @@ import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.example.swrunevault.extensions.dp
 
 class ButtonView(context: Context) : LinearLayout(context) {
 
     private val iconView = ImageView(context).apply {
         layoutParams = LayoutParams(
-            dp(22),
-            dp(22)
+            22.dp(context),
+            22.dp(context)
         )
         scaleType = ImageView.ScaleType.FIT_CENTER
     }
@@ -28,19 +29,16 @@ class ButtonView(context: Context) : LinearLayout(context) {
         orientation = VERTICAL
     }
 
-    private fun dp(value: Int): Int =
-        (value * resources.displayMetrics.density).toInt()
-
     init {
         orientation = HORIZONTAL
 
         gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
 
         setPadding(
-            dp(8),
-            dp(8),
-            dp(8),
-            dp(8)
+            8.dp(context),
+            8.dp(context),
+            8.dp(context),
+            8.dp(context)
         )
 
         layoutParams = LayoutParams(

@@ -20,3 +20,7 @@ fun Context.CustumfindActivity(): Activity? {
 fun Context.colorRes(@ColorRes colorRes: Int): Int {
     return ContextCompat.getColor(this, colorRes)
 }
+
+// FUNCIÓN AUXILIAR: Convierte valores DP a Píxeles reales según la pantalla del dispositivo
+fun Int.dp(context: Context): Int =
+    (this * context.resources.displayMetrics.density).toInt()
