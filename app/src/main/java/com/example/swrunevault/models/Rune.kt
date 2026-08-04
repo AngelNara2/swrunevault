@@ -33,6 +33,14 @@ data class Rune(
     // Fecha que del momento que se escaneó la runa
     var scanDateTime: LocalDateTime = LocalDateTime.now()
 ){
+    fun updateStars(stars: Int){
+        this.stars = RuneGrade.fromStars(stars)
+
+        subStats.forEach { subStat ->
+            subStat.runeGrade(RuneGrade.fromStars(stars))
+        }
+    }
+
     fun titleName(): String{
         return (if(level == 0) "" else "+ $level ") +
                 (if(innateStat == RuneInnateStat.UNKNOWN) "" else "${innateStat.title} ")+

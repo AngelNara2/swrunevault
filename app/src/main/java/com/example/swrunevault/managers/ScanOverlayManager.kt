@@ -388,9 +388,9 @@ class ScanOverlayManager(
                         colorSubStat =  context.colorRes(R.color.orange)
 
                         baseCard?.percentage = rune.baseEfficiency()
-                        actualCard?.percentage = rune.currentEfficiency()
-                        actualCard.apply {
-                            visibility = View.VISIBLE
+                        actualCard?.apply {
+                            percentage = rune.currentEfficiency()
+                            visibility = View.GONE
                         }
                         maxCard?.percentage = rune.maxEfficiency()
                     }
@@ -469,6 +469,11 @@ class ScanOverlayManager(
             tvStars.text = getStars(cantidad)
 
             tvCalInfo.text = "(Los cálculos se realizan como $cantidad★)"
+
+            rune.updateStars(cantidad)
+            baseCard?.percentage = rune.baseEfficiency()
+            actualCard?.percentage = rune.currentEfficiency()
+            maxCard?.percentage = rune.maxEfficiency()
 
             // Cambiar estados de los botones (el seleccionado se vuelve morado)
             listaBotones.forEachIndexed { index, button ->

@@ -9,5 +9,15 @@ enum class RuneGrade(
     THREE(3),
     FOUR(4),
     FIVE(5),
-    SIX(6)
+    SIX(6);
+
+    companion object {
+        fun fromStars(
+            stars: Int
+        ): RuneGrade{
+            return entries.first {
+                it.stars == stars
+            }
+        }
+    }
 }
