@@ -130,7 +130,7 @@ data class Rune(
     }
 
     fun subStatBaseContributionTotal(): Double{
-        var totalContribution: Double = 0.0
+        var totalContribution = 0.0
 
         for (stat in subStats){
             stat.runeGrade(stars)
@@ -146,7 +146,7 @@ data class Rune(
     }
 
     fun subStatCurrentContributionTotal(): Double{
-        var totalContribution: Double = 0.0
+        var totalContribution = 0.0
 
         for (stat in subStats){
             stat.runeGrade(stars)
@@ -162,7 +162,7 @@ data class Rune(
     }
 
     fun subStatMaxContributionTotal(): Double{
-        var totalContribution: Double = 0.0
+        var totalContribution = 0.0
 
         for (stat in subStats){
             stat.runeGrade(stars)
@@ -178,7 +178,7 @@ data class Rune(
     }
 
     fun baseEfficiency(): Double {
-        var efficiency = 0.0
+        var efficiency: Double
 
         var theoreticalMaximum = 2.8
 
@@ -192,7 +192,7 @@ data class Rune(
     }
 
     fun currentEfficiency(): Double {
-        var efficiency = 0.0
+        var efficiency: Double
 
         var theoreticalMaximum = 2.8
 
@@ -207,7 +207,7 @@ data class Rune(
 
 
     fun maxEfficiency(): Double {
-        var efficiency = 0.0
+        var efficiency: Double
 
         var theoreticalMaximum = 2.8
 
