@@ -36,9 +36,9 @@ data class Rune(
     fun updateStars(stars: Int){
         this.stars = RuneGrade.fromStars(stars)
 
-        subStats.forEach { subStat ->
-            subStat.runeGrade(RuneGrade.fromStars(stars))
-        }
+        //subStats.forEach { subStat ->
+            //subStat.runeGrade(RuneGrade.fromStars(stars))
+        //}
     }
 
     fun titleName(): String{
@@ -126,7 +126,7 @@ data class Rune(
 
         val contribution: Double = (innateStatValue) / (innateStatValueMax)
 
-        return "%.3f".format(contribution).toDouble()
+        return contribution
     }
 
     fun subStatBaseContributionTotal(): Double{
@@ -142,7 +142,7 @@ data class Rune(
             totalContribution += innateContribution()
         }
 
-        return "%.3f".format(totalContribution).toDouble()
+        return totalContribution
     }
 
     fun subStatCurrentContributionTotal(): Double{
@@ -158,7 +158,7 @@ data class Rune(
             totalContribution += innateContribution()
         }
 
-        return "%.3f".format(totalContribution).toDouble()
+        return totalContribution
     }
 
     fun subStatMaxContributionTotal(): Double{
@@ -174,7 +174,7 @@ data class Rune(
             totalContribution += innateContribution()
         }
 
-        return "%.3f".format(totalContribution).toDouble()
+        return totalContribution
     }
 
     fun baseEfficiency(): Double {

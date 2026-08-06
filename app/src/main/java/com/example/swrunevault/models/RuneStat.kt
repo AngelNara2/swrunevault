@@ -81,8 +81,8 @@ data class RuneStat(
         return (maxValue?.times(5)?:0).toDouble()
     }
 
-    fun subStatGrindStoneValue(): Double{
-        return (value + grindstonevalue).toDouble()
+    fun subStatMaxGrindStoneValue(): Double{
+        return (value + statType.grindstoneMaxValue).toDouble()
     }
 
     fun subStatMaxIncrementValue(): Double{
@@ -109,17 +109,14 @@ data class RuneStat(
     fun subStatCurrentContribution(): Double{
         if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
 
-        val contribution: Double = (subStatGrindStoneValue()) / (subStatMaxIncrementValue())
+        val contribution: Double = (value + grindstonevalue) / (subStatMaxValue())
         return "%.3f".format(contribution).toDouble()
     }
 
     fun subStatMaxContribution(): Double{
         if(stars == RuneGrade.ZERO) {throw RuneNotFoundException("No se asigno el grado de estrellas de la runa")}
 
-        val value = value.toDouble()
-        val increment = statType.grindstoneMaxValue.toDouble()
-
-        val contribution: Double = (value + increment) / (subStatMaxIncrementValue())
+        val contribution: Double = subStatMaxGrindStoneValue() / subStatMaxIncrementValue()
         return "%.3f".format(contribution).toDouble()
     }
 

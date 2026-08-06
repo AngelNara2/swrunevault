@@ -2,6 +2,7 @@ package com.example.swrunevault.managers
 
 import android.util.Log
 import com.example.swrunevault.models.Rune
+import com.example.swrunevault.models.RuneGrade
 import com.example.swrunevault.models.RuneInnateStat
 import com.example.swrunevault.models.RuneRarity
 import com.example.swrunevault.models.RuneSet
@@ -45,9 +46,6 @@ class RuneRegexManager(
             //Mostrar elementos ya ordenados.
             for (line in sortedRow) {
                 val text = line.text.replace(" ","")
-                val box = line.boundingBox
-                val x = box?.left ?: 0
-                val y = box?.top ?: 0
 
                 matchHeader = headerRegex.find(text)
 
@@ -61,7 +59,9 @@ class RuneRegexManager(
                     rune.level = matchHeader.groups["level"]?.value?.toIntOrNull() ?: 0
 
                     val innateStat = RuneInnateStat.fromText(matchHeader.groups["innate"]?.value?: "")
-                    Log.d("RUNE_REGEX_INNATE","Innate ${innateStat}")
+                    Log.d("RUNE_REGEX_INNATE","Innate $innateStat")
+
+                    rune.stars = RuneGrade.TWO
 
                     rune.innateStat = RuneInnateStat.fromText(matchHeader.groups["innate"]?.value?: "") ?: RuneInnateStat.UNKNOWN
                     rune.runeSet = RuneSet.fromText(matchHeader.groups["set"]?.value?: "")  ?: RuneSet.UNKNOWN
@@ -107,21 +107,22 @@ class RuneRegexManager(
         }
 
         if (stats.count() != 0){
-            Log.d("RUNE_CREATE_PRICIPAL","Estadistica principal: ${stats[0]}")
+            Log.d("RUNE_CREATE_PRICIPAL","Estadística principal: ${stats[0]}")
 
             rune.mainStat = stats[0]
             stats.remove(stats[0])
 
             if(rune.innateStat != RuneInnateStat.UNKNOWN){
-                Log.d("RUNE_CREATE_INNATE","Estadistica innate: ${stats[0]}")
-                rune.innateStat?.runeStat = stats[0]
+                Log.d("RUNE_CREATE_INNATE","Estadística innate: ${stats[0]}")
+                rune.innateStat.runeStat = stats[0]
 
                 stats.remove(stats[0])
             }
 
             for (stat in stats)
             {
-                Log.d("RUNE_CREATE_SUBSTAT","Estadistica secundaria: ${stat}")
+                Log.d("RUNE_CREATE_SUBSTAT","Estadística secundaria: $stat")
+                stat.runeGrade(rune.stars)
                 rune.subStats.add(stat)
             }
 
@@ -129,6 +130,7 @@ class RuneRegexManager(
 
             Log.d("RUNE_OBJECT_PRINCIPAL",rune.titleName())
             Log.d("RUNE_OBJECT_PRINCIPAL",rune.primaryStat())
+            Log.d("RUNE_OBJECT_PRINCIPAL", rune.stars.toString())
             Log.d("RUNE_OBJECT_PRINCIPAL","Valor maximo: ${rune.primaryStatMaxValue()}")
 
             if(rune.innateStat != RuneInnateStat.UNKNOWN){
@@ -141,25 +143,22 @@ class RuneRegexManager(
             for (substat in rune.subStats){
                 Log.d("RUNE_OBJECT_SUBSTAT","====================")
                 Log.d("RUNE_OBJECT_SUBSTAT",substat.secondaryStat())
-                substat.runeGrade(rune.stars)
-                Log.d("RUNE_OBJECT_SUBSTAT","Estadistica base maxima")
-                Log.d("RUNE_OBJECT_SUBSTAT","SubStat ${substat.subStatMaxValue()}")
-                Log.d("RUNE_OBJECT_SUBSTAT","Contribution ${substat.subStatCurrentContribution()}")
 
-                Log.d("RUNE_OBJECT_SUBSTAT","Estadistica base maxima + Grindstone maximo")
-                Log.d("RUNE_OBJECT_SUBSTAT","subStat ${substat.subStatMaxIncrementValue()}")
-                Log.d("RUNE_OBJECT_SUBSTAT","Contribution ${substat.subStatMaxContribution()}")
+                Log.d("RUNE_OBJECT_SUBSTAT","B | B+12 | B+G | (B+12)+G")
+                Log.d("RUNE_OBJECT_SUBSTAT","${substat.value} | ${substat.subStatMaxValue()} | ${substat.subStatMaxGrindStoneValue()} | ${substat.subStatMaxIncrementValue()}")
+                Log.d("RUNE_OBJECT_SUBSTAT","Aporte base  : ${substat.subStatCurrentContribution()}")
+                Log.d("RUNE_OBJECT_SUBSTAT","Aporte máximo: ${substat.subStatMaxContribution()}")
             }
 
             Log.d("RUNE_OBJECT","====================")
-            Log.d("RUNE_OBJECT","Contribucion total base ${rune.subStatBaseContributionTotal()}")
-            Log.d("RUNE_OBJECT","Contribucion total actual ${rune.subStatCurrentContributionTotal()}")
-            Log.d("RUNE_OBJECT","Contribucion total maxima ${rune.subStatMaxContributionTotal()}")
+            Log.d("RUNE_OBJECT","Contribución total base ${rune.subStatBaseContributionTotal()}")
+            Log.d("RUNE_OBJECT","Contribución total actual ${rune.subStatCurrentContributionTotal()}")
+            Log.d("RUNE_OBJECT","Contribución total maxima ${rune.subStatMaxContributionTotal()}")
 
             Log.d("RUNE_OBJECT","====================")
-            Log.d("RUNE_OBJECT","Eficiencia base ${rune.baseEfficiency()}")
-            Log.d("RUNE_OBJECT","Eficiencia base ${rune.currentEfficiency()}")
-            Log.d("RUNE_OBJECT","Eficiencia maxima ${rune.maxEfficiency()}")
+            Log.d("RUNE_OBJECT","Eficiencia base   :${rune.baseEfficiency()}")
+            Log.d("RUNE_OBJECT","Eficiencia actual :${rune.currentEfficiency()}")
+            Log.d("RUNE_OBJECT","Eficiencia maxima :${rune.maxEfficiency()}")
         }
 
         onResult(rune)
