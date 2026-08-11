@@ -17,7 +17,15 @@
 
 Pantalla principal del juego ejecutando el botón en superposición, para lanzar la lectura de la pantalla.
 
-![Inicio del juego con el botón en superposición del juego](screenshots/home_screen_overlay_button.png)
+![Inicio](screenshots/home_screen_overlay_button.png)
+
+Pantalla de inventario dentro del juego junto el botón.
+
+![Inicio](screenshots/Inventary_screen_overlay_button.png)
+
+Ventana en superposición, ejecutando el análisis de la runa mostrada en la imagen anterior.
+
+![Inicio](screenshots/Overlay_information.png)
 
 ## 🚀 Instalación
 
