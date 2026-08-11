@@ -12,8 +12,10 @@
 ## 🛠️ Tecnologías
 
 - Kotlin
-- Android
-- Material Design
+
+## 📱 Capturas de pantalla
+
+![Inicio del juego con el botón en superposición del juego](screenshots/home_screen_overlay_button.png)
 
 ## 🚀 Instalación
 
