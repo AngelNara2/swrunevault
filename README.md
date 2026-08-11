@@ -21,11 +21,11 @@ Pantalla principal del juego ejecutando el botón en superposición, para lanzar
 
 Pantalla de inventario dentro del juego junto el botón.
 
-![Inventario](screenshots/Inventary_screen_overlay_button.png)
+![Inventario](screenshots/Inventary_screen_overlay_button.jpg)
 
 Ventana en superposición, ejecutando el análisis de la runa mostrada en la imagen anterior.
 
-![Analisis](screenshots/Overlay_information.png)
+![Analisis](screenshots/Overlay_information.jpg)
 
 ## 🚀 Instalación
 
