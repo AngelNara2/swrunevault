@@ -15,6 +15,8 @@
 
 ## 📱 Capturas de pantalla
 
+Pantalla principal del juego ejecutando el botón en superposición, para lanzar la lectura de la pantalla.
+
 ![Inicio del juego con el botón en superposición del juego](screenshots/home_screen_overlay_button.png)
 
 ## 🚀 Instalación
