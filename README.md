@@ -37,3 +37,10 @@ Ventana en superposición, ejecutando el análisis de la runa mostrada en la ima
 ## 📌 Estado del proyecto
 
 En desarrollo.
+
+## 📄 Licencia
+
+SWRuneVault es software propietario.  
+Todos los derechos están reservados por AngelNara2.
+
+El código fuente puede ser consultado públicamente, pero su uso, modificación, reproducción y distribución no están permitidos sin autorización previa.
